@@ -1,0 +1,29 @@
+* {
+    background-color: #E7F5FF;
+    color: black; 
+}
+
+#imagem{
+    margin-bottom: 15px;
+}
+
+#logo {
+    width: 160px;
+}
+
+#texto {
+    font-size: 18px;
+}
+
+#corVermelho{
+    color: #D32E2E;
+}
+
+#corAzul {
+    color: #003ECB;
+}
+
+.icon{
+    height: 40px;
+    width: 40px;
+}
