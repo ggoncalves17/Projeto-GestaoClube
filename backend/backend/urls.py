@@ -4,5 +4,5 @@ from backendApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login_view, name='login'),
+    path('api/login/', views.login_view, name='login'),
 ]
