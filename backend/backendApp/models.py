@@ -1,4 +1,107 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+class UtilizadorManager(BaseUserManager):
+  def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("O email é obrigatório!")
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+  def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
+
+
+class Clube(models.Model):
+    nome = models.CharField(max_length=512)
+    sigla = models.CharField(max_length=512)
+    data_fundacao = models.DateField()
+    email = models.EmailField()
+    foto = models.CharField(max_length=512)
+    localizacao = models.CharField(max_length=512)
+    morada = models.CharField(max_length=512)
+    associacao = models.CharField(max_length=512)
+
+class Utilizador(AbstractBaseUser):
+  nome = models.CharField(max_length=512)
+  email = models.EmailField(unique=True)
+  password = models.CharField(max_length=512)
+  data_nascimento = models.DateField()
+  contacto = models.IntegerField()
+  tipo = models.CharField(max_length=512)
+  funcao = models.CharField(max_length=512)
+  foto = models.CharField(max_length=512)
+  estado = models.IntegerField()
+  clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
+
+  objects = UtilizadorManager()
+
+  USERNAME_FIELD='email'
+
+class Modalidade(models.Model):
+    nome = models.CharField(max_length=512)
+    estado = models.BooleanField()
+    foto = models.CharField(max_length=512)
+    clubes = models.ForeignKey(Clube, on_delete=models.CASCADE)
+
+class Epoca(models.Model):
+    inicio = models.IntegerField()
+    fim = models.IntegerField()
+
+class Equipa(models.Model):
+    escalao = models.CharField(max_length=512)
+    categoria = models.CharField(max_length=512)
+    epoca = models.ForeignKey(Epoca, on_delete=models.CASCADE)
+    clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
+    modalidade = models.ForeignKey(Modalidade, on_delete=models.CASCADE)
+
+class Elemento_Clube(models.Model):
+  nome = models.CharField(max_length=512)
+  data_nascimento = models.DateField()
+  nacionalidade = models.CharField(max_length=512)
+  cartao_cidadao = models.CharField(max_length=512)
+  data_validade_cc = models.DateField()
+  funcao = models.CharField(max_length=512)
+  posicao = models.CharField(max_length=512)
+  foto = models.CharField(max_length=512)
+  peso = models.FloatField()
+  altura = models.FloatField()
+  estado = models.IntegerField()
+  clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
+  equipas = models.ManyToManyField(Equipa)
+
+class Competicao(models.Model):
+    nome = models.CharField(max_length=255)
+    equipa = models.ForeignKey(Equipa, on_delete=models.CASCADE)
+
+class Jogo(models.Model):
+    data = models.DateField()
+    hora = models.TimeField()
+    adversario = models.CharField(max_length=512)
+    resultado_final = models.CharField(max_length=512)
+    localizacao = models.CharField(max_length=512)
+    resultado = models.CharField(max_length=512)
+    estado = models.IntegerField()
+    equipa = models.ForeignKey(Equipa, on_delete=models.CASCADE)
+
+class Inscricao(models.Model):
+    exames_medico = models.BooleanField()
+    data_exame_medico = models.DateField()
+    data_inscricao = models.DateField()
+    documentacao = models.BooleanField()
+    estado = models.BooleanField()
+    competicao = models.ForeignKey(Competicao, on_delete=models.CASCADE)
+    epoca = models.ForeignKey(Epoca, on_delete=models.CASCADE)
+    elemento_clube = models.ForeignKey(Elemento_Clube, on_delete=models.CASCADE)
+
+
+ 
+
+
 
 
 
