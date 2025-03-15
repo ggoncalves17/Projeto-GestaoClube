@@ -32,3 +32,27 @@ form button {
     text-decoration: underline;
 }
 
+#erro {
+    background-color: #f1aeb5;
+    border: 1px solid #58151c;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* Referência -> https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #E7F5FF inset !important;
+}
+
+input:-webkit-autofill{
+    -webkit-text-fill-color: rgb(0, 0, 0) !important;
+}
+
+input:focus {
+    outline: none;
+}
+
+

@@ -7,6 +7,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [mensagemErro, setMensagemErro] = useState('');
 
   const autenticaUtilizador = (event) => {
     event.preventDefault();
@@ -17,10 +18,12 @@ const Login = () => {
     })
     .then(res => {
       console.log("Resposta do Backend: ", res.data)
+      setMensagemErro('');
     })
     .catch(err => {
         console.log("Código do erro:", err.response.status); 
         console.log("Mensagem do erro:", err.response.data.message); 
+        setMensagemErro(err.response.data.message);
     })
   }
 
@@ -34,9 +37,11 @@ const Login = () => {
           <h2>Bem Vindo!</h2>
           <h2>Iniciar Sessão</h2>
 
+          {mensagemErro && (<p id="erro"> {mensagemErro} </p>)}
+
           <form onSubmit={autenticaUtilizador}>
             <input onChange={(e) => setEmail(e.target.value)} type="email" name="email" placeholder="Email" value={email} required />
-            <input onChange={(e) => setPassword(e.target.value)} name="password" placeholder="Password" value={password} required/>
+            <input onChange={(e) => setPassword(e.target.value)} type="password" name="password" placeholder="Password" value={password} required/>
             <button type="submit">Entrar</button>
           </form>
 
