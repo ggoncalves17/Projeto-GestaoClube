@@ -30,10 +30,17 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_SAMESITE = 'Strict' 
 # Para permitir comunicar com o React 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:5173',
 )
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

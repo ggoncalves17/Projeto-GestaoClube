@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LogoCoja from "../assets/LogoCoja.png";
 import "./Login.css";
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Login = () => {
 
@@ -15,6 +16,12 @@ const Login = () => {
     axios.post("http://localhost:8000/api/login/", {
       email: email,
       password: password,
+    }, 
+    {withCredentials: true,
+        headers: {
+          'X-CSRFToken': Cookies.get("csrftoken"),
+          'Content-Type': 'application/json',
+      }
     })
     .then(res => {
       console.log("Resposta do Backend: ", res.data)

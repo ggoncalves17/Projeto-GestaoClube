@@ -47,6 +47,11 @@ def listaUtilizadores_view(request):
 
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def verificaAutenticacao_view(request):
+    return Response({"message": "Utilizador autenticado"}, status=200)
+
 
 
     
