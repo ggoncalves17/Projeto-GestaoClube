@@ -1,0 +1,9 @@
+#estrutura {
+    display: flex;
+    flex-direction: column;
+}
+
+#conteudo {
+    display: flex;
+    flex: 1;
+}

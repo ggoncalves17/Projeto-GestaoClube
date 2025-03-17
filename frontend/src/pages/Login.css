@@ -1,4 +1,28 @@
+body {
+    background-color: #E7F5FF;
+    color: black; 
+}
 
+#overlay {
+    width: 100vw; 
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#box-Login {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 50px;
+    border-radius: 10px;
+    margin: auto;
+    place-items: center;
+    width: fit-content;
+    border: 0.5px solid #A5D8FF;
+    box-shadow: 2px 2px 10px #aaaaaa;
+
+}
 
 #logo-Login {
     width: 150px;
@@ -30,6 +54,7 @@ form button {
 
 #corAzul-Login {
     text-decoration: underline;
+    color: #646cff;
 }
 
 #erro {
@@ -44,7 +69,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #E7F5FF inset !important;
+    -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
 }
 
 input:-webkit-autofill{
@@ -54,5 +79,3 @@ input:-webkit-autofill{
 input:focus {
     outline: none;
 }
-
-
