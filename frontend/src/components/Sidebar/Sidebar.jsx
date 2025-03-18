@@ -9,7 +9,7 @@ import Clube from "../../assets/Icons-Sidebar/clube.png";
 import { FaBars } from "react-icons/fa";
 
 const Sidebar = () => {
-  const [isExpandido, setIsExpandido] = useState(true);
+  const [isExpandido, setIsExpandido] = useState(false);
 
   return (
     <div className={`${styles.menu} ${isExpandido ? styles.expandido : styles.contraido}`}>

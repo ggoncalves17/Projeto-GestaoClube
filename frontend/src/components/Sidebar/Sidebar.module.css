@@ -2,7 +2,6 @@
   background-color: #f8f8f8;
   color: rgb(0, 0, 0);
   padding: 10px;
-  height: 100vh;
   transition: width 0.3s ease;
   text-align: center;
   display: flex;
@@ -40,9 +39,14 @@ ul {
 li {
   display: flex;
   align-items: center;
-  padding: 10px;
   margin-top: 10px;
   cursor: pointer;
+  padding: 10px 30px 10px;
+}
+
+li:hover {
+  background-color: #E0E0E0;
+  border-radius: 10px;
 }
 
 .icon {

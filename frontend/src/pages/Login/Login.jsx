@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LogoCoja from "../assets/LogoCoja.png";
+import LogoCoja from "../../assets/LogoCoja.png";
 import "./Login.css";
 import axios from "axios";
 import Cookies from "js-cookie";
