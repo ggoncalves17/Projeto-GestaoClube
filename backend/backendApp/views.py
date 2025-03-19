@@ -36,7 +36,27 @@ def login_view(request):
             return Response({"message": "Acesso não Autorizado. Apenas Gestores podem entrar"}, status=401)
     else:
         return Response({"message": "Credenciais Inválidas"}, status=404)
-    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def verificaAutenticacao_view(request):
+    return Response({"message": "Utilizador autenticado"}, status=200)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def estatisticas_view(request):
+    staff = Utilizador.objects.filter(tipo="Gestor", estado=1).count()
+
+    jogadores = Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count()
+
+    #Todo: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
+    equipas = Equipa.objects.filter().count()
+
+    socios = 0
+
+    return Response({"Staff" : staff, "Jogadores" : jogadores, "Equipas" : equipas, "Socios" : socios})
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -46,11 +66,6 @@ def listaUtilizadores_view(request):
     serializer = UtilizadorSerializer(utilizadores, many=True)
 
     return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def verificaAutenticacao_view(request):
-    return Response({"message": "Utilizador autenticado"}, status=200)
 
 
 

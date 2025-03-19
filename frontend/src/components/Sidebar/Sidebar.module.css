@@ -10,6 +10,17 @@
   border-right: 1px solid #e0e0e0; 
 }
 
+.divTeste {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sair {
+  margin-bottom: 10px;
+}
+
 .contraido {
   width: 100px;
 }
@@ -27,8 +38,6 @@
   padding: 8px;
   display: flex;
 }
-
-
 
 ul {
   list-style: none;

@@ -8,5 +8,9 @@
 #conteudo {
     display: flex;
     flex: 1;
+    overflow: hidden;
+}
+
+#conteudo > :last-child {
     overflow: auto;
 }
