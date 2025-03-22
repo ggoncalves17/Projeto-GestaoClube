@@ -18,9 +18,9 @@ const icones = {
     "Perfil": Perfil,
   };
 
-const Opcao = ({ isExpandido, conteudo }) => {
+const Opcao = ({ isExpandido, conteudo, ativo=false }) => {
   return (
-    <li>
+    <li className={ativo ? styles.opcaoAtiva : ""}>
       <img className={styles.icon} src={icones[conteudo]} alt={`Icon${conteudo}`} />
       {isExpandido && conteudo}
     </li>

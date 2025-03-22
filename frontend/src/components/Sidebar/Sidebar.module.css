@@ -52,6 +52,7 @@ li {
   margin-top: 10px;
   cursor: pointer;
   padding: 10px 30px 10px;
+  border-radius: 10px;
 }
 
 li:hover {
@@ -73,3 +74,16 @@ li:hover {
 .contraido .icon {
   margin-right: 0;
 }
+
+.opcaoAtiva {
+  background-color: #E0E0E0;
+  box-shadow: inset 4px 0 0 #2170BD;
+}
+
+
+
+
+
+
+
+
