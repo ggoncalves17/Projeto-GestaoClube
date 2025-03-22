@@ -31,16 +31,16 @@ def login_view(request):
     if utilizador is not None and utilizador.estado == 1:
         if utilizador.tipo == "Gestor":
             login(request, utilizador)
-            return Response({"message": "Login bem-sucedido"}, status=200)
+            return Response({"mensagem": "Login bem-sucedido"}, status=200)
         else:
-            return Response({"message": "Acesso não Autorizado. Apenas Gestores podem entrar"}, status=401)
+            return Response({"mensagem": "Acesso não Autorizado. Apenas Gestores podem entrar"}, status=401)
     else:
-        return Response({"message": "Credenciais Inválidas"}, status=404)
+        return Response({"mensagem": "Credenciais Inválidas"}, status=404)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def verificaAutenticacao_view(request):
-    return Response({"message": "Utilizador autenticado"}, status=200)
+    return Response({"mensagem": "Utilizador autenticado"}, status=200)
 
 
 @api_view(['GET'])
@@ -50,12 +50,16 @@ def estatisticas_view(request):
 
     jogadores = Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count()
 
-    #Todo: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
+    #TODO: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
     equipas = Equipa.objects.filter().count()
 
     socios = 0
 
-    return Response({"Staff" : staff, "Jogadores" : jogadores, "Equipas" : equipas, "Socios" : socios})
+    eventos = 0
+
+    jogos = Jogo.objects.all().count()
+
+    return Response({"Staff" : staff, "Jogadores" : jogadores, "Equipas" : equipas, "Socios" : socios, "Eventos" : eventos, "Jogos" : jogos})
 
 
 @api_view(['GET'])
@@ -67,7 +71,14 @@ def listaUtilizadores_view(request):
 
     return Response(serializer.data)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    logout(request)
+    return Response({"mensagem": "Logout bem-sucedido"}, status=200)
 
+
+    
 
     
 

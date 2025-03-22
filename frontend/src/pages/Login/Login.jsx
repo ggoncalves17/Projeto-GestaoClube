@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LogoCoja from "../../assets/LogoCoja.png";
+import { useNavigate } from 'react-router-dom'
 import "./Login.css";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -8,6 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mensagemErro, setMensagemErro] = useState("");
+  const navigate = useNavigate()
 
   const autenticaUtilizador = (event) => {
     event.preventDefault();
@@ -30,11 +32,12 @@ const Login = () => {
       .then((res) => {
         console.log("Resposta do Backend: ", res.data);
         setMensagemErro("");
+        navigate("/")
       })
       .catch((err) => {
         console.log("Código do erro:", err.response.status);
-        console.log("Mensagem do erro:", err.response.data.message);
-        setMensagemErro(err.response.data.message);
+        console.log("Mensagem do erro:", err.response.data.mensagem);
+        setMensagemErro(err.response.data.mensagem);
       });
   };
 

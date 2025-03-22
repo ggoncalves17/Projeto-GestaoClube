@@ -10,7 +10,7 @@
     font-size: 25px;
     font-weight: bold;
     text-decoration: underline;
-    margin: 5px;
+    margin: 0;
     padding: 10px 20px 0px;
 }
 
@@ -24,7 +24,7 @@
 
 .painelSuperior, .painelInferior {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: 40px;
     padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }

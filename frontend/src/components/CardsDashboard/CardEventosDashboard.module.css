@@ -1,0 +1,29 @@
+.card {
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    padding: 50px;
+    font-weight: bold;
+    box-shadow: 3px 3px 10px #aaaaaa;
+
+}
+
+.titulo {
+    margin: 0;
+    margin-bottom: 30px;
+    font-size: 23px;
+}
+
+.mes {
+    font-size: 26px;
+    color: #2170BD;
+}
+
+.valor {
+    font-size: 35px;
+}
+
+.semValor {
+    font-size: 25px;
+}
+

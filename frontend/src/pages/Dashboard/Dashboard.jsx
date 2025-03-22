@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./Dashboard.module.css";
-import CardDashboard from "../../components/CardDashboard/CardDashboard";
+import CardDashboard from "../../components/CardsDashboard/CardDashboard";
+import CardEventosDashboard from "../../components/CardsDashboard/CardEventosDashboard";
 import { useLoaderData } from "react-router-dom";
 import axios from "axios";
+import { Navigate } from 'react-router-dom'
 
 const estatisticasLoader = async () => {
   try {
@@ -12,16 +14,19 @@ const estatisticasLoader = async () => {
     return res.data; 
   } 
   catch (err) {
-    console.error(err);
-    throw err; 
+    if (err.response.status === 403) {
+      <Navigate to="/login"/>;
+    }
   }
 };
 
 const Dashboard = () => {
-  const estatisticas = useLoaderData();
+  const estatisticas = useLoaderData();  
 
-  console.log(estatisticas);
-  
+  // Referência -> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
+  const data = new Date();
+  const mes = data.toLocaleString('pt-PT', { month: "long" })
+  const mesFormatado = mes.charAt(0).toUpperCase() + mes.slice(1);
 
   return (
     <div className={styles.estrutura}>
@@ -33,7 +38,10 @@ const Dashboard = () => {
           <CardDashboard tituloCard="Staff" valor={estatisticas.Staff}/>
           <CardDashboard tituloCard="Sócios Ativos" valor={estatisticas.Socios}/>
         </div>
-        <div className={styles.painelInferior}>Teste</div>
+        <div className={styles.painelInferior}>
+          <CardEventosDashboard tituloCard="Próximos Eventos" valor={estatisticas.Eventos} mes={mesFormatado}/>
+          <CardEventosDashboard tituloCard="Próximos Jogos" valor={estatisticas.Jogos} mes={mesFormatado}/>
+        </div>
       </div>
     </div>
   );

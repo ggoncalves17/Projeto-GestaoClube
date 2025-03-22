@@ -8,4 +8,5 @@ urlpatterns = [
     path('api/listaUtilizadores/', views.listaUtilizadores_view, name='listaUtilizadores'),
     path('api/verificaAutenticacao/', views.verificaAutenticacao_view, name='verificaAutenticacao'),
     path('api/estatisticas/', views.estatisticas_view, name='estatisticas'),
+    path('api/logout/', views.logout_view, name='logout'),
 ]
