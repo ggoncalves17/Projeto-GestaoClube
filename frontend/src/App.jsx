@@ -5,6 +5,7 @@ import Login from "./pages/Login/Login";
 import MainLayout from "./Layouts/MainLayout";
 import Dashboard, { estatisticasLoader } from "./pages/Dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import RecuperarPassword from "./pages/Login/RecuperarPassword";
 
 function App() {
 
@@ -17,13 +18,9 @@ function App() {
         {path: "/dashboard", element: <Dashboard/>, loader: estatisticasLoader,},
       ]
     },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/*",
-      element: <PaginaNaoEncontrada />,
+    {path: "/login",element: <Login />},
+    {path: "/login/recuperar-password",element: <RecuperarPassword />},
+    {path: "/*",element: <PaginaNaoEncontrada />,
     },
   ]);
 

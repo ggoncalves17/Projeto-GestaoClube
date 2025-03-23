@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LogoCoja from "../../assets/LogoCoja.png";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import "./Login.css";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -72,10 +72,11 @@ const Login = () => {
             />
             <button type="submit">Entrar</button>
           </form>
+          
 
-          <a id="corAzul-Login" href="#">
+          <Link id="corAzul-Login" to="/login/recuperar-password">
             Esqueceu-se da password? Clique aqui.
-          </a>
+          </Link>
         </div>
       </div>
     </div>
