@@ -1,0 +1,32 @@
+.estrutura {
+    width: 100%;
+    min-height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.painel {
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.painelSuperior, .painelInferior {
+    padding: 20px;
+}
+
+.painelSuperior{
+    display: flex;
+    gap: 20px;
+}
+
+.titulo {
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin: 0;
+    padding: 10px 20px 0px;
+}

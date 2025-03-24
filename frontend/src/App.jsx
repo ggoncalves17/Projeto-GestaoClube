@@ -6,6 +6,7 @@ import MainLayout from "./Layouts/MainLayout";
 import Dashboard, { estatisticasLoader } from "./pages/Dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RecuperarPassword from "./pages/Login/RecuperarPassword";
+import UtilizadoresGerais from "./pages/Utilizadores/UtilizadoresGerais";
 
 function App() {
 
@@ -15,7 +16,15 @@ function App() {
       element: <ProtectedRoute><MainLayout /></ProtectedRoute>,
       children: [
         {index: true, element: <Dashboard />, loader: estatisticasLoader,}, 
-        {path: "/dashboard", element: <Dashboard/>, loader: estatisticasLoader,},
+        {path: "dashboard", element: <Dashboard/>, loader: estatisticasLoader,},
+      ]
+    },
+    {
+      path: "/utilizadores",
+      element: <ProtectedRoute><MainLayout /></ProtectedRoute>,
+      children: [
+        {index: true, element: <UtilizadoresGerais />}, 
+        {path: "gerais", element: <UtilizadoresGerais/>},
       ]
     },
     {path: "/login",element: <Login />},

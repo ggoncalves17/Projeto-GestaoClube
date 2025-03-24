@@ -46,20 +46,31 @@ def verificaAutenticacao_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def estatisticas_view(request):
-    staff = Utilizador.objects.filter(tipo="Gestor", estado=1).count()
 
-    jogadores = Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count()
+    estatisticas = {
+        "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1).count(),
+        "Jogadores": Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count(),
+        "Equipas": Equipa.objects.filter().count(),
+        "Socios": 0,
+        "Eventos": 0,
+        "Jogos": Jogo.objects.all().count(),
+    }
+    return Response(estatisticas)
 
-    #TODO: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
-    equipas = Equipa.objects.filter().count()
+    # staff = Utilizador.objects.filter(tipo="Gestor", estado=1).count()
 
-    socios = 0
+    # jogadores = Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count()
 
-    eventos = 0
+    # #TODO: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
+    # equipas = Equipa.objects.filter().count()
 
-    jogos = Jogo.objects.all().count()
+    # socios = 0
 
-    return Response({"Staff" : staff, "Jogadores" : jogadores, "Equipas" : equipas, "Socios" : socios, "Eventos" : eventos, "Jogos" : jogos})
+    # eventos = 0
+
+    # jogos = Jogo.objects.all().count()
+
+    # return Response({"Staff" : staff, "Jogadores" : jogadores, "Equipas" : equipas, "Socios" : socios, "Eventos" : eventos, "Jogos" : jogos})
 
 
 @api_view(['GET'])

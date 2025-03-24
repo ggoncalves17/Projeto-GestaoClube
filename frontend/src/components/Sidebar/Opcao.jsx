@@ -7,6 +7,7 @@ import Evento from "../../assets/Icons-Sidebar/evento.png";
 import Clube from "../../assets/Icons-Sidebar/clube.png";
 import Perfil from "../../assets/Icons-Sidebar/perfil.png";
 import styles from "./Sidebar.module.css";
+import { useNavigate } from "react-router-dom"; 
 
 const icones = {
     "Calendário": Calendário,
@@ -18,9 +19,18 @@ const icones = {
     "Perfil": Perfil,
   };
 
-const Opcao = ({ isExpandido, conteudo, ativo=false }) => {
+  
+
+const Opcao = ({ isExpandido, conteudo, ativo=false, caminho }) => {
+
+  const navigate = useNavigate()
+
+  const handleMudaPagina = () => {
+    navigate(caminho)
+  }
+
   return (
-    <li className={ativo ? styles.opcaoAtiva : ""}>
+    <li onClick={handleMudaPagina}className={ativo ? styles.opcaoAtiva : ""}>
       <img className={styles.icon} src={icones[conteudo]} alt={`Icon${conteudo}`} />
       {isExpandido && conteudo}
     </li>
