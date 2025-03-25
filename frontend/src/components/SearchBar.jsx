@@ -2,15 +2,15 @@ import React from "react";
 import styles from "./SearchBar.module.css";
 import { FaSearch } from "react-icons/fa";
 
-const SearchBar = ({ filtroNome, setfiltroNome }) => {
+const SearchBar = ({ filtro, setFiltro }) => {
   return (
     <div className={styles.searchBar}>
       <FaSearch className={styles.iconBotao}/>
       <input
         type="text"
         placeholder="Pesquisar por utilizador..."
-        value={filtroNome}
-        onChange={(e) => setfiltroNome(e.target.value)}
+        value={filtro}
+        onChange={(e) => setFiltro(e.target.value)}
       />
     </div>
   );

@@ -47,6 +47,8 @@ def verificaAutenticacao_view(request):
 @permission_classes([IsAuthenticated])
 def estatisticas_view(request):
 
+    #TODO: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
+
     estatisticas = {
         "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1).count(),
         "Jogadores": Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count(),
@@ -57,26 +59,10 @@ def estatisticas_view(request):
     }
     return Response(estatisticas)
 
-    # staff = Utilizador.objects.filter(tipo="Gestor", estado=1).count()
-
-    # jogadores = Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count()
-
-    # #TODO: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
-    # equipas = Equipa.objects.filter().count()
-
-    # socios = 0
-
-    # eventos = 0
-
-    # jogos = Jogo.objects.all().count()
-
-    # return Response({"Staff" : staff, "Jogadores" : jogadores, "Equipas" : equipas, "Socios" : socios, "Eventos" : eventos, "Jogos" : jogos})
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaUtilizadores_view(request):
-    utilizadores = Utilizador.objects.all()
+    utilizadores = Utilizador.objects.all().order_by('nome')
 
     serializer = UtilizadorSerializer(utilizadores, many=True)
 

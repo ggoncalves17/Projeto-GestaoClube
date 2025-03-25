@@ -1,0 +1,59 @@
+.contentor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.informacoesUtilizador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.acoes {
+    display: flex;
+    gap: 30px;
+}
+
+.icon {
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconEditar {
+    background-color: #7BC7FF;
+}
+
+.iconEditar:hover {
+    background-color: #25a4ff;
+}
+
+.iconRemover {
+    background-color: #FF8C8C; 
+}
+
+.iconRemover:hover {
+    background-color: #fd5858; 
+}
+
+.iconInfo {
+    background-color: #DCDCDC;
+}
+
+.iconInfo:hover {
+    background-color: #bababa;
+}
+
+.fotoPerfil {
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
