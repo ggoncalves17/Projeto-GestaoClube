@@ -8,6 +8,7 @@ import Clube from "../../assets/Icons-Sidebar/clube.png";
 import Perfil from "../../assets/Icons-Sidebar/perfil.png";
 import styles from "./Sidebar.module.css";
 import { useNavigate } from "react-router-dom"; 
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 const icones = {
     "Calendário": Calendário,
@@ -19,20 +20,26 @@ const icones = {
     "Perfil": Perfil,
   };
 
-  
-
-const Opcao = ({ isExpandido, conteudo, ativo=false, caminho }) => {
+const Opcao = ({ isExpandido, conteudo, ativo=false, caminho, subOpcao=false, setSubOpcoes, subOpcaoAberto=false }) => {
 
   const navigate = useNavigate()
 
   const handleMudaPagina = () => {
-    navigate(caminho)
+
+    if(subOpcao) {
+      setSubOpcoes((prev) => !prev)
+    }
+    else {
+      navigate(caminho)
+    }
   }
 
   return (
-    <li onClick={handleMudaPagina}className={ativo ? styles.opcaoAtiva : ""}>
+    <li onClick={handleMudaPagina} className={((ativo && !subOpcaoAberto && isExpandido) || (ativo && !isExpandido)) ? styles.opcaoAtiva : ""}>
       <img className={styles.icon} src={icones[conteudo]} alt={`Icon${conteudo}`} />
       {isExpandido && conteudo}
+      {(subOpcao && isExpandido) && <RiArrowDropDownLine className={`${styles.iconSubOpcoes} ${subOpcaoAberto ? styles.iconSubOpcoesAberto : styles.iconSubOpcoesFechado}`}
+      />}
     </li>
   );
 };

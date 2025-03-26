@@ -46,13 +46,21 @@ ul {
   margin: 0;
 }
 
+.menuLista {
+  overflow-y: auto;
+}
+
 li {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
   cursor: pointer;
   padding: 10px 30px 10px;
   border-radius: 10px;
+}
+
+li:first-child{
+  margin-top: 10px;
 }
 
 li:hover {
@@ -80,8 +88,38 @@ li:hover {
   box-shadow: inset 4px 0 0 #2170BD;
 }
 
+.iconSubOpcoes {
+  width: 30px;
+  height: 30px;
+  transition: transform ease-in-out 0.1s;
+}
 
+.iconSubOpcoesFechado {
+  transform: rotate(0deg);
+}
 
+.iconSubOpcoesAberto {
+  transform: rotate(180deg);
+}
+
+.subOpcoesFechado {
+  position: absolute;
+  background-color: #f8f8f8;
+  top: 190px;
+  left: 125px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.subOpcoesFechado li:first-child {
+  margin-top: 0px;
+}
+
+.divSubMenu li {
+  margin-top: 5px;
+}
 
 
 
