@@ -62,7 +62,16 @@ def estatisticas_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaUtilizadores_view(request):
-    utilizadores = Utilizador.objects.all().order_by('nome')
+    utilizadores = Utilizador.objects.filter(tipo="Utilizador").order_by('nome')
+
+    serializer = UtilizadorSerializer(utilizadores, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaStaff_view(request):
+    utilizadores = Utilizador.objects.filter(tipo="Gestor").order_by('nome')
 
     serializer = UtilizadorSerializer(utilizadores, many=True)
 

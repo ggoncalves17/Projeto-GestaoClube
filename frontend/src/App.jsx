@@ -7,6 +7,7 @@ import Dashboard, { estatisticasLoader } from "./pages/Dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RecuperarPassword from "./pages/Login/RecuperarPassword";
 import UtilizadoresGerais from "./pages/Utilizadores/UtilizadoresGerais";
+import Staff from "./pages/Utilizadores/Staff";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       children: [
         {index: true, element: <UtilizadoresGerais />}, 
         {path: "gerais", element: <UtilizadoresGerais/>},
+        {path: "staff", element: <Staff/>},
       ]
     },
     {path: "/login",element: <Login />},
