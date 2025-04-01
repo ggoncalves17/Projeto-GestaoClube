@@ -1,0 +1,81 @@
+.painelFoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modo {
+    background-color: #A6D2F3;
+    width: 150px;
+    text-align: center;
+    padding: 5px 0px;
+    border-radius: 25px;
+    border: 1px solid #1B3C78;
+    color: #1B3C78;
+    margin-bottom: 10px;
+}
+
+.modo p {
+    padding: 0;
+    margin: 0;
+}
+
+.fotoPerfil {
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+
+.painelInfo {
+    text-align: center;
+    border: 1px solid gray;
+    padding: 10px 30px 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.painelForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+    gap: 5px;
+}
+
+.campo:first-child {
+    margin-top: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.painelForm input {
+    padding: 15px;
+    font-size: 18px;
+}
+
+.painelForm button {
+    width: 350px;
+    border: none;
+    border-radius: 15px;
+    background-color: #2989e9;
+}
+
+.painelForm button:hover {
+    background-color: #0f71d3;
+}
+
+.erro {
+    color: red;
+    font-size: 0.9rem;
+    margin: 5px 0;
+  }
+  

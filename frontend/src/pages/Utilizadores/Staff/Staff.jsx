@@ -2,8 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ListaUtilizadores from "../../../components/ListaUtilizadores";
 import SearchBar from "../../../components/SearchBar";
-import AdicionarUtilizador from "../../../components/Utilizadores/AdicionarUtilizador";
-import OverlayUtilizadores from "../../../components/Utilizadores/OverlayUtilizadores";
+import Painel from "../../../components/Utilizadores/Painel";
 import styles from "../UtilizadoresGerais/UtilizadoresGerais.module.css";
 
 const Staff = () => {
@@ -11,7 +10,7 @@ const Staff = () => {
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [staff, setStaff] = useState([]);
   const [estado, setEstado] = useState();
-  const [painel, setPainel] = useState(false)
+  const [modo, setModo] = useState(null)
 
   useEffect(() => {
     switch(filtroEstado) {
@@ -54,7 +53,7 @@ const Staff = () => {
             <SearchBar filtro={filtroNome} setFiltro={setfiltroNome} />
           </div>
           <div className={styles.painelSuperiorAdicionar}>
-            <button onClick={() => setPainel(true)} className={styles.botaoAdicionar}>
+            <button onClick={() => setModo("Adicionar")} className={styles.botaoAdicionar}>
               + Adicionar Utilizador
             </button>
           </div>
@@ -64,10 +63,8 @@ const Staff = () => {
         </div>
       </div>
 
-      {painel && 
-        <OverlayUtilizadores titulo="Adicionar Utilizador" setPainel={setPainel}>
-          <AdicionarUtilizador/>
-        </OverlayUtilizadores>  
+      {modo != null && 
+        <Painel modo={modo} utilizador="Gestor" setModo={setModo} />  
       }
     </div>
   );

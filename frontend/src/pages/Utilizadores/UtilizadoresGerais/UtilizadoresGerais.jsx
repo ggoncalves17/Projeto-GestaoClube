@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import GrupoRadioButton from "../../../components/GrupoRadioButton";
 import ListaUtilizadores from "../../../components/ListaUtilizadores";
 import SearchBar from "../../../components/SearchBar";
-import OverlayUtilizadores from "../../../components/Utilizadores/OverlayUtilizadores";
+import Painel from "../../../components/Utilizadores/Painel";
 import styles from "./UtilizadoresGerais.module.css";
 
 const UtilizadoresGerais = () => {
@@ -69,7 +69,7 @@ const UtilizadoresGerais = () => {
         </div>
       </div>
 
-      {painel && (<OverlayUtilizadores titulo="Adicionar Utilizador" setPainel={setPainel}/>)}
+      {painel && (<Painel titulo="Adicionar Utilizador" setPainel={setPainel}/>)}
 
     </div>
   );
