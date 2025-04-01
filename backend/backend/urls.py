@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/verificaAutenticacao/', views.verificaAutenticacao_view, name='verificaAutenticacao'),
     path('api/estatisticas/', views.estatisticas_view, name='estatisticas'),
     path('api/logout/', views.logout_view, name='logout'),
+    path('api/adiciona-utilizador/', views.adiciona_utilizador, name='adiciona-utilizador'),
 ]

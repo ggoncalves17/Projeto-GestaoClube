@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.contrib.auth import login, authenticate, logout
 from .models import *
 from .serializers import *
+from django.contrib.auth.hashers import make_password, check_password
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -76,6 +77,48 @@ def listaStaff_view(request):
     serializer = UtilizadorSerializer(utilizadores, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adiciona_utilizador(request):
+
+    tipo = request.data.get("tipo")
+    password = make_password("teste123", hasher='default') 
+    nome = request.data.get("nome")
+    email = request.data.get("email")
+    contacto = request.data.get("telefone")
+    morada = request.data.get("morada")
+    data_nascimento = request.data.get("data")
+    funcao = request.data.get("funcao")
+    foto = request.data.get("foto")
+
+    
+
+    if Utilizador.objects.filter(email=email).exists():
+        return Response({"mensagem": "Já existe um utilizador com o email inserido. Por favor, tente outro email."}, status=404)
+    else:
+        utilizador = Utilizador.objects.create_user(
+            nome=nome,
+            email=email, 
+            password=password,
+            data_nascimento=data_nascimento,
+            contacto=contacto,
+            tipo=tipo,
+            funcao=funcao,
+            foto=foto,
+            estado=1,
+            clube_id=1
+        )
+
+        return Response({"mensagem": "Utilizador inserido com sucesso!"}, status=200)
+
+        
+
+
+
+
+    
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
