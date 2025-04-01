@@ -1,12 +1,20 @@
+.tela {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
 .estrutura {
     position: absolute;
-    background-color: #dbdbdb;
+    right: 0;
+    background-color: #ffffff;
+    padding: 30px 40px;
     width: 40%;
     height: 100%;
-    right: 0;
-    padding: 30px 40px;
     border-radius: 20px 0 0 20px;
     box-sizing: border-box;
+    overflow: auto;
 }
 
 .header {
@@ -26,7 +34,7 @@
 }
 
 .botaoFechar:hover {
-    background-color: #b8b8b8;
+    background-color: #d6d6d6;
     cursor: pointer;
 }
 

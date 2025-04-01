@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
-import styles from "./UtilizadoresGerais.module.css";
-import SearchBar from "../../components/SearchBar";
-import { useState } from "react";
-import GrupoRadioButton from "../../components/GrupoRadioButton";
-import ListaUtilizadores from "../../components/ListaUtilizadores";
-import OverlayUtilizadores from "../../components/Utilizadores/OverlayUtilizadores";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import GrupoRadioButton from "../../../components/GrupoRadioButton";
+import ListaUtilizadores from "../../../components/ListaUtilizadores";
+import SearchBar from "../../../components/SearchBar";
+import OverlayUtilizadores from "../../../components/Utilizadores/OverlayUtilizadores";
+import styles from "./UtilizadoresGerais.module.css";
 
-const Staff = () => {
+const UtilizadoresGerais = () => {
   const [filtroNome, setfiltroNome] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("todos");
-  const [staff, setStaff] = useState([]);
+  const [utilizadoresGerais, setUtilizadoresGerais] = useState([]);
   const [estado, setEstado] = useState();
   const [painel, setPainel] = useState(false)
 
@@ -28,46 +27,52 @@ const Staff = () => {
     }
   }, [filtroEstado])
 
+  // TODO: Fazer verificações ao existirem alterações para não se ter de recarregar a página, podia-se colocar sem [] mas isso iria estar sempre a ir buscar.
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/listaStaff/", {
+      .get("http://localhost:8000/api/listaUtilizadores/", {
         withCredentials: true,
       })
       .then((res) => {
         console.log("Resposta do Backend: ", res.data);
-        setStaff(res.data);
+        setUtilizadoresGerais(res.data);
       })
       .catch((err) => {
         console.log("Mensagem do erro:", err.response.data.mensagem);
       });
   }, []);
 
-  const staffFiltrado = staff.filter((utilizador) => 
+  const utilizadoresFiltrados = utilizadoresGerais.filter((utilizador) => 
     utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) && (estado === -1 ? true : utilizador.estado === estado)    
   )
 
   return (
     <div className={styles.estrutura}>
       <div className={styles.painel}>
-        <p className={styles.titulo}>Staff</p>
+        <p className={styles.titulo}>Utilizadores Gerais</p>
         <div className={styles.painelSuperior}>
           <div className={styles.painelSuperiorFiltros}>
             <SearchBar filtro={filtroNome} setFiltro={setfiltroNome} />
+            <GrupoRadioButton
+              filtro={filtroEstado}
+              setFiltro={setFiltroEstado}
+            />
           </div>
           <div className={styles.painelSuperiorAdicionar}>
-            <button onClick={() => setPainel(!painel)} className={styles.botaoAdicionar}>
+            <button onClick={() => setPainel(true)} className={styles.botaoAdicionar}>
               + Adicionar Utilizador
             </button>
           </div>
         </div>
         <div className={styles.painelInferior}>
-          <ListaUtilizadores utilizadoresFiltrados={staffFiltrado}/>
+          <ListaUtilizadores utilizadoresFiltrados={utilizadoresFiltrados}/>
         </div>
       </div>
 
       {painel && (<OverlayUtilizadores titulo="Adicionar Utilizador" setPainel={setPainel}/>)}
+
     </div>
   );
 };
 
-export default Staff;
+export default UtilizadoresGerais;

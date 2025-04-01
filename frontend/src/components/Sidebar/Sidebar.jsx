@@ -4,18 +4,19 @@ import { FaBars } from "react-icons/fa";
 import Opcao from "./Opcao";
 import OpcaoLogout from "./OpcaoLogout";
 import OpcaoSubMenu from "./OpcaoSubMenu";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [isExpandido, setIsExpandido] = useState(false);
   const [isUtilizadoresAberto, setIsUtilizadoresAberto] = useState(false);
   const [isClubeAberto, setIsClubeAberto] = useState(false);
 
-  useEffect(() => {
-    setIsUtilizadoresAberto(false)
-  }, [isExpandido])
-
   const subOpcoesRef = useRef();
   const opcaoUtilizadoresRef = useRef();
+
+  useEffect(() => {
+    setIsUtilizadoresAberto(false)
+  }, [isExpandido]) 
   
   // Referência -> https://youtu.be/HfZ7pdhS43s?si=Zsk6ezhpNPU7fqUH
   useEffect(() => {
@@ -32,10 +33,18 @@ const Sidebar = () => {
     return() => {
       document.removeEventListener("mousedown", handler);
     } 
-  });
-  
+  });  
 
-  const caminho = window.location.href.split("/")[3];  
+  const localizacao = useLocation();
+  const [caminho, setCaminho] = useState(location.pathname);
+
+  useEffect(() => {
+    setCaminho(localizacao.pathname);
+  }, [localizacao]);
+  
+  useEffect(() => {
+    console.log(caminho);
+  }, [caminho]);
 
   return (
     <div className={`${styles.menu} ${isExpandido ? styles.expandido : styles.contraido}`}    >
@@ -45,26 +54,19 @@ const Sidebar = () => {
 
       <div className={styles.divTeste}>
         <ul className={styles.menuLista}>
-          <Opcao isExpandido={isExpandido} conteudo="Dashboard" ativo={caminho === "dashboard" || caminho === ""} caminho="/"/>
+          <Opcao isExpandido={isExpandido} conteudo="Dashboard" ativo={caminho === "/dashboard" || caminho === "/"} caminho="/"/>
 
           <div className={styles.divSubMenu} ref={opcaoUtilizadoresRef}>
-            <Opcao isExpandido={isExpandido} conteudo="Utilizadores" ativo={caminho === "utilizadores"} caminho="/utilizadores" subOpcao={true} setSubOpcoes={setIsUtilizadoresAberto} subOpcaoAberto={isUtilizadoresAberto}/>
+            <Opcao isExpandido={isExpandido} conteudo="Utilizadores" ativo={caminho.startsWith("/utilizadores")} caminho="/utilizadores" subOpcao={true} setSubOpcoes={setIsUtilizadoresAberto} subOpcaoAberto={isUtilizadoresAberto}/>
           </div>
 
-          {(isUtilizadoresAberto && isExpandido) && (
-            <ul className={styles.subMenu}>
-              <OpcaoSubMenu conteudo="Utilizadores Site" ativo={caminho === "utilizadores"} caminho="/utilizadores"/>
-              <OpcaoSubMenu conteudo="Elementos Clube" ativo={caminho === "utilizadores/staff"} caminho="/utilizadores"/>
-              <OpcaoSubMenu conteudo="Jogadores" ativo={caminho === "utilizadores/jogadores"} caminho="/utilizadores"/>
-            </ul>
-          )}
-
-          {(isUtilizadoresAberto && !isExpandido) && (
-            <div className={styles.subOpcoesFechado} ref={subOpcoesRef}>
+          
+          {(isUtilizadoresAberto) && (
+            <div className={`${ !isExpandido ? styles.subOpcoesFechado : "" }`} ref={subOpcoesRef}>
               <ul className={styles.subMenu}>
-                <OpcaoSubMenu conteudo="Utilizadores Site" ativo={caminho === "utilizadores"} caminho="/utilizadores"/>
-                <OpcaoSubMenu conteudo="Elementos Clube" ativo={caminho === "utilizadores/staff"} caminho="/utilizadores"/>
-                <OpcaoSubMenu conteudo="Jogadores" ativo={caminho === "utilizadores/jogadores"} caminho="/utilizadores"/>
+                <OpcaoSubMenu conteudo="Utilizadores Site" ativo={caminho === "/utilizadores/gerais"} caminho="/utilizadores/gerais"/>
+                <OpcaoSubMenu conteudo="Elementos Clube" ativo={caminho === "/utilizadores/staff"} caminho="/utilizadores/staff"/>
+                <OpcaoSubMenu conteudo="Jogadores" ativo={caminho === "/utilizadores/jogadores"} caminho="/utilizadores"/>
               </ul>
             </div>
           )}

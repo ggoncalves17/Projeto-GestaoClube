@@ -1,0 +1,32 @@
+.painelFoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modo {
+    background-color: #A6D2F3;
+    width: 150px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid #1B3C78;
+    color: #1B3C78;
+    margin-bottom: 10px;
+}
+
+.modo p {
+    padding: 0;
+    margin: 0;
+}
+
+.fotoPerfil {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+
+.painelInfo {
+    text-align: center;
+}

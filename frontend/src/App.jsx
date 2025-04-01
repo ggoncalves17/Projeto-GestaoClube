@@ -1,13 +1,13 @@
-import { Route, createBrowserRouter, RouterProvider } from "react-router-dom";
-import './App.css'
-import PaginaNaoEncontrada from "./pages/PaginaNaoEncontrada/PaginaNaoEncontrada";
-import Login from "./pages/Login/Login";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import './App.css';
+import ProtectedRoute from "./Layouts/ProtectedRoute";
 import MainLayout from "./Layouts/MainLayout";
 import Dashboard, { estatisticasLoader } from "./pages/Dashboard/Dashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login/Login";
 import RecuperarPassword from "./pages/Login/RecuperarPassword";
-import UtilizadoresGerais from "./pages/Utilizadores/UtilizadoresGerais";
-import Staff from "./pages/Utilizadores/Staff";
+import PaginaNaoEncontrada from "./pages/PaginaNaoEncontrada/PaginaNaoEncontrada";
+import Staff from "./pages/Utilizadores/Staff/Staff";
+import UtilizadoresGerais from "./pages/Utilizadores/UtilizadoresGerais/UtilizadoresGerais";
 
 function App() {
 
