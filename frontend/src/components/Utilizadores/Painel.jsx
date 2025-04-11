@@ -3,7 +3,7 @@ import styles from "./Painel.module.css";
 import { IoMdClose } from "react-icons/io";
 import FormularioStaff from "./FormularioStaff";
 
-const OverlayUtilizadores = ({ modo, utilizador, setModo}) => {
+const OverlayUtilizadores = ({ modo, utilizador, setModo, setStaff }) => {
 
   return (
     <div className={styles.tela}>
@@ -17,7 +17,7 @@ const OverlayUtilizadores = ({ modo, utilizador, setModo}) => {
           </div>
           <hr />
           
-          <FormularioStaff modo={modo} />
+          <FormularioStaff setModo={setModo} modo={modo} setStaff={setStaff} />
 
         </div>
       </div>

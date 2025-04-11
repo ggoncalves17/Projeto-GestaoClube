@@ -6,6 +6,8 @@ from django.contrib.auth import login, authenticate, logout
 from .models import *
 from .serializers import *
 from django.contrib.auth.hashers import make_password, check_password
+import os
+from django.core.files.storage import FileSystemStorage
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -88,16 +90,36 @@ def adiciona_utilizador(request):
     nome = request.data.get("nome")
     email = request.data.get("email")
     contacto = request.data.get("telefone")
-    morada = request.data.get("morada")
     data_nascimento = request.data.get("data")
     funcao = request.data.get("funcao")
-    foto = request.data.get("foto")
-
-    
+    foto = request.FILES.get("foto")
 
     if Utilizador.objects.filter(email=email).exists():
         return Response({"mensagem": "Já existe um utilizador com o email inserido. Por favor, tente outro email."}, status=404)
     else:
+
+        if foto is None:
+            nome_foto = "foto-default.png"
+        else:
+            pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\src\\assets\\Fotos-Perfil"
+            if not os.path.exists(pasta):
+                print("cheguei aqui!")
+                os.makedirs(pasta)
+
+            tipoCompletoFoto = foto.content_type 
+
+            if tipoCompletoFoto == "image/jpeg":
+                tipoFoto = "jpg"
+            elif tipoCompletoFoto == "image/png":
+                tipoFoto = "png"
+            elif tipoCompletoFoto == "image/gif":
+                tipoFoto = "gif"    
+
+            nome_foto = f"{email}_foto-perfil.{tipoFoto}"
+
+            fs = FileSystemStorage(location=pasta)
+            fs.save(nome_foto, foto)
+
         utilizador = Utilizador.objects.create_user(
             nome=nome,
             email=email, 
@@ -106,18 +128,14 @@ def adiciona_utilizador(request):
             contacto=contacto,
             tipo=tipo,
             funcao=funcao,
-            foto=foto,
+            foto=nome_foto,
             estado=1,
             clube_id=1
         )
 
-        return Response({"mensagem": "Utilizador inserido com sucesso!"}, status=200)
+        serializer = UtilizadorSerializer(utilizador)
 
-        
-
-
-
-
+        return Response({"mensagem": "Utilizador inserido com sucesso!", "utilizador": serializer.data}, status=200)
     
 
 @api_view(['POST'])

@@ -1,7 +1,7 @@
 import React from "react";
 import { FaPen, FaTrash, FaInfoCircle } from "react-icons/fa";
 import styles from "./LinhaUtilizador.module.css";
-import FotoDefault from "../assets/foto-default.png";
+import FotoDefault from "../assets/Fotos-Perfil/foto-default.png";
 
 const UtilizadorLinha = ({ utilizador }) => {
   return (

@@ -64,7 +64,7 @@ const Staff = () => {
       </div>
 
       {modo != null && 
-        <Painel modo={modo} utilizador="Gestor" setModo={setModo} />  
+        <Painel modo={modo} utilizador="Gestor" setModo={setModo} setStaff={setStaff} />  
       }
     </div>
   );
