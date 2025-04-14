@@ -11,12 +11,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
 }
 
 .acoes {
     display: flex;
-    gap: 30px;
+    gap: 20px;
 }
 
 .icon {
@@ -56,4 +56,9 @@
     border-radius: 100%;
     width: 40px;
     height: 40px;
+}
+
+span{
+    width: 150px;
+    overflow-x: hidden;
 }

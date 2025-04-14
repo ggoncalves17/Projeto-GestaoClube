@@ -7,26 +7,20 @@ import styles from "../UtilizadoresGerais/UtilizadoresGerais.module.css";
 
 const Staff = () => {
   const [filtroNome, setfiltroNome] = useState("");
-  const [filtroEstado, setFiltroEstado] = useState("todos");
   const [staff, setStaff] = useState([]);
-  const [estado, setEstado] = useState();
   const [modo, setModo] = useState(null)
+  const [utilizador, setUtilizador] = useState(null)
+
+  // useEffect(() => {
+  //   if(modo === "Adicionar") {
+  //     setUtilizador(-1)
+  //   }
+  // }, [modo])
 
   useEffect(() => {
-    switch(filtroEstado) {
-      case "todos":
-        setEstado(-1);
-        break;
-      case "ativos":
-        setEstado(1);
-        break;
-      case "inativos":  
-        setEstado(0);
-        break;
+    if(modo === "Adicionar") {
+      setUtilizador(-1)
     }
-  }, [filtroEstado])
-
-  useEffect(() => {
     axios
       .get("http://localhost:8000/api/listaStaff/", {
         withCredentials: true,
@@ -38,10 +32,10 @@ const Staff = () => {
       .catch((err) => {
         console.log("Mensagem do erro:", err.response.data.mensagem);
       });
-  }, []);
+  }, [modo]);
 
   const staffFiltrado = staff.filter((utilizador) => 
-    utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) && (estado === -1 ? true : utilizador.estado === estado)    
+    utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) 
   )
 
   return (
@@ -59,12 +53,12 @@ const Staff = () => {
           </div>
         </div>
         <div className={styles.painelInferior}>
-          <ListaUtilizadores utilizadoresFiltrados={staffFiltrado}/>
+          <ListaUtilizadores utilizadoresFiltrados={staffFiltrado} setModo={setModo} setUtilizador={setUtilizador}/>
         </div>
       </div>
 
-      {modo != null && 
-        <Painel modo={modo} utilizador="Gestor" setModo={setModo} setStaff={setStaff} />  
+      {(modo === "Adicionar" || modo === "Editar" || modo === "Detalhes") && 
+        <Painel modo={modo} tipo="Gestor" setModo={setModo} setStaff={setStaff} utilizador={utilizador}/>  
       }
     </div>
   );

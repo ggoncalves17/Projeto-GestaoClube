@@ -74,11 +74,21 @@ def listaUtilizadores_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaStaff_view(request):
-    utilizadores = Utilizador.objects.filter(tipo="Gestor").order_by('nome')
+    utilizadores = Utilizador.objects.filter(tipo="Gestor", estado=1).order_by('nome')
 
     serializer = UtilizadorSerializer(utilizadores, many=True)
 
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def info_utilizador_view(request, id):
+    utilizador = get_object_or_404(Utilizador, id=id)
+    if utilizador:
+        serializer = UtilizadorSerializer(utilizador)
+        return Response(serializer.data)
+    else:
+        return Response({"mensagem": "Não existe o utilizador pretendido."}, status=404)
 
 
 @api_view(['POST'])
@@ -101,7 +111,7 @@ def adiciona_utilizador(request):
         if foto is None:
             nome_foto = "foto-default.png"
         else:
-            pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\src\\assets\\Fotos-Perfil"
+            pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
             if not os.path.exists(pasta):
                 print("cheguei aqui!")
                 os.makedirs(pasta)
@@ -137,7 +147,60 @@ def adiciona_utilizador(request):
 
         return Response({"mensagem": "Utilizador inserido com sucesso!", "utilizador": serializer.data}, status=200)
     
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def edita_utilizador(request, id):
 
+    utilizador = get_object_or_404(Utilizador, id=id)
+
+    nome = request.data.get("nome")
+    email = request.data.get("email")
+    contacto = request.data.get("telefone")
+    data_nascimento = request.data.get("data")
+    funcao = request.data.get("funcao")
+    foto = request.FILES.get("foto")
+
+    print("Foto: ", foto)
+
+    if foto is None:
+        nome_foto = utilizador.foto
+    else:
+        pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
+        if not os.path.exists(pasta):
+            os.makedirs(pasta)
+        tipoCompletoFoto = foto.content_type 
+        if tipoCompletoFoto == "image/jpeg":
+            tipoFoto = "jpg"
+        elif tipoCompletoFoto == "image/png":
+            tipoFoto = "png"
+        elif tipoCompletoFoto == "image/gif":
+            tipoFoto = "gif"    
+        nome_foto = f"{email}_foto-perfil.{tipoFoto}"
+        fs = FileSystemStorage(location=pasta)
+        fs.save(nome_foto, foto)
+
+    utilizador.nome = nome
+    utilizador.email = email
+    utilizador.contacto = contacto
+    utilizador.data_nascimento = data_nascimento
+    utilizador.funcao = funcao
+    utilizador.foto = nome_foto
+    utilizador.save()
+
+    serializer = UtilizadorSerializer(utilizador)
+    return Response({"mensagem": "Utilizador atualizado com sucesso!", "utilizador": serializer.data}, status=200)    
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def remove_utilizador(request, id):
+    utilizador = get_object_or_404(Utilizador, id=id)
+    utilizador.estado = 2
+    utilizador.save()
+    return Response({"mensagem": "Utilizador removido com sucesso!"}, status=200)    
+
+    
+    
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout_view(request):

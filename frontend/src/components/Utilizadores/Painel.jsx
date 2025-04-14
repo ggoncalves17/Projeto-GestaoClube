@@ -3,26 +3,25 @@ import styles from "./Painel.module.css";
 import { IoMdClose } from "react-icons/io";
 import FormularioStaff from "./FormularioStaff";
 
-const OverlayUtilizadores = ({ modo, utilizador, setModo, setStaff }) => {
+const OverlayUtilizadores = ({ modo, tipo, setModo, setStaff, utilizador }) => {
 
   return (
     <div className={styles.tela}>
       <div className={styles.estrutura}>
         <div className={styles.painel}>
           <div className={styles.header}>
-            {`${modo} ${utilizador}`}
+            {`${modo} ${tipo}`}
             <div onClick={() => setModo(null)} className={styles.botaoFechar}>
               <IoMdClose className={styles.icon} />
             </div>
           </div>
           <hr />
           
-          <FormularioStaff setModo={setModo} modo={modo} setStaff={setStaff} />
+          <FormularioStaff setModo={setModo} modo={modo} setStaff={setStaff} utilizador={utilizador} />
 
         </div>
       </div>
     </div>
-      
   );
 };
 

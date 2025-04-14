@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
-import FotoDefault from "../assets/Fotos-Perfil/foto-default.png";
+import FotoDefault from "../../public/Fotos-Perfil/foto-default.png";
 
-export function usePreviewFotoPerfil ()  {
+export function usePreviewFotoPerfil (modo, caminhoFoto)  {
   const [fotoPerfil, setFotoPerfil] = useState(null);
   const [previewFoto, setPreviewFoto] = useState(FotoDefault);
 
   // Referência -> https://stackoverflow.com/a/57781164
   useEffect(() => {
-    if (!fotoPerfil) {
-      setPreviewFoto(FotoDefault);
-      return;
+    if (fotoPerfil) {
+      const objectUrl = URL.createObjectURL(fotoPerfil);
+      setPreviewFoto(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
     }
 
-    const objectUrl = URL.createObjectURL(fotoPerfil);
-    setPreviewFoto(objectUrl);
+    if (modo === "Adicionar") {
+      setPreviewFoto(FotoDefault);
+    } 
+    else if (caminhoFoto) {
+      setPreviewFoto(`/Fotos-Perfil/${caminhoFoto}`);
+    }
+    else{
+      setPreviewFoto(FotoDefault);
+    }
 
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [fotoPerfil]);
+  }, [fotoPerfil, caminhoFoto]);
 
   const alteraPreviewFotoPerfil = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -33,3 +40,4 @@ export function usePreviewFotoPerfil ()  {
     alteraPreviewFotoPerfil,
   };
 };
+

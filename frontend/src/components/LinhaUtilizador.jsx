@@ -1,29 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaPen, FaTrash, FaInfoCircle } from "react-icons/fa";
 import styles from "./LinhaUtilizador.module.css";
-import FotoDefault from "../assets/Fotos-Perfil/foto-default.png";
+import PopUpRemover from "./PopUpRemover";
 
-const UtilizadorLinha = ({ utilizador }) => {
+const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
+
+  const [modalAberta, setModalAberta] = useState(false)
+
+  const botaoUtilizador = (modo) => {
+    setModo(modo)
+    setUtilizador(utilizador.id)
+  } 
+
+  const botaoRemover = () => {
+    setModo("Remover")
+    setModalAberta(true)
+  }
+  
   return (
     <div className={styles.contentor}>
       <div className={styles.informacoesUtilizador}>
-        <img src={FotoDefault} alt="FotoPerfil" className={styles.fotoPerfil} />
+        <img src={`/Fotos-Perfil/${utilizador.foto}`} alt="FotoPerfil" className={styles.fotoPerfil} />
         <span className={styles.nome}>{utilizador.nome}</span>
         <span className={styles.email}>{utilizador.email}</span>
         <span className={styles.email}>{utilizador.estado}</span>
       </div>
 
       <div className={styles.acoes}>
-        <div className={`${styles.icon} ${styles.iconEditar}`}>
+        <div onClick={() => botaoUtilizador("Editar")} className={`${styles.icon} ${styles.iconEditar}`}>
           <FaPen title="Editar" />
         </div>
-        <div className={`${styles.icon} ${styles.iconRemover}`}>
+        <div onClick={botaoRemover} className={`${styles.icon} ${styles.iconRemover}`}>
           <FaTrash title="Eliminar" />
         </div>
-        <div className={`${styles.icon} ${styles.iconInfo}`}>
+        <div onClick={() => botaoUtilizador("Detalhes")} className={`${styles.icon} ${styles.iconInfo}`}>
           <FaInfoCircle title="Detalhes" />
         </div>
       </div>
+
+      {modalAberta === true && <PopUpRemover setModo={setModo} idUtilizador={utilizador.id} setModalAberta={setModalAberta} utilizador={utilizador.nome} />}
+
     </div>
   );
 };
