@@ -2,8 +2,10 @@ import React from "react";
 import styles from "./PaginaNaoEncontrada.module.css";
 import LogoCoja from "/Fotos-Clube/LogoCoja.png";
 import { RiEmotionUnhappyLine } from "react-icons/ri";
+import {Link} from 'react-router-dom';
 
 const PaginaNaoEncontrada = () => {
+
   return (
     <div id={styles.estrutura}>
       <div id={styles.imagem}>
@@ -13,7 +15,7 @@ const PaginaNaoEncontrada = () => {
         <RiEmotionUnhappyLine className={styles.icon} />
         <h2>Nada Aqui!</h2>
         <p id={styles.corVermelho}>Esta página não existe.</p>
-        <a id={styles.corAzul} href="#">Ir para a página inicial</a>
+        <Link to="/" id={styles.corAzul} >Ir para a página inicial</Link>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
         <img src={`/Fotos-Perfil/${utilizador.foto}`} alt="FotoPerfil" className={styles.fotoPerfil} />
         <span className={styles.nome}>{utilizador.nome}</span>
         <span className={styles.email}>{utilizador.email}</span>
-        <span className={styles.email}>{utilizador.estado}</span>
+        {utilizador.estado === 1 ? <span className={`${styles.estado} ${styles.estadoAtivo}`}>Ativo</span> : <span className={`${styles.estado} ${styles.estadoInativo}`}>Inativo</span>}
       </div>
 
       {utilizador.id != utilizadorInfo.id &&

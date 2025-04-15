@@ -4,15 +4,16 @@ import ListaUtilizadores from "../../../components/ListaUtilizadores";
 import SearchBar from "../../../components/SearchBar";
 import Painel from "../../../components/Utilizadores/Painel";
 import styles from "../UtilizadoresGerais/UtilizadoresGerais.module.css";
-import { UtilizadorContext } from "../../../context/UtilizadorContext";
+import Paginacao from "../../../components/Paginacao/Paginacao";
 
 const Staff = () => {
   const [filtroNome, setfiltroNome] = useState("");
   const [staff, setStaff] = useState([]);
   const [modo, setModo] = useState(null)
   const [utilizador, setUtilizador] = useState(null)
-  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext)
-  
+  const [paginaAtual, setPaginaAtual] = useState(1)
+  const [utilizadoresPagina, setUtilizadoresPagina] = useState(6)
+
   useEffect(() => {
     if(modo === "Adicionar") {
       setUtilizador(-1)
@@ -34,6 +35,10 @@ const Staff = () => {
     utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) 
   )
 
+  const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina
+  const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina
+  const utilizadoresAtuais = staffFiltrado.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
+
   return (
     <div className={styles.estrutura}>
       <div className={styles.painel}>
@@ -49,8 +54,9 @@ const Staff = () => {
           </div>
         </div>
         <div className={styles.painelInferior}>
-          <ListaUtilizadores utilizadoresFiltrados={staffFiltrado} setModo={setModo} setUtilizador={setUtilizador}/>
+          <ListaUtilizadores utilizadoresFiltrados={utilizadoresAtuais} setModo={setModo} setUtilizador={setUtilizador}/>
         </div>
+        <Paginacao totalUtilizadores={staffFiltrado.length} utilizadoresPagina={utilizadoresPagina} paginaAtual={paginaAtual} setPaginaAtual={setPaginaAtual}/>
       </div>
 
       {(modo === "Adicionar" || modo === "Editar" || modo === "Detalhes") && 

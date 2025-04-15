@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./Formulario.module.css";
 import Input from "./Input";
 import axios from "axios";
@@ -6,11 +6,16 @@ import Cookies from "js-cookie";
 import { usePreviewFotoPerfil } from "../../hooks/usePreviewFotoPerfil";
 import { camposFormulario } from "./camposFormulario";
 import { validaFormulario } from "./validaFormulario";
+import { UtilizadorContext } from "../../context/UtilizadorContext";
 
-const Formulario = ({ modo, setStaff, setModo, utilizador }) => {
+const Formulario = ({ modo, tipo, setStaff, setModo, utilizador }) => {
+
+console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
+
+
   // Referência -> https://react.dev/reference/react/useState#examples-objects
   const [dadosFormulario, setDadosFormulario] = useState({
-    tipo: "Gestor",
+    tipo: tipo,
     nome: "",
     email: "",
     telefone: "",
@@ -18,6 +23,8 @@ const Formulario = ({ modo, setStaff, setModo, utilizador }) => {
     funcao: "",
     foto: "",
   });
+
+  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext)
 
   const {
     fotoPerfil: FotoPerfil,
@@ -53,7 +60,7 @@ const Formulario = ({ modo, setStaff, setModo, utilizador }) => {
   const handleSubmissao = (event) => {
     event.preventDefault();
 
-    const erros = validaFormulario(dadosFormulario);
+    const erros = validaFormulario(dadosFormulario, tipo);
 
     // Referência -> https://stackoverflow.com/questions/46859574/reactjs-if-object-has-length
     if (Object.keys(erros).length > 0) {
@@ -70,6 +77,7 @@ const Formulario = ({ modo, setStaff, setModo, utilizador }) => {
     dados.append("funcao", dadosFormulario.funcao);
     dados.append("foto", FotoPerfil);
     dados.append("tipo", dadosFormulario.tipo);
+    dados.append("id_clube", utilizadorInfo.id_clube)
 
     if (modo === "Adicionar") {
       axios
@@ -82,7 +90,7 @@ const Formulario = ({ modo, setStaff, setModo, utilizador }) => {
         })
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
-          console.log("Gestor Adicionado");
+          console.log("Utilizador (Geral ou Gestor) Adicionado");
           setStaff((prev) => [...prev, res.data.utilizador]);
           setModo(null);
         })
@@ -156,7 +164,7 @@ const Formulario = ({ modo, setStaff, setModo, utilizador }) => {
             <>
               <p className={styles.nomeUtilizador}>{dadosFormulario.nome}</p>
               <div className={styles.modoDetalhes}>
-                <p>Gestor</p>
+                {tipo === "Gestor" ? <p>Gestor</p> : <p>Utilizador</p>}
               </div>
             </>
           )}
@@ -178,8 +186,9 @@ const Formulario = ({ modo, setStaff, setModo, utilizador }) => {
                   })
                 }
                 erro={errosCampos[campo.id]}
-                required={campo.required}
+                required={!(campo.id === "funcao" && tipo === "Utilizador")}
                 disabled={modo === "Detalhes" || (modo === "Editar" && campo.id === "email")}
+                hidden={(campo.id === "funcao" && tipo === "Utilizador")}
               />
             ))}
 

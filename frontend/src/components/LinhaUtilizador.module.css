@@ -21,7 +21,7 @@
 
 .icon {
     cursor: pointer;
-    padding: 15px;
+    padding: 12px;
     border-radius: 100%;
     display: flex;
     align-items: center;
@@ -60,5 +60,29 @@
 
 span{
     width: 150px;
+    overflow-x: hidden;
+}
+
+.estado {
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.estadoAtivo {
+
+    background-color: #D3FEE6;
+    color: #1B7845;
+    border: 1px solid #1B7845;
+}
+
+.estadoInativo {
+    background-color: #FF8C8C;
+    color: #981a1a;
+    border: 1px solid #981a1a;
+}
+
+.email {
+    width: 250px;
     overflow-x: hidden;
 }

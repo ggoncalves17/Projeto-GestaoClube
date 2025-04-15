@@ -1,0 +1,47 @@
+.grupoPaginacao {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+.grupoPaginacao  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: #3e3e3e;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+.grupoPaginacao  button:disabled {
+    background-color: #737373;
+    cursor: default;
+  }
+  
+.paginaAtual {
+    width: 70px;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid rgb(67, 67, 67);
+    color: #000000;
+    border-radius: 30px;
+  }
+  
+.totalPaginas {
+    color: #aaa;
+    width: fit-content;
+    margin-right: 10px;
+  }
+
+.iconBotao {
+    color: white;
+    width: 20px;
+    height: 20px;
+}
+  

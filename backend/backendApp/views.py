@@ -29,6 +29,7 @@ def login_view(request):
     #             clube_id=1
     #         )
 
+
     utilizador = authenticate(request, email=email, password=password)
 
     if utilizador is not None and utilizador.estado == 1:
@@ -70,7 +71,8 @@ def estatisticas_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaUtilizadores_view(request):
-    utilizadores = Utilizador.objects.filter(tipo="Utilizador").order_by('nome')
+    # Referência -> https://docs.djangoproject.com/en/5.2/topics/db/queries/#the-pk-lookup-shortcut
+    utilizadores = Utilizador.objects.filter(tipo="Utilizador", estado__in=[0, 1]).order_by('nome')
 
     serializer = UtilizadorSerializer(utilizadores, many=True)
 
@@ -101,13 +103,13 @@ def info_utilizador_view(request, id):
 def adiciona_utilizador(request):
 
     tipo = request.data.get("tipo")
-    password = make_password("teste123", hasher='default') 
     nome = request.data.get("nome")
     email = request.data.get("email")
     contacto = request.data.get("telefone")
     data_nascimento = request.data.get("data")
     funcao = request.data.get("funcao")
     foto = request.FILES.get("foto")
+    id_clube = request.data.get("id_clube")
 
     if Utilizador.objects.filter(email=email).exists():
         return Response({"mensagem": "Já existe um utilizador com o email inserido. Por favor, tente outro email."}, status=404)
@@ -118,7 +120,6 @@ def adiciona_utilizador(request):
         else:
             pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
             if not os.path.exists(pasta):
-                print("cheguei aqui!")
                 os.makedirs(pasta)
 
             tipoCompletoFoto = foto.content_type 
@@ -135,18 +136,20 @@ def adiciona_utilizador(request):
             fs = FileSystemStorage(location=pasta)
             fs.save(nome_foto, foto)
 
-        utilizador = Utilizador.objects.create_user(
+        utilizador = Utilizador(
             nome=nome,
             email=email, 
-            password=password,
             data_nascimento=data_nascimento,
             contacto=contacto,
             tipo=tipo,
             funcao=funcao,
             foto=nome_foto,
             estado=1,
-            clube_id=1
+            clube_id=id_clube
         )
+
+        utilizador.set_password("teste123")
+        utilizador.save() 
 
         serializer = UtilizadorSerializer(utilizador)
 
@@ -165,7 +168,6 @@ def edita_utilizador(request, id):
     funcao = request.data.get("funcao")
     foto = request.FILES.get("foto")
 
-    print("Foto: ", foto)
 
     if foto is None:
         nome_foto = utilizador.foto

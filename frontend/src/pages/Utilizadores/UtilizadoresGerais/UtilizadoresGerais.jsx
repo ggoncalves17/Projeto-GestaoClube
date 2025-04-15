@@ -4,6 +4,7 @@ import GrupoRadioButton from "../../../components/GrupoRadioButton";
 import ListaUtilizadores from "../../../components/ListaUtilizadores";
 import SearchBar from "../../../components/SearchBar";
 import Painel from "../../../components/Utilizadores/Painel";
+import Paginacao from "../../../components/Paginacao/Paginacao";
 import styles from "./UtilizadoresGerais.module.css";
 
 const UtilizadoresGerais = () => {
@@ -11,7 +12,10 @@ const UtilizadoresGerais = () => {
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [utilizadoresGerais, setUtilizadoresGerais] = useState([]);
   const [estado, setEstado] = useState();
-  const [painel, setPainel] = useState(false)
+  const [modoUtilizadores, setModoUtilizadores] = useState(null)
+  const [utilizador, setUtilizador] = useState(null)
+  const [paginaAtual, setPaginaAtual] = useState(1)
+  const [utilizadoresPagina, setUtilizadoresPagina] = useState(6)  
 
   useEffect(() => {
     switch(filtroEstado) {
@@ -39,11 +43,15 @@ const UtilizadoresGerais = () => {
       .catch((err) => {
         console.log("Mensagem do erro:", err.response.data.mensagem);
       });
-  }, []);
+  }, [modoUtilizadores]);
 
   const utilizadoresFiltrados = utilizadoresGerais.filter((utilizador) => 
     utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) && (estado === -1 ? true : utilizador.estado === estado)    
   )
+
+  const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina
+  const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina
+  const utilizadoresAtuais = utilizadoresFiltrados.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
 
   return (
     <div className={styles.estrutura}>
@@ -58,17 +66,20 @@ const UtilizadoresGerais = () => {
             />
           </div>
           <div className={styles.painelSuperiorAdicionar}>
-            <button onClick={() => setPainel(true)} className={styles.botaoAdicionar}>
+            <button onClick={() => setModoUtilizadores("Adicionar")} className={styles.botaoAdicionar}>
               + Adicionar Utilizador
             </button>
           </div>
         </div>
         <div className={styles.painelInferior}>
-          <ListaUtilizadores utilizadoresFiltrados={utilizadoresFiltrados}/>
+          <ListaUtilizadores utilizadoresFiltrados={utilizadoresAtuais} setModo={setModoUtilizadores} setUtilizador={setUtilizador}/>
         </div>
+        <Paginacao totalUtilizadores={utilizadoresFiltrados.length} utilizadoresPagina={utilizadoresPagina} paginaAtual={paginaAtual} setPaginaAtual={setPaginaAtual}/>
       </div>
 
-      {painel && (<Painel titulo="Adicionar Utilizador" setPainel={setPainel}/>)}
+      {(modoUtilizadores === "Adicionar" || modoUtilizadores === "Editar" || modoUtilizadores === "Detalhes") && 
+        <Painel modo={modoUtilizadores} tipo="Utilizador" setModo={setModoUtilizadores} setStaff={setUtilizadoresGerais} utilizador={utilizador}/>  
+      }
 
     </div>
   );

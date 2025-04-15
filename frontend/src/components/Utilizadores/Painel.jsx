@@ -17,7 +17,7 @@ const OverlayUtilizadores = ({ modo, tipo, setModo, setStaff, utilizador }) => {
           </div>
           <hr />
           
-          <FormularioStaff setModo={setModo} modo={modo} setStaff={setStaff} utilizador={utilizador} />
+          <FormularioStaff setModo={setModo} tipo={tipo} modo={modo} setStaff={setStaff} utilizador={utilizador} />
 
         </div>
       </div>
