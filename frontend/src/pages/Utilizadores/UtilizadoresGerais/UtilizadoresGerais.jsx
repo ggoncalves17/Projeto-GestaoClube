@@ -27,7 +27,6 @@ const UtilizadoresGerais = () => {
     }
   }, [filtroEstado])
 
-  // TODO: Fazer verificações ao existirem alterações para não se ter de recarregar a página, podia-se colocar sem [] mas isso iria estar sempre a ir buscar.
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/listaUtilizadores/", {

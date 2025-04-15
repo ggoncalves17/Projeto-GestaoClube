@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LogoCoja from "../../assets/LogoCoja.png";
+import LogoCoja from "/Fotos-Clube/LogoCoja.png";
 import { useNavigate, Link } from 'react-router-dom'
 import "./Login.css";
 import axios from "axios";

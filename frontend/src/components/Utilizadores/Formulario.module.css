@@ -104,7 +104,7 @@
   flex-direction: column;
   width: 100%;
   text-align: left;
-  gap: 5px;
+  gap: 3px;
 }
 
 .campo:first-child {
@@ -113,7 +113,7 @@
 
 .painelForm input {
   padding: 15px;
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .painelForm button {

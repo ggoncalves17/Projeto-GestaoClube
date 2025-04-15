@@ -1,22 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ListaUtilizadores from "../../../components/ListaUtilizadores";
 import SearchBar from "../../../components/SearchBar";
 import Painel from "../../../components/Utilizadores/Painel";
 import styles from "../UtilizadoresGerais/UtilizadoresGerais.module.css";
+import { UtilizadorContext } from "../../../context/UtilizadorContext";
 
 const Staff = () => {
   const [filtroNome, setfiltroNome] = useState("");
   const [staff, setStaff] = useState([]);
   const [modo, setModo] = useState(null)
   const [utilizador, setUtilizador] = useState(null)
-
-  // useEffect(() => {
-  //   if(modo === "Adicionar") {
-  //     setUtilizador(-1)
-  //   }
-  // }, [modo])
-
+  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext)
+  
   useEffect(() => {
     if(modo === "Adicionar") {
       setUtilizador(-1)

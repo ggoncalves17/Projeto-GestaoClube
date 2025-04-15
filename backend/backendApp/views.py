@@ -43,7 +43,12 @@ def login_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def verificaAutenticacao_view(request):
-    return Response({"mensagem": "Utilizador autenticado"}, status=200)
+
+    utilizador = request.user
+
+    serializer = UtilizadorSerializer(utilizador)
+
+    return Response({"mensagem": "Utilizador autenticado", "utilizador": serializer.data}, status=200)
 
 
 @api_view(['GET'])

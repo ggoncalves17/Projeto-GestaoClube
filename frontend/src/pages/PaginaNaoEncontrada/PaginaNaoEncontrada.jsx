@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./PaginaNaoEncontrada.module.css";
-import LogoCoja from "../../assets/LogoCoja.png";
+import LogoCoja from "/Fotos-Clube/LogoCoja.png";
 import { RiEmotionUnhappyLine } from "react-icons/ri";
 
 const PaginaNaoEncontrada = () => {

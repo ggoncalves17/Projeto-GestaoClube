@@ -42,9 +42,9 @@ const Sidebar = () => {
     setCaminho(localizacao.pathname);
   }, [localizacao]);
   
-  useEffect(() => {
-    console.log(caminho);
-  }, [caminho]);
+  // useEffect(() => {
+  //   console.log(caminho);
+  // }, [caminho]);
 
   return (
     <div className={`${styles.menu} ${isExpandido ? styles.expandido : styles.contraido}`}    >
@@ -52,7 +52,7 @@ const Sidebar = () => {
         <FaBars className={styles.iconBotao} />
       </button>
 
-      <div className={styles.divTeste}>
+      <div className={styles.menuOpcoes}>
         <ul className={styles.menuLista}>
           <Opcao isExpandido={isExpandido} conteudo="Dashboard" ativo={caminho === "/dashboard" || caminho === "/"} caminho="/"/>
 
