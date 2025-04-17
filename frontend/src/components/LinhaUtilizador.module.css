@@ -79,10 +79,18 @@ span{
     border: 1px solid #1B7845;
 }
 
+.estadoAtivo:hover {
+    background-color: #a7e8c4;  
+}
+
 .estadoInativo {
     background-color: #FF8C8C;
     color: #981a1a;
     border: 1px solid #981a1a;
+}
+
+.estadoInativo:hover {
+    background-color: #eb6c6c;
 }
 
 .email {

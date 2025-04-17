@@ -75,10 +75,9 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
           (utilizador.tipo === "Jogador" ||
             utilizador.tipo === "Treinador") && (
             <>
-              <span className={styles.funcao}>
-                {utilizador.modalidade.nome}
-              </span>{" "}
-              <span className={styles.funcao}>{utilizador.tipo}</span>
+              <span className={styles.sexo}>{utilizador.sexo}</span>
+              <span className={styles.modalidade}>{utilizador.modalidade.nome}</span>
+              <span className={styles.tipo}>{utilizador.tipo}</span>
             </>
           )}
       </div>

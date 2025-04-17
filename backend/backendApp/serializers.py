@@ -25,4 +25,4 @@ class ElementoClubeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Elemento_Clube
-        fields = ('id', 'nome','data_nascimento', 'nacionalidade', 'cartao_cidadao', 'data_validade_cc', 'tipo', 'posicao', 'foto', 'peso', 'altura', 'estado', 'modalidade')
+        fields = ('id', 'nome', 'sexo', 'data_nascimento', 'nacionalidade', 'cartao_cidadao', 'data_validade_cc', 'tipo', 'posicao', 'foto', 'peso', 'altura', 'estado', 'modalidade')

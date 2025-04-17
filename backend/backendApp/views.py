@@ -16,20 +16,6 @@ def login_view(request):
     email = request.data['email']
     password = request.data['password']
 
-    # user = Utilizador.objects.create_user(
-    #             nome="Teste",
-    #             email="teste@gmail.com", 
-    #             password="teste",
-    #             data_nascimento="2025-03-15",
-    #             contacto=910222333,
-    #             tipo="Gestor",
-    #             funcao="Gestor",
-    #             foto="teste",
-    #             estado=1,
-    #             clube_id=1
-    #         )
-
-
     utilizador = authenticate(request, email=email, password=password)
 
     if utilizador is not None and utilizador.estado == 1:
@@ -172,6 +158,76 @@ def adiciona_utilizador(request):
         serializer = UtilizadorSerializer(utilizador)
 
         return Response({"mensagem": "Utilizador inserido com sucesso!", "utilizador": serializer.data}, status=200)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adiciona_jogador(request):
+
+    tipo = request.data.get("tipo")
+    
+    # TODO: ALTERAR ISTO PARA METER A LÓGICA CORRETA
+    sexo = "Masculino"
+    nome = request.data.get("nome")
+    data_nascimento = request.data.get("data")
+    nacionalidade = request.data.get("nacionalidade")
+    cc = request.data.get("cc")
+    cc_validade = request.data.get("cc_validade")
+
+    if cc_validade == "":
+        cc_validade = None
+
+    peso = request.data.get("peso")
+    altura = request.data.get("altura")
+    foto = request.FILES.get("foto")
+    id_clube = request.data.get("id_clube")
+    desporto = request.data.get("desporto")
+
+    id_modalidade = get_object_or_404(Modalidade, nome=desporto).id
+
+    print("ID MODALIDADE: ", id_modalidade)
+
+    if foto is None:
+        nome_foto = "foto-default.png"
+    else:
+        pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Jogadores"
+        if not os.path.exists(pasta):
+            os.makedirs(pasta)
+
+        tipoCompletoFoto = foto.content_type 
+
+        if tipoCompletoFoto == "image/jpeg":
+            tipoFoto = "jpg"
+        elif tipoCompletoFoto == "image/png":
+            tipoFoto = "png"
+        elif tipoCompletoFoto == "image/gif":
+            tipoFoto = "gif"    
+
+        nome_foto = f"{nome.replace(" ", "")}_foto-jogador.{tipoFoto}"
+
+        fs = FileSystemStorage(location=pasta)
+        fs.save(nome_foto, foto)
+
+    utilizador = Elemento_Clube(
+        nome=nome,
+        sexo=sexo, 
+        data_nascimento=data_nascimento,
+        nacionalidade=nacionalidade,
+        cartao_cidadao = cc,
+        data_validade_cc = cc_validade,
+        tipo=tipo,
+        foto=nome_foto,
+        peso = peso,
+        altura = altura,
+        estado=1,
+        clube_id=id_clube,
+        modalidade_id = id_modalidade,
+    )
+
+    utilizador.save() 
+
+    serializer = ElementoClubeSerializer(utilizador)
+
+    return Response({"mensagem": "Utilizador inserido com sucesso!", "utilizador": serializer.data}, status=200)
     
 @api_view(['POST'])
 @permission_classes([AllowAny])

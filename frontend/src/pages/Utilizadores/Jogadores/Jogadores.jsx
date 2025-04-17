@@ -60,6 +60,7 @@ const Jogadores = () => {
 
   useEffect(() => {
     axios
+      // TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR AS MODALIDADES DESTE MESMO CLUBE E NÃO DE TODOS
       .get("http://localhost:8000/api/listaModalidades/", {
         withCredentials: true,
       })
@@ -113,7 +114,7 @@ const Jogadores = () => {
         <Paginacao totalUtilizadores={jogadoresFiltrados.length} utilizadoresPagina={utilizadoresPagina} paginaAtual={paginaAtual} setPaginaAtual={setPaginaAtual}/>
       </div>
 
-      {(modo === "Adicionar" || modo === "Editar" || modo === "Detalhes") && 
+      {(modo === "Adicionar" || modo === "Editar") && 
         <Painel modo={modo} tipo="Elemento" setModo={setModo} >
           <FormularioJogadores setModo={setModo} tipo="Elemento" modo={modo} setStaff={setJogadores} utilizador={idUtilizador} />
         </Painel>

@@ -14,8 +14,8 @@
 }
 
 .caixaFiltro select:focus {
-    outline: none;
-    border: 1px solid #ccc;
+  outline: none;
+  border: 1px solid #ccc;
 }
 
 .caixaFiltro option {
@@ -76,4 +76,25 @@
 
 .opcao input {
   margin-right: 10px;
+}
+
+.caixaFiltroJogador {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  gap: 3px;
+}
+
+.caixaFiltroJogador select {
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 15px 10px;
+  user-select: none;
+  margin-bottom: 15px;
+}
+
+.caixaFiltroJogador select:focus {
+  outline: none;
 }

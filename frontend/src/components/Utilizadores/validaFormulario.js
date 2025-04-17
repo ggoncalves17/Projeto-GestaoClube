@@ -1,4 +1,4 @@
-  // Função para validar adicionalmente o formulário, mesmo tendo o "required"
+  // Função para validar adicionalmente o formulário dos Utilizadores e Staff, mesmo tendo o "required"
 export const validaFormulario = (dados, tipo) => {
     const erros = {};
     const dataHoje = new Date();
@@ -15,4 +15,21 @@ export const validaFormulario = (dados, tipo) => {
     tipo === "Gestor" && (dados.funcao.trim() == "" && (erros.funcao = "Campo Obrigatório"));
   
     return erros;
-  };
+};
+
+  // Função para validar adicionalmente o formulário dos Jogadores / treinadores
+export const validaFormularioJogadores = (dados) => {
+  const erros = {};
+  const dataHoje = new Date();
+  const dataValidade = new Date(dados.cc_validade);
+  const dataNascimento = new Date(dados.data);
+
+  if (dados.tipo.trim() == "") erros.tipo = "Campo Obrigatório";
+  if (dados.nome.trim() == "") erros.nome = "Campo Obrigatório";
+  if (dados.data.trim() == "") erros.data = "Campo Obrigatório";
+  else if (dataNascimento > dataHoje) erros.data = "Data Inválida. Não pode ser superior a hoje.";
+  if (dados.nacionalidade.trim() == "") erros.nacionalidade = "Campo Obrigatório";
+  if (dataValidade < dataHoje) erros.cc_validade = "Data do Cartão de Cidadão já expirou.";
+
+  return erros;
+};

@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/logout/', views.logout_view, name='logout'),
     path('api/info-utilizador/<int:id>/', views.info_utilizador_view, name='info-utilizador'),
     path('api/adiciona-utilizador/', views.adiciona_utilizador, name='adiciona-utilizador'),
+    path('api/adiciona-jogador/', views.adiciona_jogador, name='adiciona-jogador'),
     path('api/edita-utilizador/<int:id>/', views.edita_utilizador, name='edita-utilizador'),
     path('api/altera-estado-utilizador/<int:id>/', views.altera_estado, name='altera-estado'),
     path('api/remove-utilizador/<int:id>/', views.remove_utilizador, name='remove_utilizador'),

@@ -61,6 +61,7 @@ class Equipa(models.Model):
 
 class Elemento_Clube(models.Model):
   nome = models.CharField(max_length=512)
+  sexo = models.CharField(max_length=512)
   data_nascimento = models.DateField()
   nacionalidade = models.CharField(max_length=512)
   cartao_cidadao = models.CharField(max_length=512, null=True, blank=True)
