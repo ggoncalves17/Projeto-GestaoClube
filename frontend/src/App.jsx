@@ -9,6 +9,7 @@ import PaginaNaoEncontrada from "./pages/PaginaNaoEncontrada/PaginaNaoEncontrada
 import Staff from "./pages/Utilizadores/Staff/Staff";
 import UtilizadoresGerais from "./pages/Utilizadores/UtilizadoresGerais/UtilizadoresGerais";
 import { UtilizadorProvider } from "./context/UtilizadorContext";
+import Jogadores from "./pages/Utilizadores/Jogadores/Jogadores";
 
 function App() {
   const router = createBrowserRouter([
@@ -39,6 +40,7 @@ function App() {
         { index: true, element: <UtilizadoresGerais /> },
         { path: "gerais", element: <UtilizadoresGerais /> },
         { path: "staff", element: <Staff /> },
+        { path: "jogadores", element: <Jogadores /> },
       ],
     },
     { path: "/login", element: <Login /> },

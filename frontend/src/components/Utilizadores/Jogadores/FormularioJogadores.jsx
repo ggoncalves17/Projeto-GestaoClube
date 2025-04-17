@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import styles from "./Formulario.module.css";
-import Input from "./Input";
+import styles from "../Formulario.module.css";
+import Input from "../Input";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { usePreviewFotoPerfil } from "../../hooks/usePreviewFotoPerfil";
-import { camposFormulario } from "./camposFormulario";
-import { validaFormulario } from "./validaFormulario";
-import { UtilizadorContext } from "../../context/UtilizadorContext";
+import { usePreviewFotoPerfil } from "../../../hooks/usePreviewFotoPerfil";
+import { camposFormulario } from "../camposFormulario";
+import { validaFormulario } from "../validaFormulario";
+import { UtilizadorContext } from "../../../context/UtilizadorContext";
 
-const FormularioStaff = ({ modo, tipo, setStaff, setModo, utilizador }) => {
+const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
 
 console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
-
 
   // Referência -> https://react.dev/reference/react/useState#examples-objects
   const [dadosFormulario, setDadosFormulario] = useState({
@@ -206,4 +205,4 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
   );
 };
 
-export default FormularioStaff;
+export default FormularioJogadores;

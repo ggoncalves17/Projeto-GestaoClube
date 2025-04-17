@@ -6,6 +6,7 @@ import SearchBar from "../../../components/SearchBar";
 import Painel from "../../../components/Utilizadores/Painel";
 import Paginacao from "../../../components/Paginacao/Paginacao";
 import styles from "./UtilizadoresGerais.module.css";
+import FormularioStaff from "../../../components/Utilizadores/FormularioStaff";
 
 const UtilizadoresGerais = () => {
   const [filtroNome, setfiltroNome] = useState("");
@@ -78,7 +79,9 @@ const UtilizadoresGerais = () => {
       </div>
 
       {(modoUtilizadores === "Adicionar" || modoUtilizadores === "Editar" || modoUtilizadores === "Detalhes") && 
-        <Painel modo={modoUtilizadores} tipo="Utilizador" setModo={setModoUtilizadores} setStaff={setUtilizadoresGerais} utilizador={utilizador}/>  
+        <Painel modo={modoUtilizadores} tipo="Utilizador" setModo={setModoUtilizadores}>
+          <FormularioStaff setModo={setModoUtilizadores} tipo="Utilizador" modo={modoUtilizadores} setStaff={setUtilizadoresGerais} utilizador={utilizador} />
+        </Painel>  
       }
 
     </div>

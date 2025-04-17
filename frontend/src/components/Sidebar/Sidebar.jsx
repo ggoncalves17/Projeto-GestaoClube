@@ -66,7 +66,7 @@ const Sidebar = () => {
               <ul className={styles.subMenu}>
                 <OpcaoSubMenu conteudo="Utilizadores Site" ativo={caminho === "/utilizadores/gerais"} caminho="/utilizadores/gerais"/>
                 <OpcaoSubMenu conteudo="Elementos Clube" ativo={caminho === "/utilizadores/staff"} caminho="/utilizadores/staff"/>
-                <OpcaoSubMenu conteudo="Jogadores" ativo={caminho === "/utilizadores/jogadores"} caminho="/utilizadores"/>
+                <OpcaoSubMenu conteudo="Jogadores" ativo={caminho === "/utilizadores/jogadores"} caminho="/utilizadores/jogadores"/>
               </ul>
             </div>
           )}

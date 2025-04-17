@@ -5,6 +5,7 @@ import SearchBar from "../../../components/SearchBar";
 import Painel from "../../../components/Utilizadores/Painel";
 import styles from "../UtilizadoresGerais/UtilizadoresGerais.module.css";
 import Paginacao from "../../../components/Paginacao/Paginacao";
+import FormularioStaff from "../../../components/Utilizadores/FormularioStaff";
 
 const Staff = () => {
   const [filtroNome, setfiltroNome] = useState("");
@@ -60,7 +61,9 @@ const Staff = () => {
       </div>
 
       {(modo === "Adicionar" || modo === "Editar" || modo === "Detalhes") && 
-        <Painel modo={modo} tipo="Gestor" setModo={setModo} setStaff={setStaff} utilizador={utilizador}/>  
+        <Painel modo={modo} tipo="Gestor" setModo={setModo}>  
+          <FormularioStaff setModo={setModo} tipo="Gestor" modo={modo} setStaff={setStaff} utilizador={utilizador} />
+        </Painel>
       }
     </div>
   );

@@ -89,6 +89,15 @@ def listaStaff_view(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def listaJogadores(request):
+    utilizadores = Utilizador.objects.filter(tipo="Gestor", estado=1).order_by('nome')
+
+    serializer = UtilizadorSerializer(utilizadores, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def info_utilizador_view(request, id):
     utilizador = get_object_or_404(Utilizador, id=id)
     if utilizador:
@@ -196,6 +205,28 @@ def edita_utilizador(request, id):
 
     serializer = UtilizadorSerializer(utilizador)
     return Response({"mensagem": "Utilizador atualizado com sucesso!", "utilizador": serializer.data}, status=200)    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def altera_estado(request, id):
+
+    utilizador = get_object_or_404(Utilizador, id=id)
+    
+    estado = utilizador.estado
+
+    if(estado == 1):
+        novoEstado = 0
+    else:
+        novoEstado = 1  
+
+    utilizador.estado = novoEstado
+
+    try:
+        utilizador.save()
+        return Response({"mensagem": "Estado alterado com sucesso!"}, status=200)
+    except Exception as e:
+        return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+    
 
 
 @api_view(['GET'])

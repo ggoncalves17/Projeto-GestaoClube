@@ -67,10 +67,13 @@ span{
     padding: 5px;
     border-radius: 10px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .estadoAtivo {
-
     background-color: #D3FEE6;
     color: #1B7845;
     border: 1px solid #1B7845;

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./PopUpRemover.module.css";
-import axios
- from "axios";
+import axios from "axios";
+
 const PopUpRemover = ({ setModo, utilizador, setModalAberta, idUtilizador }) => {
 
     const confirmaRemocao = () => {
