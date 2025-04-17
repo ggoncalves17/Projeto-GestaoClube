@@ -8,6 +8,7 @@ urlpatterns = [
     path('api/listaUtilizadores/', views.listaUtilizadores_view, name='listaUtilizadores'),
     path('api/listaStaff/', views.listaStaff_view, name='listaUtilizadores'),
     path('api/listaJogadores/', views.listaJogadores, name='listaJogadores'),
+    path('api/listaModalidades/', views.listaModalidades, name='listaModalidades'),
     path('api/verificaAutenticacao/', views.verificaAutenticacao_view, name='verificaAutenticacao'),
     path('api/estatisticas/', views.estatisticas_view, name='estatisticas'),
     path('api/logout/', views.logout_view, name='logout'),

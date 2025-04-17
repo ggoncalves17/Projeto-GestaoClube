@@ -60,7 +60,7 @@ def estatisticas_view(request):
 
     estatisticas = {
         "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1).count(),
-        "Jogadores": Elemento_Clube.objects.filter(funcao="Jogador", estado=1).count(),
+        "Jogadores": Elemento_Clube.objects.filter(tipo="Jogador", estado=1).count(),
         "Equipas": Equipa.objects.filter().count(),
         "Socios": 0,
         "Eventos": 0,
@@ -90,9 +90,18 @@ def listaStaff_view(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaJogadores(request):
-    utilizadores = Utilizador.objects.filter(tipo="Gestor", estado=1).order_by('nome')
+    utilizadores = Elemento_Clube.objects.filter(estado__in=[0, 1]).order_by('nome')
 
-    serializer = UtilizadorSerializer(utilizadores, many=True)
+    serializer = ElementoClubeSerializer(utilizadores, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaModalidades(request):
+    modalidades = Modalidade.objects.order_by('nome')
+
+    serializer = ModalidadeSerializer(modalidades, many=True)
 
     return Response(serializer.data)
 
@@ -206,11 +215,18 @@ def edita_utilizador(request, id):
     serializer = UtilizadorSerializer(utilizador)
     return Response({"mensagem": "Utilizador atualizado com sucesso!", "utilizador": serializer.data}, status=200)    
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def altera_estado(request, id):
 
-    utilizador = get_object_or_404(Utilizador, id=id)
+    tipo = request.data.get("tipo")
+
+    if(tipo =="Gestor" or tipo =="Utilizador"):
+        modelo = Utilizador
+    else:
+        modelo = Elemento_Clube
+
+    utilizador = get_object_or_404(modelo, id=id)
     
     estado = utilizador.estado
 
@@ -229,10 +245,18 @@ def altera_estado(request, id):
     
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def remove_utilizador(request, id):
-    utilizador = get_object_or_404(Utilizador, id=id)
+
+    tipo = request.data.get("tipo")
+
+    if(tipo =="Gestor" or tipo =="Utilizador"):
+        modelo = Utilizador
+    else:
+        modelo = Elemento_Clube
+
+    utilizador = get_object_or_404(modelo, id=id)
     utilizador.estado = 2
     utilizador.save()
     return Response({"mensagem": "Utilizador removido com sucesso!"}, status=200)    
