@@ -8,7 +8,7 @@ const Dropdown = ({ tipo, setTipo, dados }) => {
 
         <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
             <option value="" disabled>Tipo</option>
-            {dados.map((tipo) => <option value={tipo}>{tipo}</option>)}
+            {dados.map((tipo, index) => <option key={index} value={tipo}>{tipo}</option>)}
         </select>
     </div>
   )

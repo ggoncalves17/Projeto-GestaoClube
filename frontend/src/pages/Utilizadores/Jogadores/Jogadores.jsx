@@ -15,20 +15,31 @@ const Jogadores = () => {
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroDesporto, setFiltroDesporto] = useState([]);
-
   const tipos=["Ambos","Jogador","Treinador"]
-  
-  //TODO: BUSCAR TODOS OS DESPORTOS EXISTENTES DO CLUBE
-  const desportos= ["Futebol", "Futsal", "Basquetebol"]
-
+  const [desportos, setDesportos] = useState([]);
   const [jogadores, setJogadores] = useState([]);
   const [modo, setModo] = useState(null)
-
   // Id do Utilizador a Editar, ver Detalhes ou Remover
   const [idUtilizador, setIdUtilizador] = useState(null)
-
   const [paginaAtual, setPaginaAtual] = useState(1)
   const [utilizadoresPagina, setUtilizadoresPagina] = useState(6)
+
+  const [estado, setEstado] = useState();
+
+  useEffect(() => {
+      switch(filtroEstado) {
+        case "todos":
+          setEstado(-1);
+          break;
+        case "ativos":
+          setEstado(1);
+          break;
+        case "inativos":  
+          setEstado(0);
+          break;
+      }
+    }, [filtroEstado])
+
 
   useEffect(() => {
     if(modo === "Adicionar") {
@@ -47,14 +58,30 @@ const Jogadores = () => {
       });
   }, [modo]);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/listaModalidades/", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("Resposta do Backend: ", res.data);
+        const nomesModalidades = res.data.map((elemento) => elemento.nome);
+        setDesportos(nomesModalidades);
+      })
+      .catch((err) => {
+        console.log("Mensagem do erro:", err.response.data.mensagem);
+      });
+  }, []);
+
   const jogadoresFiltrados = jogadores.filter((utilizador) => 
-    utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) 
+    (utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase())) && (estado === -1 ? true : utilizador.estado === estado) && 
+    ((filtroTipo === "Tipo" || filtroTipo === "Ambos" || filtroTipo === "") ? true : utilizador.tipo === filtroTipo) 
+    && (filtroDesporto.length > 0 ? filtroDesporto.includes(utilizador.modalidade.nome) : true)
   )
 
   const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina
   const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina
   const utilizadoresAtuais = jogadoresFiltrados.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
-
 
   return (
     <div className={styles.estrutura}>
