@@ -9,6 +9,8 @@ import FormularioJogadores from "../../../components/Utilizadores/Jogadores/Form
 import GrupoRadioButton from "../../../components/GrupoRadioButton";
 import Dropdown from "../../../components/Dropdown";
 import DropdownCheckbox from "../../../components/DropdownCheckbox";
+import { UtilizadorContext } from "../../../context/UtilizadorContext";
+import { useNavigate } from "react-router-dom";
 
 const Jogadores = () => {
   const [filtroNome, setFiltroNome] = useState("");
@@ -23,9 +25,20 @@ const Jogadores = () => {
   const [idUtilizador, setIdUtilizador] = useState(null)
   const [paginaAtual, setPaginaAtual] = useState(1)
   const [utilizadoresPagina, setUtilizadoresPagina] = useState(6)
-
   const [estado, setEstado] = useState();
 
+  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
+
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    console.log("MODO: ", modo);
+    if(modo === "Detalhes") {
+      setModo(null)
+      navigate(`/utilizadores/jogadores/${idUtilizador}`);
+    }
+  }, [modo])
+  
   useEffect(() => {
       switch(filtroEstado) {
         case "todos":
@@ -41,6 +54,8 @@ const Jogadores = () => {
     }, [filtroEstado])
 
 
+  // TODO: OTIMIZAR A LÓGICA DE ATUALIZAR OS JOGADORES EM TERMOS DE ESTADO. O MELHOR SERIA PASSAR O SETJOGADORES PARA AS LINHAS E ATUALIZAR LÁ O ESTADO
+  // SEM TER DE VOLTAR A FAZER PEDIDOS À API APÓS MUDAR O ESTADO VISTO QUE É A FORMA QUE TENHO LÁ AGORA NO POPUPESTADO
   useEffect(() => {
     if(modo === "Adicionar") {
       setIdUtilizador(-1)
@@ -60,8 +75,7 @@ const Jogadores = () => {
 
   useEffect(() => {
     axios
-      // TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR AS MODALIDADES DESTE MESMO CLUBE E NÃO DE TODOS
-      .get("http://localhost:8000/api/listaModalidades/", {
+      .get(`http://localhost:8000/api/listaModalidades/${utilizadorInfo.id_clube}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -77,7 +91,7 @@ const Jogadores = () => {
   const jogadoresFiltrados = jogadores.filter((utilizador) => 
     (utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase())) && (estado === -1 ? true : utilizador.estado === estado) && 
     ((filtroTipo === "Tipo" || filtroTipo === "Ambos" || filtroTipo === "") ? true : utilizador.tipo === filtroTipo) 
-    && (filtroDesporto.length > 0 ? filtroDesporto.includes(utilizador.modalidade.nome) : true)
+    && (filtroDesporto.length > 0 ? filtroDesporto.includes(utilizador.modalidade ? utilizador.modalidade.nome : "") : true)
   )
 
   const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina

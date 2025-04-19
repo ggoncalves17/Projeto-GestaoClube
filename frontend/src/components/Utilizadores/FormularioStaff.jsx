@@ -30,7 +30,7 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
     fotoPerfil: FotoPerfil,
     previewFoto: previewFoto,
     alteraPreviewFotoPerfil: alteraPreviewFotoPerfil,
-  } = usePreviewFotoPerfil(modo, dadosFormulario.foto);
+  } = usePreviewFotoPerfil(false, modo, dadosFormulario.foto);
 
   useEffect(() => {
     if (modo != "Adicionar") {

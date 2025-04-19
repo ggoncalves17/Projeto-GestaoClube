@@ -43,6 +43,7 @@ def verificaAutenticacao_view(request):
 def estatisticas_view(request):
 
     #TODO: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
+    #TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS AS ESTATISTICAS DESSE CLUBE 
 
     estatisticas = {
         "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1).count(),
@@ -54,6 +55,7 @@ def estatisticas_view(request):
     }
     return Response(estatisticas)
 
+#TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS OS UTILIZADORES DESSE CLUBE 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaUtilizadores_view(request):
@@ -64,6 +66,7 @@ def listaUtilizadores_view(request):
 
     return Response(serializer.data)
 
+#TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS O STAFF DESSE CLUBE 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaStaff_view(request):
@@ -73,6 +76,7 @@ def listaStaff_view(request):
 
     return Response(serializer.data)
 
+#TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS OS JOGADORES DESSE CLUBE 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaJogadores(request):
@@ -84,8 +88,8 @@ def listaJogadores(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def listaModalidades(request):
-    modalidades = Modalidade.objects.order_by('nome')
+def listaModalidades(request, id):
+    modalidades = Modalidade.objects.filter(clubes_id=id).order_by('nome')
 
     serializer = ModalidadeSerializer(modalidades, many=True)
 
@@ -101,6 +105,16 @@ def info_utilizador_view(request, id):
     else:
         return Response({"mensagem": "Não existe o utilizador pretendido."}, status=404)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def info_jogador(request, id):
+
+    jogador = get_object_or_404(Elemento_Clube, id=id)
+    if jogador:
+        serializer = ElementoClubeSerializer(jogador)
+        return Response(serializer.data)
+    else:
+        return Response({"mensagem": "Não existe o jogador pretendido."}, status=404)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -164,27 +178,32 @@ def adiciona_utilizador(request):
 def adiciona_jogador(request):
 
     tipo = request.data.get("tipo")
-    
-    # TODO: ALTERAR ISTO PARA METER A LÓGICA CORRETA
-    sexo = "Masculino"
+    sexo = request.data.get("sexo")
     nome = request.data.get("nome")
     data_nascimento = request.data.get("data")
     nacionalidade = request.data.get("nacionalidade")
     cc = request.data.get("cc")
     cc_validade = request.data.get("cc_validade")
-
-    if cc_validade == "":
-        cc_validade = None
-
     peso = request.data.get("peso")
     altura = request.data.get("altura")
+
+    if cc == "":
+        cc = None
+    if cc_validade == "":
+        cc_validade = None
+    if peso == "":
+        peso = None
+    if altura == "":
+        altura = None
+
     foto = request.FILES.get("foto")
     id_clube = request.data.get("id_clube")
     desporto = request.data.get("desporto")
 
-    id_modalidade = get_object_or_404(Modalidade, nome=desporto).id
-
-    print("ID MODALIDADE: ", id_modalidade)
+    if desporto != "":
+        id_modalidade = get_object_or_404(Modalidade, nome=desporto).id
+    else:
+        id_modalidade = None
 
     if foto is None:
         nome_foto = "foto-default.png"
@@ -206,6 +225,7 @@ def adiciona_jogador(request):
 
         fs = FileSystemStorage(location=pasta)
         fs.save(nome_foto, foto)
+
 
     utilizador = Elemento_Clube(
         nome=nome,
@@ -270,6 +290,78 @@ def edita_utilizador(request, id):
 
     serializer = UtilizadorSerializer(utilizador)
     return Response({"mensagem": "Utilizador atualizado com sucesso!", "utilizador": serializer.data}, status=200)    
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def edita_jogador(request, id):
+
+    utilizador = get_object_or_404(Elemento_Clube, id=id)
+
+    tipo = request.data.get("tipo")
+    sexo = request.data.get("sexo")
+    nome = request.data.get("nome")
+    data_nascimento = request.data.get("data")
+    nacionalidade = request.data.get("nacionalidade")
+    cc = request.data.get("cc")
+    cc_validade = request.data.get("cc_validade")
+    peso = request.data.get("peso")
+    altura = request.data.get("altura")
+
+    if cc == "":
+        cc = None
+    if cc_validade == "":
+        cc_validade = None
+    if peso == "":
+        peso = None
+    if altura == "":
+        altura = None
+
+    foto = request.FILES.get("foto")
+    id_clube = request.data.get("id_clube")
+    desporto = request.data.get("desporto")
+
+    if desporto != "":
+        id_modalidade = get_object_or_404(Modalidade, nome=desporto).id
+    else:
+        id_modalidade = None
+
+    if foto is None:
+        nome_foto = "foto-default.png"
+    else:
+        pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Jogadores"
+        if not os.path.exists(pasta):
+            os.makedirs(pasta)
+
+        tipoCompletoFoto = foto.content_type 
+
+        if tipoCompletoFoto == "image/jpeg":
+            tipoFoto = "jpg"
+        elif tipoCompletoFoto == "image/png":
+            tipoFoto = "png"
+        elif tipoCompletoFoto == "image/gif":
+            tipoFoto = "gif"    
+
+        nome_foto = f"{nome.replace(" ", "")}_foto-jogador.{tipoFoto}"
+
+        fs = FileSystemStorage(location=pasta)
+        fs.save(nome_foto, foto)
+
+    utilizador.tipo = tipo
+    utilizador.sexo = sexo
+    utilizador.nome = nome
+    utilizador.data_nascimento = data_nascimento
+    utilizador.nacionalidade = nacionalidade
+    utilizador.cc = cc
+    utilizador.cc_validade = cc_validade
+    utilizador.peso = peso
+    utilizador.altura = altura
+    utilizador.foto = nome_foto
+    utilizador.clube_id = id_clube
+    utilizador.modalidade_id = id_modalidade
+    utilizador.save()
+
+    serializer = ElementoClubeSerializer(utilizador)
+    return Response({"mensagem": "Utilizador atualizado com sucesso!", "utilizador": serializer.data}, status=200)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

@@ -2,9 +2,8 @@ import React from "react";
 import styles from "./Dashboard.module.css";
 import CardDashboard from "../../components/CardsDashboard/CardDashboard";
 import CardEventosDashboard from "../../components/CardsDashboard/CardEventosDashboard";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Navigate } from "react-router-dom";
 import axios from "axios";
-import { Navigate } from 'react-router-dom'
 
 const estatisticasLoader = async () => {
   try {
@@ -15,7 +14,7 @@ const estatisticasLoader = async () => {
   } 
   catch (err) {
     if (err.response.status === 403) {
-      <Navigate to="/login"/>;
+      return redirect("/login");
     }
   }
 };

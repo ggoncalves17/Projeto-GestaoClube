@@ -13,7 +13,7 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
   const [estadoUtilizador, setEstadoUtilizador] = useState(utilizador.estado);
 
-  const botaoUtilizador = (modo) => {
+  const botaoUtilizador = (modo) => {    
     setModo(modo);
     setUtilizador(utilizador.id);
   };
@@ -25,10 +25,11 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
 
   const handleEstado = (id, estado) => {
     if (estado === 1) {
+      setModo("AlteraEstado")
       setModalEstadoAberta(true);
     } 
     else {
-
+      setModo("AlteraEstado")
       const tipo = utilizador.tipo
 
       axios
@@ -48,9 +49,11 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
           setEstadoUtilizador((prev) => (prev === 1 ? 0 : 1));
+          setModo(null)
         })
         .catch((err) => {
           console.log("Mensagem do erro:", err.response.data.mensagem);
+          setModo(null)
         });
     }
   };
@@ -58,11 +61,20 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
   return (
     <div className={styles.contentor}>
       <div className={styles.informacoesUtilizador}>
+        {(utilizador.tipo === "Jogador" || utilizador.tipo === "Treinador") ?
+          <img
+          src={`/Fotos-Jogadores/${utilizador.foto}`}
+          alt="FotoPerfil"
+          className={styles.fotoPerfil}
+        />
+        :
         <img
           src={`/Fotos-Perfil/${utilizador.foto}`}
           alt="FotoPerfil"
           className={styles.fotoPerfil}
         />
+        }
+        
         <span className={styles.nome}>{utilizador.nome}</span>
         {(utilizador.tipo === "Gestor" || utilizador.tipo === "Utilizador") && (
           <span className={styles.email}>{utilizador.email}</span>
@@ -76,7 +88,7 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
             utilizador.tipo === "Treinador") && (
             <>
               <span className={styles.sexo}>{utilizador.sexo}</span>
-              <span className={styles.modalidade}>{utilizador.modalidade.nome}</span>
+              <span className={styles.modalidade}>{utilizador.modalidade ? utilizador.modalidade.nome : "(Por Associar)"}</span>
               <span className={styles.tipo}>{utilizador.tipo}</span>
             </>
           )}
@@ -132,6 +144,7 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
         <PopUpEstado
           utilizador={utilizador}
           setEstadoUtilizador={setEstadoUtilizador}
+          setModo={setModo}
           setModalEstadoAberta={setModalEstadoAberta}
         />
       )}

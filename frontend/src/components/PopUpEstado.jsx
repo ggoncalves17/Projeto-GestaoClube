@@ -3,7 +3,7 @@ import styles from "./PopUpRemover.module.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const PopUpEstado = ({ utilizador, setEstadoUtilizador, setModalEstadoAberta }) => {
+const PopUpEstado = ({ utilizador, setEstadoUtilizador, setModo, setModalEstadoAberta }) => {
 
   const handleInativaUtilizador = () => {
 
@@ -27,9 +27,11 @@ const PopUpEstado = ({ utilizador, setEstadoUtilizador, setModalEstadoAberta }) 
       console.log("Resposta do Backend: ", res.data);
       setEstadoUtilizador((prev) => prev === 1 ? 0 : 1)
       setModalEstadoAberta(false)
+      setModo(null)
     })
     .catch((err) => {
       console.log("Mensagem do erro:", err.response.data.mensagem);
+      setModo(null)
     });
   }
 

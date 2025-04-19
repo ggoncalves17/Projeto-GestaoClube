@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FotoDefault from "/Fotos-Perfil/foto-default.png";
 
-export function usePreviewFotoPerfil (modo, caminhoFoto)  {
+export function usePreviewFotoPerfil (jogador, modo, caminhoFoto)  {
   const [fotoPerfil, setFotoPerfil] = useState(null);
   const [previewFoto, setPreviewFoto] = useState(FotoDefault);
 
@@ -17,7 +17,14 @@ export function usePreviewFotoPerfil (modo, caminhoFoto)  {
       setPreviewFoto(FotoDefault);
     } 
     else if (caminhoFoto) {
-      setPreviewFoto(`/Fotos-Perfil/${caminhoFoto}`);
+
+      if (jogador) {
+        setPreviewFoto(`/Fotos-Jogadores/${caminhoFoto}`);
+      }
+      else {
+        setPreviewFoto(`/Fotos-Perfil/${caminhoFoto}`);
+      }
+      
     }
     else{
       setPreviewFoto(FotoDefault);

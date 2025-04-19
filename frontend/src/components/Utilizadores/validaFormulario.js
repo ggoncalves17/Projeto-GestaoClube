@@ -25,6 +25,7 @@ export const validaFormularioJogadores = (dados) => {
   const dataNascimento = new Date(dados.data);
 
   if (dados.tipo.trim() == "") erros.tipo = "Campo Obrigatório";
+  if (dados.sexo.trim() == "") erros.sexo = "Campo Obrigatório";
   if (dados.nome.trim() == "") erros.nome = "Campo Obrigatório";
   if (dados.data.trim() == "") erros.data = "Campo Obrigatório";
   else if (dataNascimento > dataHoje) erros.data = "Data Inválida. Não pode ser superior a hoje.";

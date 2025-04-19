@@ -11,12 +11,13 @@ import { UtilizadorContext } from "../../../context/UtilizadorContext";
 
 const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
 
-  console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
+  console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo, " E ID_UTILIZADOR: ", utilizador);
 
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext)
 
   const [dadosFormulario, setDadosFormulario] = useState({
     tipo: "",
+    sexo: "",
     nome: "",
     data: "",
     nacionalidade: "",
@@ -36,7 +37,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
     fotoPerfil: FotoPerfil,
     previewFoto: previewFoto,
     alteraPreviewFotoPerfil: alteraPreviewFotoPerfil,
-  } = usePreviewFotoPerfil(modo, dadosFormulario.foto);
+  } = usePreviewFotoPerfil(true, modo, dadosFormulario.foto);
 
   // Função para selecionar o desporto a associar ao Jogador/Treinador
   const selecionaDesporto = (desportoSelecionado) => {
@@ -49,10 +50,8 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
   }
 
   useEffect(() => {
-    if(modo == "Adicionar"){
       axios
-      // TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR AS MODALIDADES DESTE MESMO CLUBE E NÃO DE TODOS E DEPOIS METER CASO NÃO EXISTAM DESPORTOS ESCREVER NO SITIO DA CAIXA ATUAL DOS DESPORTOS
-      .get("http://localhost:8000/api/listaModalidades/", {
+      .get(`http://localhost:8000/api/listaModalidades/${utilizadorInfo.id_clube}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -63,31 +62,33 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
       .catch((err) => {
         console.log("Mensagem do erro:", err.response.data.mensagem);
       });
-    }
-  }, []);
 
-  // useEffect(() => {
-  //   if (modo != "Adicionar") {
-  //     axios
-  //       .get(`http://localhost:8000/api/info-utilizador/${utilizador}/`, {
-  //         withCredentials: true,
-  //       })
-  //       .then((res) => {
-  //         console.log("Resposta do Backend: ", res.data);
-  //         setDadosFormulario({
-  //           nome: res.data.nome,
-  //           email: res.data.email,
-  //           telefone: String(res.data.contacto),
-  //           data: res.data.data_nascimento,
-  //           funcao: res.data.funcao,
-  //           foto: res.data.foto,
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         console.log("Mensagem do erro:", err.response.data.mensagem);
-  //       });
-  //   }
-  // }, [modo]);
+      if(modo === "Editar") {
+        axios
+        .get(`http://localhost:8000/api/info-jogador/${utilizador}/`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log("Resposta do Backend: ", res.data);
+          setDadosFormulario({
+            tipo: res.data.tipo,
+            sexo: res.data.sexo,
+            nome: res.data.nome,
+            data: res.data.data_nascimento,
+            nacionalidade: res.data.nacionalidade,
+            cc: res.data.cartao_cidadao != null ? res.data.cartao_cidadao : "",
+            cc_validade: res.data.data_validade_cc != null ? res.data.data_validade_cc : "",
+            peso: res.data.peso != null ? res.data.peso : "",
+            altura: res.data.altura != null ? res.data.altura : "",
+            foto: res.data.foto,
+            desporto: res.data.modalidade != null ? res.data.modalidade.nome : "",
+          });
+        })
+        .catch((err) => {
+          console.log("Mensagem do erro:", err.response.data.mensagem);
+        });
+      }
+  }, []);
 
   const handleSubmissao = (event) => {
     event.preventDefault();
@@ -102,6 +103,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
 
     const dados = new FormData();
     dados.append("tipo", dadosFormulario.tipo);
+    dados.append("sexo", dadosFormulario.sexo);
     dados.append("nome", dadosFormulario.nome);
     dados.append("data", dadosFormulario.data);
     dados.append("nacionalidade", dadosFormulario.nacionalidade);
@@ -132,29 +134,28 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
           console.log("Mensagem do erro:", err.response.data.mensagem);
         });
     } 
-    // else if (modo === "Editar") {
-    //   axios
-    //     .post(
-    //       `http://localhost:8000/api/edita-jogador/${utilizador}/`,
-    //       dados,
-    //       {
-    //         withCredentials: true,
-    //         headers: {
-    //           "X-CSRFToken": Cookies.get("csrftoken"),
-    //           "Content-Type": "multipart/form-data",
-    //         },
-    //       }
-    //     )
-    //     .then((res) => {
-    //       console.log("Resposta do Backend: ", res.data);
-    //       console.log("Gestor Adicionado");
-    //       setModo(null);
-    //     })
-    //     .catch((err) => {
-    //       console.log("Código do erro:", err.response.status);
-    //       console.log("Mensagem do erro:", err.response.data.mensagem);
-    //     });
-    // }
+    else if (modo === "Editar") {
+      axios
+        .post(
+          `http://localhost:8000/api/edita-jogador/${utilizador}/`,
+          dados,
+          {
+            withCredentials: true,
+            headers: {
+              "X-CSRFToken": Cookies.get("csrftoken"),
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          console.log("Resposta do Backend: ", res.data);
+          setModo(null);
+        })
+        .catch((err) => {
+          console.log("Código do erro:", err.response.status);
+          console.log("Mensagem do erro:", err.response.data.mensagem);
+        });
+    }
     return;
   };
 
@@ -200,9 +201,16 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                   <div className={styles.campo}>
                     <label htmlFor="">Tipo *</label>
                     {errosCampos["tipo"] && <p className={styles.erro}>{errosCampos["tipo"]}</p>}
-                    <Dropdown tipo={dadosFormulario.tipo} setTipo={setDadosFormulario} dadosFormulario={dadosFormulario} dados={["Jogador", "Treinador"]} jogador={true}/>
+                    <Dropdown tipo={dadosFormulario.tipo} setTipo={setDadosFormulario} dadosFormulario={dadosFormulario} campo={"tipo"} dados={["Jogador", "Treinador"]} jogador={true}/>
+                  </div>
+                  
+                  <div className={styles.campo}>
+                    <label htmlFor="">Sexo *</label>
+                    {errosCampos["sexo"] && <p className={styles.erro}>{errosCampos["sexo"]}</p>}
+                    <Dropdown tipo={dadosFormulario.sexo} setTipo={setDadosFormulario} dadosFormulario={dadosFormulario} campo={"sexo"} dados={["Masculino", "Feminino"]} jogador={true}/>
                   </div>
 
+                  {/* TODO: BLOQUEAR CAMPO CC_VALIDADE CASO O CC NÃO ESTEJA PREENCHIDO CORRETAMENTE E SER REQUIRED SE SE PREENCHER */}
                   {camposFormularioJogadores
                     .filter(campo => !campo.grupo)
                     .map((campo) => (
@@ -260,17 +268,15 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                 </div>}
 
 
-            {faseAdicionar == 1 && modo == "Adicionar"  ?
+            {faseAdicionar == 1  ?
               <button onClick={() => setFaseAdicionar(2)}>
                 Avançar
               </button>
             :
             <div className={styles.botoesFinais}> 
-              {modo == "Adicionar" &&
-                <button className={styles.botaoVoltar} onClick={() => setFaseAdicionar(1)}>
-                  Voltar Atrás
-                </button>
-              }
+              <button type="button" className={styles.botaoVoltar} onClick={() => setFaseAdicionar(1)}>
+                Voltar Atrás
+              </button>
 
               <button type="submit">
                 {modo == "Adicionar"

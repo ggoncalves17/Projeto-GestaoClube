@@ -64,9 +64,9 @@ const Sidebar = () => {
           {(isUtilizadoresAberto) && (
             <div className={`${ !isExpandido ? styles.subOpcoesFechado : "" }`} ref={subOpcoesRef}>
               <ul className={styles.subMenu}>
-                <OpcaoSubMenu conteudo="Utilizadores Site" ativo={caminho === "/utilizadores/gerais"} caminho="/utilizadores/gerais"/>
-                <OpcaoSubMenu conteudo="Elementos Clube" ativo={caminho === "/utilizadores/staff"} caminho="/utilizadores/staff"/>
-                <OpcaoSubMenu conteudo="Jogadores" ativo={caminho === "/utilizadores/jogadores"} caminho="/utilizadores/jogadores"/>
+                <OpcaoSubMenu conteudo="Utilizadores Site" ativo={caminho.startsWith("/utilizadores/gerais")} caminho="/utilizadores/gerais"/>
+                <OpcaoSubMenu conteudo="Elementos Clube" ativo={caminho.startsWith("/utilizadores/staff")} caminho="/utilizadores/staff"/>
+                <OpcaoSubMenu conteudo="Jogadores" ativo={caminho.startsWith("/utilizadores/jogadores")} caminho="/utilizadores/jogadores"/>
               </ul>
             </div>
           )}

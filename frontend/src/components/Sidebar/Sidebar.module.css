@@ -40,7 +40,7 @@
   display: flex;
 }
 
-ul {
+.menuOpcoes ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -50,7 +50,7 @@ ul {
   overflow-y: auto;
 }
 
-li {
+.menuOpcoes li {
   display: flex;
   align-items: center;
   margin-top: 5px;
@@ -59,11 +59,11 @@ li {
   border-radius: 10px;
 }
 
-li:first-child{
+.menuOpcoes li:first-child{
   margin-top: 10px;
 }
 
-li:hover {
+.menuOpcoes li:hover {
   background-color: #E0E0E0;
   border-radius: 10px;
 }
