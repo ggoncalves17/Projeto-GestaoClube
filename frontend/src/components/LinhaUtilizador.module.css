@@ -7,6 +7,10 @@
     border-radius: 15px;
 }
 
+.contentor:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
 .informacoesUtilizador {
     display: flex;
     justify-content: space-between;
@@ -96,4 +100,15 @@ span{
 .email {
     width: 250px;
     overflow-x: hidden;
+}
+
+.modalidade {
+    padding: 5px 0px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF8E1;
+    color: #db9b07;
+    border: 1px solid #db9b07;
 }

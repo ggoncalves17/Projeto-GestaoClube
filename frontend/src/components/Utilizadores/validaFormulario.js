@@ -30,7 +30,12 @@ export const validaFormularioJogadores = (dados) => {
   if (dados.data.trim() == "") erros.data = "Campo Obrigatório";
   else if (dataNascimento > dataHoje) erros.data = "Data Inválida. Não pode ser superior a hoje.";
   if (dados.nacionalidade.trim() == "") erros.nacionalidade = "Campo Obrigatório";
-  if (dataValidade < dataHoje) erros.cc_validade = "Data do Cartão de Cidadão já expirou.";
-
+  if (dados.cc.trim() !== "")  {
+    if(!/^\d{8}$/.test(dados.cc)) {
+      erros.cc = "Formato Inválido. NIC deve conter 8 dígitos.";
+    }
+    if (dados.cc_validade.trim() == "") erros.cc_validade = "Campo Obrigatório (Visto que digitou algo no CC)";
+    if (dataValidade < dataHoje) erros.cc_validade = "Data do Cartão de Cidadão já expirou.";
+  }
   return erros;
 };

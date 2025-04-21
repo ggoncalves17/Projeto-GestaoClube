@@ -210,10 +210,9 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                     <Dropdown tipo={dadosFormulario.sexo} setTipo={setDadosFormulario} dadosFormulario={dadosFormulario} campo={"sexo"} dados={["Masculino", "Feminino"]} jogador={true}/>
                   </div>
 
-                  {/* TODO: BLOQUEAR CAMPO CC_VALIDADE CASO O CC NÃO ESTEJA PREENCHIDO CORRETAMENTE E SER REQUIRED SE SE PREENCHER */}
                   {camposFormularioJogadores
                     .filter(campo => !campo.grupo)
-                    .map((campo) => (
+                    .map((campo) => (                      
                       <Input
                         key={campo.id}
                         label={campo.label}
@@ -228,7 +227,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                           })
                         }
                         erro={errosCampos[campo.id]}
-                        required={!(campo.id === "funcao" && tipo === "Utilizador")}
+                        required={true}
                       />
                   ))}
               
@@ -250,6 +249,8 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                             })
                           }
                           erro={errosCampos[campo.id]}
+                          required={true}
+                          disabled={campo.id == "cc_validade" && dadosFormulario.cc.trim() == ""}
                         />
                     ))} 
                   </div>
@@ -268,6 +269,8 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                 </div>}
 
 
+            {/* TODO: PARTE DO REQUIRED NÃO APARECER É DISTO */}
+
             {faseAdicionar == 1  ?
               <button onClick={() => setFaseAdicionar(2)}>
                 Avançar
@@ -278,11 +281,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                 Voltar Atrás
               </button>
 
-              <button type="submit">
-                {modo == "Adicionar"
-                  ? "Adicionar Utilizador"
-                    : "Guardar Alterações"}
-              </button>
+              
             </div>
 
             }
