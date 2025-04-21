@@ -11,6 +11,7 @@ import UtilizadoresGerais from "./pages/Utilizadores/UtilizadoresGerais/Utilizad
 import { UtilizadorProvider } from "./context/UtilizadorContext";
 import Jogadores from "./pages/Utilizadores/Jogadores/Jogadores";
 import DetalhesJogadores, { jogadorLoader } from "./pages/Utilizadores/Jogadores/DetalhesJogadores";
+import Perfil from "./pages/Perfil/Perfil";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +29,7 @@ function App() {
           element: <Dashboard />,
           loader: estatisticasLoader,
         },
+        { path: "/perfil", element: <Perfil /> },
       ],
     },
     {

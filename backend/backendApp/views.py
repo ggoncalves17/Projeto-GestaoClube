@@ -136,7 +136,9 @@ def adiciona_utilizador(request):
         if foto is None:
             nome_foto = "foto-default.png"
         else:
-            pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
+            # pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
+            pasta = "..\\frontend\public\Fotos-Perfil"
+
             if not os.path.exists(pasta):
                 os.makedirs(pasta)
 
@@ -208,7 +210,9 @@ def adiciona_jogador(request):
     if foto is None:
         nome_foto = "foto-default.png"
     else:
-        pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Jogadores"
+
+        # pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Jogadores"
+        pasta = "..\\frontend\public\Fotos-Jogadores"
         if not os.path.exists(pasta):
             os.makedirs(pasta)
 
@@ -266,9 +270,14 @@ def edita_utilizador(request, id):
     if foto is None:
         nome_foto = utilizador.foto
     else:
-        pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
+
+        pasta = "..\\frontend\public\Fotos-Perfil"
+        # pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
+
         if not os.path.exists(pasta):
             os.makedirs(pasta)
+
+
         tipoCompletoFoto = foto.content_type 
         if tipoCompletoFoto == "image/jpeg":
             tipoFoto = "jpg"
@@ -278,6 +287,8 @@ def edita_utilizador(request, id):
             tipoFoto = "gif"    
         nome_foto = f"{email}_foto-perfil.{tipoFoto}"
         fs = FileSystemStorage(location=pasta)
+
+
         fs.save(nome_foto, foto)
 
     utilizador.nome = nome
@@ -328,7 +339,9 @@ def edita_jogador(request, id):
     if foto is None:
         nome_foto = "foto-default.png"
     else:
-        pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Jogadores"
+        # pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Jogadores"
+        pasta = "..\\frontend\public\Fotos-Jogadores"
+
         if not os.path.exists(pasta):
             os.makedirs(pasta)
 

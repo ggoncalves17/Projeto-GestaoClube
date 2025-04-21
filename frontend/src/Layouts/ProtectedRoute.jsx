@@ -16,7 +16,12 @@ const ProtectedRoute = ({ children }) => {
         setIsAutenticado(true);            
         setUtilizador({
           id: res.data.utilizador.id,
+          nome: res.data.utilizador.nome,
+          foto: res.data.utilizador.foto,
+          data: res.data.utilizador.data_nascimento,
+          contacto: res.data.utilizador.contacto,
           email: res.data.utilizador.email,
+          funcao: res.data.utilizador.funcao,
           id_clube: res.data.utilizador.clube.id,
           nome_clube: res.data.utilizador.clube.nome,
           foto_clube: res.data.utilizador.clube.foto,

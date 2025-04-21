@@ -79,7 +79,7 @@ const Sidebar = () => {
         </ul>
 
         <ul>
-          <Opcao isExpandido={isExpandido} conteudo="Perfil" ativo={caminho === "perfil"} caminho="/"/>
+          <Opcao isExpandido={isExpandido} conteudo="Perfil" ativo={caminho.startsWith("/perfil")} caminho="/perfil"/>
           <OpcaoLogout isExpandido={isExpandido} />
         </ul>
       </div>
