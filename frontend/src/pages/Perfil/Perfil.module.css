@@ -31,6 +31,7 @@
 }
 
 .foto {
+  position: relative;
   width: 160px;
   height: 160px;
   border-radius: 50%;
@@ -39,6 +40,10 @@
   background-color: #f0f0f0;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fotoUtilizador {
@@ -64,13 +69,18 @@
   padding: 0;
 }
 
+.formPerfil {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 .campo {
   background-color: #ebeaea;
   border: 1px solid #cfcfcf;
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 20px;
-  width: 50%;
   font-size: 18px;
   display: flex;
   flex-wrap: wrap;
@@ -88,6 +98,24 @@
   padding: 5px;
   font-size: 18px;
   flex: 1;
+  margin: 0;
+}
+
+.inputNome {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #cfcfcf;
+  padding: 5px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+.inputNome:hover {
+  background-color: #f6f6f6;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
 .alterarPassword {
@@ -128,4 +156,58 @@
 .botaoGuardar:disabled {
   background-color: rgb(195, 195, 195);
   cursor: default;
+}
+
+.caixaBotoes {
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.botaoResetar {
+  width: 150px;
+  background-color: white;
+  color: black;
+}
+
+.botaoResetar:hover {
+  background-color: rgba(246, 244, 244, 0.552);
+}
+
+.botaoResetar:disabled {
+  color: white;
+  background-color: rgb(195, 195, 195);
+  cursor: default;
+  border: none;
+}
+
+.caixaCampo {
+  width: 50%;
+}
+
+.erro {
+  color: red;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.uploadIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  position: absolute;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out, opacity 0.3s ease-out;
+  border-radius: 50%;
+}
+
+.uploadIcon:hover {
+  background-color: rgb(217, 217, 217);
+  opacity: 50%;
 }

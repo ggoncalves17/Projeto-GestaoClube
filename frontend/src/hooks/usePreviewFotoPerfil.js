@@ -41,10 +41,15 @@ export function usePreviewFotoPerfil (jogador, modo, caminhoFoto)  {
     setFotoPerfil(e.target.files[0]);
   };
 
+  const resetaFotoPerfil = () => {
+    setFotoPerfil(null);
+  };
+
   return {
     fotoPerfil,
     previewFoto,
     alteraPreviewFotoPerfil,
+    resetaFotoPerfil,
   };
 };
 

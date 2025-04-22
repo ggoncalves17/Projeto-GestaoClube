@@ -377,6 +377,51 @@ def edita_jogador(request, id):
     return Response({"mensagem": "Utilizador atualizado com sucesso!", "utilizador": serializer.data}, status=200)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+def edita_perfil(request, id):
+
+    utilizador = get_object_or_404(Utilizador, id=id)
+
+    nome = request.data.get("nome")
+    contacto = request.data.get("contacto")
+    data_nascimento = request.data.get("data")
+    foto = request.FILES.get("foto")
+
+
+    if foto is None:
+        nome_foto = utilizador.foto
+    else:
+
+        pasta = "..\\frontend\public\Fotos-Perfil"
+        # pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Perfil"
+
+        if not os.path.exists(pasta):
+            os.makedirs(pasta)
+
+
+        tipoCompletoFoto = foto.content_type 
+        if tipoCompletoFoto == "image/jpeg":
+            tipoFoto = "jpg"
+        elif tipoCompletoFoto == "image/png":
+            tipoFoto = "png"
+        elif tipoCompletoFoto == "image/gif":
+            tipoFoto = "gif"    
+        nome_foto = f"{utilizador.email}_foto-perfil.{tipoFoto}"
+        fs = FileSystemStorage(location=pasta)
+
+
+        fs.save(nome_foto, foto)
+
+    utilizador.nome = nome
+    utilizador.contacto = contacto
+    utilizador.data_nascimento = data_nascimento
+    utilizador.foto = nome_foto
+    utilizador.save()
+
+    serializer = UtilizadorSerializer(utilizador)
+    return Response({"mensagem": "Perfil atualizado com sucesso!", "utilizador": serializer.data}, status=200) 
+
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def altera_estado(request, id):
 

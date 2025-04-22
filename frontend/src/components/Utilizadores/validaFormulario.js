@@ -39,3 +39,19 @@ export const validaFormularioJogadores = (dados) => {
   }
   return erros;
 };
+
+export const validaFormularioPerfil = (dados) => {
+  const erros = {};
+  const dataHoje = new Date();
+  const dataNascimento = new Date(dados["Data Nascimento"]);
+
+  if (dados.Nome.trim() == "") erros.Nome = "Campo Obrigatório";
+  if (dados.Email.trim() == "") erros.Email = "Campo Obrigatório";
+  if (dados.Contacto.trim() == "") erros.Contacto = "Campo Obrigatório";
+  if (!/^9\d{8}$/.test(dados.Contacto)) erros.Contacto = "Número de Telefone Inválido";
+  if (dados["Data Nascimento"].trim() == "") erros["Data Nascimento"] = "Campo Obrigatório";
+  else if (dataNascimento > dataHoje) erros["Data Nascimento"] = "Data Inválida. Não pode ser superior a hoje.";
+  else if (dataHoje - dataNascimento < 568036800000) erros["Data Nascimento"] = "É necessário ter pelo menos 18 anos.";
+
+  return erros;
+};
