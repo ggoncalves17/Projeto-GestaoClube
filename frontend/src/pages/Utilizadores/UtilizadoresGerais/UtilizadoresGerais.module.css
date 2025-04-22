@@ -7,6 +7,10 @@
     position: relative;
 }
 
+.estruturaOverflow {
+    overflow: auto;
+}
+
 .painel {
     height: 100%;
     padding: 20px;

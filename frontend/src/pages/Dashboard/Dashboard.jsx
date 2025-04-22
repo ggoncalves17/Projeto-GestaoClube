@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Dashboard.module.css";
 import CardDashboard from "../../components/CardsDashboard/CardDashboard";
 import CardEventosDashboard from "../../components/CardsDashboard/CardEventosDashboard";
-import { useLoaderData, Navigate } from "react-router-dom";
+import { useLoaderData, redirect } from "react-router-dom";
 import axios from "axios";
 
 const estatisticasLoader = async () => {

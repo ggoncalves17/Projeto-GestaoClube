@@ -55,7 +55,7 @@ const UtilizadoresGerais = () => {
   const utilizadoresAtuais = utilizadoresFiltrados.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
 
   return (
-    <div className={styles.estrutura}>
+    <div className={`${styles.estrutura} ${modoUtilizadores == null && styles.estruturaOverflow}`}>
       <div className={styles.painel}>
         <p className={styles.titulo}>Utilizadores Gerais</p>
         <div className={styles.painelSuperior}>

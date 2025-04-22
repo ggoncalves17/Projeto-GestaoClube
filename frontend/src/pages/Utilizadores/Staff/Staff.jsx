@@ -41,7 +41,7 @@ const Staff = () => {
   const utilizadoresAtuais = staffFiltrado.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
 
   return (
-    <div className={styles.estrutura}>
+    <div className={`${styles.estrutura} ${modo == null && styles.estruturaOverflow}`}>
       <div className={styles.painel}>
         <p className={styles.titulo}>Staff</p>
         <div className={styles.painelSuperior}>

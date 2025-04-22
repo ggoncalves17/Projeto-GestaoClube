@@ -99,7 +99,7 @@ const Jogadores = () => {
   const utilizadoresAtuais = jogadoresFiltrados.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
 
   return (
-    <div className={styles.estrutura}>
+    <div className={`${styles.estrutura} ${modo == null && styles.estruturaOverflow}`}>
       <div className={styles.painel}>
         <p className={styles.titulo}>Jogadores / Treinadores</p>
         <div className={styles.painelSuperior}>
