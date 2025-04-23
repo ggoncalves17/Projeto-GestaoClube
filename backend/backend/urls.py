@@ -19,6 +19,7 @@ urlpatterns = [
     path('api/edita-utilizador/<int:id>/', views.edita_utilizador, name='edita-utilizador'),
     path('api/edita-jogador/<int:id>/', views.edita_jogador, name='edita-jogador'),
     path('api/edita-perfil/<int:id>/', views.edita_perfil, name='/edita-perfil'),
+    path('api/altera-password/<int:id>/', views.altera_password, name='/edita-password'),
     path('api/altera-estado-utilizador/<int:id>/', views.altera_estado, name='altera-estado'),
     path('api/remove-utilizador/<int:id>/', views.remove_utilizador, name='remove_utilizador'),
 ]

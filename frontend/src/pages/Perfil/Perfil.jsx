@@ -1,18 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./Perfil.module.css";
 import { UtilizadorContext } from "../../context/UtilizadorContext";
 import { MdEdit } from "react-icons/md";
-import { validaFormularioPerfil } from "../../components/Utilizadores/validaFormulario";
+import { validaFormularioPerfil, validaCamposPassword } from "../../components/Utilizadores/validaFormulario";
 import { usePreviewFotoPerfil } from "../../hooks/usePreviewFotoPerfil";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Modal from "../../components/JanelaModal/Modal";
 
 const Perfil = () => {
   const { utilizador: infoUtilizador, setUtilizador } = useContext(UtilizadorContext);
 
-  console.log("INFO UTILIZADOR: ", infoUtilizador);
-  
   const campos = ["Email", "Contacto", "Data Nascimento"];
+  const camposPassword = [
+    "Password Atual",
+    "Nova Password",
+    "Confirmar Nova Password",
+  ];
+
+  const [passwordModal, setPasswordModal] = useState(false);
+
   const dadosUtilizador = {
     Nome: infoUtilizador.nome,
     Email: infoUtilizador.email,
@@ -26,6 +33,22 @@ const Perfil = () => {
     Contacto: String(infoUtilizador.contacto),
     "Data Nascimento": infoUtilizador.data,
   });
+
+  const [dadosPassword, setDadosPassword] = useState({
+    "Password Atual": "",
+    "Nova Password": "",
+    "Confirmar Nova Password": "",
+  });
+
+  useEffect(() => {
+    setDadosPassword({
+      "Password Atual": "",
+      "Nova Password": "",
+      "Confirmar Nova Password": "",
+    });
+
+    setErrosCamposPassword({});
+  }, [passwordModal]);
 
   const {
     fotoPerfil: FotoPerfil,
@@ -75,13 +98,17 @@ const Perfil = () => {
     dadosEnvio.append("foto", FotoPerfil);
 
     axios
-      .post(`http://localhost:8000/api/edita-perfil/${infoUtilizador.id}/`, dadosEnvio, {
-        withCredentials: true,
-        headers: {
-          "X-CSRFToken": Cookies.get("csrftoken"),
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(
+        `http://localhost:8000/api/edita-perfil/${infoUtilizador.id}/`,
+        dadosEnvio,
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRFToken": Cookies.get("csrftoken"),
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         console.log("Resposta do Backend: ", res.data);
         setUtilizador({
@@ -89,18 +116,55 @@ const Perfil = () => {
           nome: res.data.utilizador.nome,
           data: res.data.utilizador.data_nascimento,
           contacto: res.data.utilizador.contacto,
-        })
+        });
       })
       .catch((err) => {
         console.log("Código do erro:", err.response.status);
-        if (err.response.status == 404) {
-          setErrosCampos({
-            ...errosCampos,
-            email:
-              "Já existe um email igual ao inserido. Por favor tente outro!",
-          });
-        }
         console.log("Mensagem do erro:", err.response.data.mensagem);
+      });
+  };
+
+  const [errosCamposPassword, setErrosCamposPassword] = useState({});
+
+  const handleAlterarPassword = (event) => {
+    event.preventDefault();
+
+    const erros = validaCamposPassword(dadosPassword);
+
+    if (Object.keys(erros).length > 0) {
+      setErrosCamposPassword(erros);
+      return;
+    }
+
+    setErrosCamposPassword({});
+
+    axios
+      .post(
+        `http://localhost:8000/api/altera-password/${infoUtilizador.id}/`,
+        {
+          password: dadosPassword["Password Atual"],
+          novaPassword: dadosPassword["Nova Password"],
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRFToken": Cookies.get("csrftoken"),
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("Resposta do Backend: ", res.data);
+        setPasswordModal(false)
+      })
+      .catch((err) => {
+        console.log("Código do erro:", err.response.status);
+        console.log("Mensagem do erro:", err.response.data.mensagem);
+        if(err.response.status == 400) {
+          setErrosCamposPassword({
+            "Password Atual" : err.response.data.mensagem,
+          })
+        }
       });
   };
 
@@ -141,7 +205,10 @@ const Perfil = () => {
           <div className={styles.modoDetalhes}>
             <p>Gestor</p>
           </div>
-          <div className={styles.alterarPassword}>
+          <div
+            className={styles.alterarPassword}
+            onClick={() => setPasswordModal(true)}
+          >
             <MdEdit />
             <p>Alterar Password</p>
           </div>
@@ -217,6 +284,42 @@ const Perfil = () => {
           </form>
         </div>
       </div>
+
+      {passwordModal && (
+        <Modal
+          setModal={setPasswordModal}
+          titulo="Alterar Password"
+          botao="Guardar"
+          onSubmit={handleAlterarPassword}
+        >
+          <div>
+            {camposPassword.map((campo, index) => (
+              <div className={styles.campoPassword} key={index}>
+                {errosCamposPassword[campo] && (
+                  <p className={styles.erro}>{errosCamposPassword[campo]}</p>
+                )}
+
+                <label>
+                  <b>{campo}</b>
+                </label>
+                <input
+                  type="password"
+                  value={dadosPassword[campo]}
+                  onChange={(e) =>
+                    setDadosPassword({
+                      ...dadosPassword,
+                      [campo]: e.target.value,
+                    })
+                  }
+                  className={styles.inputCampoPassword}
+                  required
+                  placeholder="********"
+                />
+              </div>
+            ))}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

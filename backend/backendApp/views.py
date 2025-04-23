@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from .models import *
 from .serializers import *
 from django.contrib.auth.hashers import make_password, check_password
@@ -420,6 +420,35 @@ def edita_perfil(request, id):
 
     serializer = UtilizadorSerializer(utilizador)
     return Response({"mensagem": "Perfil atualizado com sucesso!", "utilizador": serializer.data}, status=200) 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def altera_password(request, id):
+
+    utilizador = get_object_or_404(Utilizador, id=id)
+
+    password = request.data.get("password")
+    novaPassword = request.data.get("novaPassword")
+
+    print("PASSWORD: ", password, " + NOVA PASSOWORD: ", novaPassword)
+    print("PASSWORD UTILIZADOR: ", utilizador.password)
+
+    # Referência -> https://stackoverflow.com/a/62145106
+    if check_password(password, utilizador.password):
+        try:
+            utilizador.set_password(novaPassword)
+            utilizador.save()
+
+            # Referência -> https://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.aupdate_session_auth_hash
+            update_session_auth_hash(request, utilizador)
+
+            return Response({"mensagem": "Password alterada com sucesso!"}, status=200)
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+    else:
+        return Response({"mensagem": "Password Atual incorreta."}, status=400)
+
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

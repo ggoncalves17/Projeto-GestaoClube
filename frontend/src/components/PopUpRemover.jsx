@@ -36,7 +36,7 @@ const PopUpRemover = ({ setModo, utilizador, setModalAberta }) => {
   return (
     <div onClick={() => setModalAberta(false)} className={styles.janelaModal}>
       <div onClick={(e) => e.stopPropagation()} className={styles.modal}>
-        <h3>Deseja mesmo remover o nomeUtilizador "<b>{utilizador.nome}</b>" ?</h3>
+        <h3>Deseja mesmo remover o utilizador "<b>{utilizador.nome}</b>" ?</h3>
         <p>Ao confirmar não vai poder recuperar o mesmo.</p>
         <div className={styles.botoes}>
           <button onClick={() => setModalAberta(false)} className={`${styles.botao} ${styles.btnCancelar}`}>Não</button>

@@ -55,3 +55,15 @@ export const validaFormularioPerfil = (dados) => {
 
   return erros;
 };
+
+export const validaCamposPassword = (dados) => {
+  const erros = {};
+
+  if (dados["Password Atual"].trim() == "") erros["Password Atual"] = "Campo Obrigatório";
+  if (dados["Nova Password"].trim() == "") erros["Nova Password"] = "Campo Obrigatório";
+  if (dados["Confirmar Nova Password"].trim() == "") erros["Confirmar Nova Password"] = "Campo Obrigatório";
+  else if (dados["Confirmar Nova Password"] != dados["Nova Password"]) erros["Confirmar Nova Password"] = "A confirmação da nova password não coincide.";
+
+  return erros;
+};
+

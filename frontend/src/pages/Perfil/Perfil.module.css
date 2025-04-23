@@ -136,7 +136,9 @@
 }
 
 .alterarPassword:hover {
-  background-color: rgba(246, 244, 244, 0.552);
+  /* background-color: rgba(246, 244, 244, 0.552); */
+  background-color: rgba(0, 0, 0, 0.05); 
+
 }
 
 .botaoGuardar {
@@ -211,4 +213,28 @@
 .uploadIcon:hover {
   background-color: rgb(217, 217, 217);
   opacity: 50%;
+}
+
+.campoPassword {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-top: 15px;
+  gap: 5px;
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+.inputCampoPassword {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 10px 15px;
+  font-size: 18px;
+  transition: outline 0.1s ease-in-out;
+}
+
+/* Referência -> https://stackoverflow.com/a/52319334 */
+.inputCampoPassword:focus {
+  outline: 3px solid #2989e9;
+  outline-offset: -2px;
 }
