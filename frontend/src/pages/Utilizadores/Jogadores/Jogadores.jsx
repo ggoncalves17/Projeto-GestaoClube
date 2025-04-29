@@ -11,6 +11,7 @@ import Dropdown from "../../../components/Dropdown";
 import DropdownCheckbox from "../../../components/DropdownCheckbox";
 import { UtilizadorContext } from "../../../context/UtilizadorContext";
 import { useNavigate } from "react-router-dom";
+import { listaModalidades } from "../../../api/Modalidades/api";
 
 const Jogadores = () => {
   const [filtroNome, setFiltroNome] = useState("");
@@ -73,19 +74,9 @@ const Jogadores = () => {
       });
   }, [modo]);
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/listaModalidades/${utilizadorInfo.id_clube}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log("Resposta do Backend: ", res.data);
-        const nomesModalidades = res.data.map((elemento) => elemento.nome);
-        setDesportos(nomesModalidades);
-      })
-      .catch((err) => {
-        console.log("Mensagem do erro:", err.response.data.mensagem);
-      });
+  // Função para ir buscar as modalidades ao carregar o componente
+  useEffect(() => {      
+    listaModalidades(utilizadorInfo.id_clube, setDesportos, true)
   }, []);
 
   const jogadoresFiltrados = jogadores.filter((utilizador) => 

@@ -5,12 +5,14 @@ import GrupoRadioButton from "../../components/GrupoRadioButton";
 import ListaModalidades from "../../components/ListaModalidades";
 import Paginacao from "../../components/Paginacao/Paginacao";
 import { UtilizadorContext } from "../../context/UtilizadorContext";
-import axios from "axios";
-import Cookies from "js-cookie";
 import Modal from "../../components/JanelaModal/Modal";
 import InputForm from "../../components/InputForm";
-import { toast } from "react-toastify";
-import PopUpRemoverModalidade from '../../components/PopUpRemoverModalidade'
+import PopUpRemoverModalidade from "../../components/PopUpRemoverModalidade";
+import {
+  listaModalidades,
+  adicionaModalidade,
+  editaModalidade,
+} from "../../api/Modalidades/api";
 
 const Modalidades = () => {
   const [filtroNome, setFiltroNome] = useState("");
@@ -21,7 +23,7 @@ const Modalidades = () => {
   const [nomeModalidade, setNomeModalidade] = useState("");
   const [erro, setErro] = useState(null);
   const [modalidadeEscolhida, setModalidadeEscolhida] = useState(null);
-  const [modalRemover, setModalRemover] = useState(null)
+  const [modalRemover, setModalRemover] = useState(null);
 
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
 
@@ -47,22 +49,9 @@ const Modalidades = () => {
     setErro(null);
   }, [modo]);
 
+  // Função para ir buscar as modalidades ao carregar o componente
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:8000/api/listaModalidades/${utilizadorInfo.id_clube}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        console.log("Resposta do Backend: ", res.data);
-        const nomesModalidades = res.data.map((elemento) => elemento);
-        setDesportos(nomesModalidades);
-      })
-      .catch((err) => {
-        console.log("Mensagem do erro:", err.response.data.mensagem);
-      });
+    listaModalidades(utilizadorInfo.id_clube, setDesportos);
   }, []);
 
   const modalidadesFiltradas = desportos.filter(
@@ -76,6 +65,7 @@ const Modalidades = () => {
 
     if (modo === "Adicionar") {
       // Referência -> https://stackoverflow.com/a/8217584
+      // Verifica se já existe alguma modalidade com o mesmo nome (case-insensitive)
       if (
         desportos.some(
           (modalidade) =>
@@ -87,37 +77,16 @@ const Modalidades = () => {
         return;
       }
 
-      axios
-        .post(
-          "http://localhost:8000/api/adiciona-modalidade/",
-          {
-            nome: nomeModalidade,
-            id_clube: utilizadorInfo.id_clube,
-          },
-          {
-            withCredentials: true,
-            headers: {
-              "X-CSRFToken": Cookies.get("csrftoken"),
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        .then((res) => {
-          console.log("Resposta do Backend: ", res.data);
-          setDesportos((prev) => [...prev, res.data.modalidade]);
-          setModo(null);
-
-          toast.success("Modalidade Adicionada com Sucesso!");
-
-        })
-        .catch((err) => {
-          console.log("Código do erro:", err.response.status);
-          console.log("Mensagem do erro:", err.response.data.mensagem);
-          if (err.response.status == 404) {
-            setErro(err.response.data.mensagem);
-          }
-        });
+      // Chamada da Função para Adicionar nova Modalidade
+      adicionaModalidade(
+        nomeModalidade,
+        utilizadorInfo.id_clube,
+        setDesportos,
+        setModo,
+        setErro
+      );
     } else if (modo == "Editar") {
+      // Verifica se já existe alguma modalidade com o mesmo nome sem ser a que está a ser edita (p.e., editar de futeBOL para Futebol ser possível)
       if (
         desportos.some(
           (modalidade) =>
@@ -130,42 +99,14 @@ const Modalidades = () => {
         return;
       }
 
-      axios
-        .post(
-          `http://localhost:8000/api/edita-modalidade/${modalidadeEscolhida}/`,
-          {
-            nome: nomeModalidade,
-          },
-          {
-            withCredentials: true,
-            headers: {
-              "X-CSRFToken": Cookies.get("csrftoken"),
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        .then((res) => {
-          console.log("Resposta do Backend: ", res.data);
-
-          setDesportos((prev) =>
-            prev.map((modalidade) =>
-              modalidade.id == modalidadeEscolhida
-                ? { ...modalidade, nome: res.data.modalidade.nome }
-                : modalidade
-            )
-          );
-          setModo(null);
-
-          toast.success(`Modalidade Editada com Sucesso!`);
-
-        })
-        .catch((err) => {
-          console.log("Código do erro:", err.response.status);
-          console.log("Mensagem do erro:", err.response.data.mensagem);
-          if (err.response.status == 404) {
-            setErro(err.response.data.mensagem);
-          }
-        });
+      // Chamada da Função para Editar Modalidade
+      editaModalidade(
+        nomeModalidade,
+        modalidadeEscolhida,
+        setDesportos,
+        setModo,
+        setErro
+      );
     }
   };
 
@@ -224,8 +165,14 @@ const Modalidades = () => {
         </Modal>
       )}
 
-      {modalRemover && <PopUpRemoverModalidade setDesportos={setDesportos} idModalidade={modalidadeEscolhida} modalidadeNome={nomeModalidade} setModalRemover={setModalRemover} />}
-
+      {modalRemover && (
+        <PopUpRemoverModalidade
+          setDesportos={setDesportos}
+          idModalidade={modalidadeEscolhida}
+          modalidadeNome={nomeModalidade}
+          setModalRemover={setModalRemover}
+        />
+      )}
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { camposFormularioJogadores } from "../camposFormulario";
 import { validaFormularioJogadores } from "../validaFormulario";
 import Dropdown from "../../Dropdown";
 import { UtilizadorContext } from "../../../context/UtilizadorContext";
+import { listaModalidades } from "../../../api/Modalidades/api";
 
 const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
 
@@ -49,19 +50,11 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
     }
   }
 
+
   useEffect(() => {
-      axios
-      .get(`http://localhost:8000/api/listaModalidades/${utilizadorInfo.id_clube}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log("Resposta do Backend: ", res.data);
-        const nomesModalidades = res.data.map((elemento) => elemento.nome);
-        setDesportosExistentes(nomesModalidades);
-      })
-      .catch((err) => {
-        console.log("Mensagem do erro:", err.response.data.mensagem);
-      });
+
+      // Função para ir buscar as modalidades ao carregar o componente
+      listaModalidades(utilizadorInfo.id_clube, setDesportosExistentes, true)
 
       if(modo === "Editar") {
         axios
