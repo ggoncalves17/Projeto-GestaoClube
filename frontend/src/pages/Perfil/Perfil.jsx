@@ -2,14 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./Perfil.module.css";
 import { UtilizadorContext } from "../../context/UtilizadorContext";
 import { MdEdit } from "react-icons/md";
-import { validaFormularioPerfil, validaCamposPassword } from "../../components/Utilizadores/validaFormulario";
+import {
+  validaFormularioPerfil,
+  validaCamposPassword,
+} from "../../components/Utilizadores/validaFormulario";
 import { usePreviewFotoPerfil } from "../../hooks/usePreviewFotoPerfil";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Modal from "../../components/JanelaModal/Modal";
+import InputForm from "../../components/InputForm";
 
 const Perfil = () => {
-  const { utilizador: infoUtilizador, setUtilizador } = useContext(UtilizadorContext);
+  const { utilizador: infoUtilizador, setUtilizador } =
+    useContext(UtilizadorContext);
 
   const campos = ["Email", "Contacto", "Data Nascimento"];
   const camposPassword = [
@@ -155,15 +160,15 @@ const Perfil = () => {
       )
       .then((res) => {
         console.log("Resposta do Backend: ", res.data);
-        setPasswordModal(false)
+        setPasswordModal(false);
       })
       .catch((err) => {
         console.log("Código do erro:", err.response.status);
         console.log("Mensagem do erro:", err.response.data.mensagem);
-        if(err.response.status == 400) {
+        if (err.response.status == 400) {
           setErrosCamposPassword({
-            "Password Atual" : err.response.data.mensagem,
-          })
+            "Password Atual": err.response.data.mensagem,
+          });
         }
       });
   };
@@ -294,28 +299,19 @@ const Perfil = () => {
         >
           <div>
             {camposPassword.map((campo, index) => (
-              <div className={styles.campoPassword} key={index}>
-                {errosCamposPassword[campo] && (
-                  <p className={styles.erro}>{errosCamposPassword[campo]}</p>
-                )}
-
-                <label>
-                  <b>{campo}</b>
-                </label>
-                <input
-                  type="password"
-                  value={dadosPassword[campo]}
-                  onChange={(e) =>
-                    setDadosPassword({
-                      ...dadosPassword,
-                      [campo]: e.target.value,
-                    })
-                  }
-                  className={styles.inputCampoPassword}
-                  required
-                  placeholder="********"
-                />
-              </div>
+              <InputForm
+                tipo="password"
+                label={campo}
+                valor={dadosPassword[campo]}
+                onChange={(e) =>
+                  setDadosPassword({
+                    ...dadosPassword,
+                    [campo]: e.target.value,
+                  })
+                }
+                erro={errosCamposPassword[campo]}
+                placeholder="********"
+              />
             ))}
           </div>
         </Modal>

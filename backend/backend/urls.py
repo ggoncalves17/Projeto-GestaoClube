@@ -22,4 +22,7 @@ urlpatterns = [
     path('api/altera-password/<int:id>/', views.altera_password, name='/edita-password'),
     path('api/altera-estado-utilizador/<int:id>/', views.altera_estado, name='altera-estado'),
     path('api/remove-utilizador/<int:id>/', views.remove_utilizador, name='remove_utilizador'),
+    path('api/adiciona-modalidade/', views.adiciona_modalidade, name='adiciona-modalidade'),    
+    path('api/edita-modalidade/<int:id>/', views.edita_modalidade, name='edita-modalidade'),   
+    path('api/remove-modalidade/<int:id>/', views.remove_modalidade, name='remove-modalidade'), 
 ]

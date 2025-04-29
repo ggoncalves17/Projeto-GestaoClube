@@ -1,0 +1,85 @@
+.estrutura {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto;
+}
+
+.painel {
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.estrutura {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.estruturaOverflow {
+  overflow: auto;
+}
+
+.painel {
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.painelSuperior, .painelInferior {
+  padding: 20px;
+}
+
+.painelSuperior{
+  display: flex;
+  justify-content: space-between;
+}
+
+.painelInferior {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.painelSuperiorFiltros {
+  display: flex;
+  gap: 20px;
+}
+
+.titulo {
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin: 0;
+  padding: 10px 20px 10px;
+}
+
+.botaoAdicionar {
+  background-color: #2989e9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  height: 100%;
+  width: fit-content;
+  padding: 0px 25px;
+}
+
+.botaoAdicionar:hover {
+  background-color: #0f71d3;
+}
+
+
+
+

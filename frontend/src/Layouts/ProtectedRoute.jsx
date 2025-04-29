@@ -26,7 +26,6 @@ const ProtectedRoute = ({ children }) => {
           nome_clube: res.data.utilizador.clube.nome,
           foto_clube: res.data.utilizador.clube.foto,
         });
-        
       })
       .catch((err) => {
         setIsAutenticado(false);

@@ -1,3 +1,17 @@
 .info {
     text-align: center;
 }
+
+.grelhaModalidades {
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 300px));
+    position: relative;
+}
+
+.infoModalidades {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -277,12 +277,17 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
               </button>
             :
             <div className={styles.botoesFinais}> 
-              <button type="button" className={styles.botaoVoltar} onClick={() => setFaseAdicionar(1)}>
-                Voltar Atrás
-              </button>
-
-              
-            </div>
+               <button type="button" className={styles.botaoVoltar} onClick={() => setFaseAdicionar(1)}>
+                 Voltar Atrás
+               </button>
+ 
+               <button type="submit">
+                 {modo == "Adicionar"
+                   ? "Adicionar Utilizador"
+                     : "Guardar Alterações"}
+               </button>
+               
+             </div>
 
             }
           </div>

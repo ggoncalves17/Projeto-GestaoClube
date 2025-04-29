@@ -12,6 +12,7 @@ import { UtilizadorProvider } from "./context/UtilizadorContext";
 import Jogadores from "./pages/Utilizadores/Jogadores/Jogadores";
 import DetalhesJogadores, { jogadorLoader } from "./pages/Utilizadores/Jogadores/DetalhesJogadores";
 import Perfil from "./pages/Perfil/Perfil";
+import Modalidades from "./pages/Modalidades/Modalidades";
 
 function App() {
   const router = createBrowserRouter([
@@ -45,6 +46,17 @@ function App() {
         { path: "staff", element: <Staff /> },
         { path: "jogadores", element: <Jogadores /> },
         { path: "jogadores/:id",element: <DetalhesJogadores />, loader: jogadorLoader },
+      ],
+    },
+    {
+      path: "/modalidades",
+      element: (
+        <ProtectedRoute>
+          <MainLayout />
+        </ProtectedRoute>
+      ),
+      children: [
+        { index: true, element: <Modalidades /> },
       ],
     },
     { path: "/login", element: <Login /> },

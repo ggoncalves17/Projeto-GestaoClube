@@ -89,7 +89,7 @@ def listaJogadores(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaModalidades(request, id):
-    modalidades = Modalidade.objects.filter(clubes_id=id).order_by('nome')
+    modalidades = Modalidade.objects.filter(clube_id=id).order_by('nome')
 
     serializer = ModalidadeSerializer(modalidades, many=True)
 
@@ -505,6 +505,73 @@ def logout_view(request):
     return Response({"mensagem": "Logout bem-sucedido"}, status=200)
 
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adiciona_modalidade(request):
+
+    nome = request.data.get("nome")
+    id_clube = request.data.get("id_clube")
+
+    # Referência -> https://docs.djangoproject.com/en/5.2/ref/models/querysets/#iexact
+    if Modalidade.objects.filter(nome__iexact=nome).exists():
+        return Response({"mensagem": "Já existe uma modalidade com o mesmo nome"}, status=404)
+    else:
+        modalidade = Modalidade(
+            nome=nome,
+            estado=1,
+            clube_id=id_clube
+        )
+
+        try:
+            modalidade.save() 
+
+            serializer = ModalidadeSerializer(modalidade)
+
+            return Response({"mensagem": "Modalidade inserida com sucesso!", "modalidade": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def edita_modalidade(request, id):
+
+    modalidade = get_object_or_404(Modalidade, id=id)
+
+    nome = request.data.get("nome")
+
+    # Referência -> https://sentry.io/answers/django-queryset-filter-not-equal/
+    if Modalidade.objects.filter(nome__iexact=nome).exclude(id=id).exists():
+        return Response({"mensagem": "Já existe uma modalidade com o mesmo nome"}, status=404)
+    else:
+
+        modalidade.nome = nome
+
+        try:
+            modalidade.save() 
+
+            serializer = ModalidadeSerializer(modalidade)
+
+            return Response({"mensagem": "Modalidade atualizada com sucesso!", "modalidade": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def remove_modalidade(request, id):
+
+    modalidade = get_object_or_404(Modalidade, id=id)
+
+    try:
+
+        modalidade.delete()
+
+        return Response({"mensagem": "Modalidade removida com sucesso!"}, status=200)    
+    
+    except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
     
 
     

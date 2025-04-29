@@ -14,3 +14,4 @@ const ListaUtilizadores = ({ utilizadoresFiltrados, setModo, setUtilizador }) =>
 };
 
 export default ListaUtilizadores;
+

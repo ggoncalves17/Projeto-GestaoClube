@@ -1,0 +1,28 @@
+.campo {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-top: 15px;
+  gap: 5px;
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+.inputCampo {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 10px 15px;
+  font-size: 18px;
+  transition: outline 0.1s ease-in-out;
+}
+
+.inputCampo:focus {
+  outline: 3px solid #2989e9;
+  outline-offset: -2px;
+}
+
+.erro {
+  color: red;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
