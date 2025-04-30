@@ -7,7 +7,7 @@ import Spinner from "../../../components/Spinner";
 
 const Equipas = () => {
   const { id: id_modalidade } = useParams();
-  const { filtroCategoria } = useOutletContext();
+  const { filtroCategoria, setEpocasExistentes, filtroEpoca } = useOutletContext();
 
   const [loading, setLoading] = useState(true);
   const [equipas, setEquipas] = useState([]);
@@ -17,12 +17,22 @@ const Equipas = () => {
   }, []);
 
   const equipasFiltradas = equipas.filter((equipa) =>
-    ((filtroCategoria === "Tipo" || filtroCategoria === "Ambos" || filtroCategoria === "") ? true : equipa.categoria === filtroCategoria) 
+    ((filtroCategoria === "Tipo" || filtroCategoria === "Ambos" || filtroCategoria === "") ? true : equipa.categoria === filtroCategoria) &&
+    ((filtroEpoca === "Tipo" || filtroEpoca === "Todas" || filtroEpoca === "") ? true : equipa.epoca.nome === filtroEpoca)
   )
 
   const epocasUnicas = [...new Set(equipasFiltradas.map((equipa) => equipa.epoca.nome))]
     .sort()
     .reverse();
+
+  useEffect(() => {
+
+    const epocasFiltro = ["Todas", ...new Set(equipas.map((equipa) => equipa.epoca.nome))]
+    .sort()
+    .reverse();
+
+    setEpocasExistentes(epocasFiltro)
+  }, [equipas])
 
   return (
     <div>

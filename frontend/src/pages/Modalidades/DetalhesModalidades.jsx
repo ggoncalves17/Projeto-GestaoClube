@@ -35,14 +35,15 @@ const DetalhesModalidades = () => {
   const infoModalidade = useLoaderData();
   const [filtroCategoria, setFiltroCategoria] = useState("");
   const categorias = ["Ambos", "Masculino", "Feminino"];
-  // const [filtroEpoca, setFiltroEpoca] = useState("");
-  // const [epocasExistentes, setEpocasExistentes] = useState(["Teste"]);
+  const [filtroEpoca, setFiltroEpoca] = useState("");
+  const [epocasExistentes, setEpocasExistentes] = useState([""]);
 
   const localizacao = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     setFiltroCategoria("");
+    setFiltroEpoca("")
   }, [localizacao.pathname]);
 
   return (
@@ -92,15 +93,17 @@ const DetalhesModalidades = () => {
                 <>
                   <Dropdown
                     tipo={filtroCategoria}
+                    campo="Categoria"
                     setTipo={setFiltroCategoria}
                     dados={categorias}
                   />
 
-                  {/* <Dropdown
+                  <Dropdown
                     tipo={filtroEpoca}
+                    campo="Época"
                     setTipo={setFiltroEpoca}
                     dados={epocasExistentes}
-                  /> */}
+                  />
                 </>
               )}
               <button
@@ -113,7 +116,7 @@ const DetalhesModalidades = () => {
           </div>
           <hr />
           <div className={styles.conteudo}>
-            <Outlet context={{ filtroCategoria }} />
+            <Outlet context={{ filtroCategoria, setEpocasExistentes, filtroEpoca }} />
           </div>
         </div>
       </div>
