@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./Layouts/ProtectedRoute";
 import MainLayout from "./Layouts/MainLayout";
@@ -13,6 +13,9 @@ import Jogadores from "./pages/Utilizadores/Jogadores/Jogadores";
 import DetalhesJogadores, { jogadorLoader } from "./pages/Utilizadores/Jogadores/DetalhesJogadores";
 import Perfil from "./pages/Perfil/Perfil";
 import Modalidades from "./pages/Modalidades/Modalidades";
+import DetalhesModalidades, { modalidadeLoader } from "./pages/Modalidades/DetalhesModalidades";
+import Equipas from "./pages/Modalidades/Equipas/Equipas";
+import Epocas from "./pages/Modalidades/Epocas/Epocas";
 
 function App() {
   const router = createBrowserRouter([
@@ -57,8 +60,19 @@ function App() {
       ),
       children: [
         { index: true, element: <Modalidades /> },
+        {
+          path: ":id",
+          element: <DetalhesModalidades />,
+          loader: modalidadeLoader,
+          children: [
+            { index: true, element: <Navigate to="equipas" /> },
+            { path: "equipas", element: <Equipas /> },
+            { path: "epocas", element: <Epocas /> },
+          ],
+        },
       ],
     },
+    
     { path: "/login", element: <Login /> },
     { path: "/login/recuperar-password", element: <RecuperarPassword /> },
     { path: "/*", element: <PaginaNaoEncontrada /> },

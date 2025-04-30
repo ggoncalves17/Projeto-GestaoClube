@@ -54,7 +54,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
   useEffect(() => {
 
       // Função para ir buscar as modalidades ao carregar o componente
-      listaModalidades(utilizadorInfo.id_clube, setDesportosExistentes, true)
+      listaModalidades(utilizadorInfo.id_clube, setDesportosExistentes, null, true)
 
       if(modo === "Editar") {
         axios

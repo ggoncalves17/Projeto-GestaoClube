@@ -7,15 +7,25 @@ class ClubeSerializer(serializers.ModelSerializer):
         fields = ('id', 'nome', 'sigla', 'foto')
 
 class EpocaSerializer(serializers.ModelSerializer):
+
+    nEquipas = serializers.SerializerMethodField()
     class Meta:
         model = Epoca
-        fields = ('id', 'inicio_epoca', 'fim_epoca')
+        fields = ('id', 'nome', 'inicio_epoca', 'fim_epoca', 'nEquipas')
 
+    def get_nEquipas(self, obj):
+        return obj.equipa_set.count()     
 
 class EquipaSerializer(serializers.ModelSerializer):
+
+    epoca = EpocaSerializer()
+    nElementos = serializers.SerializerMethodField()
     class Meta:
         model = Equipa
-        fields = ('id', 'escalao', 'categoria')
+        fields = ('id', 'nome', 'categoria', 'epoca', 'nElementos')
+
+    def get_nElementos(self, obj):
+        return obj.elemento_clube_set.count() 
 
 class ModalidadeSerializer(serializers.ModelSerializer):
 
@@ -26,7 +36,7 @@ class ModalidadeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Modalidade
-        fields = ('id', 'nome', 'estado', 'epoca_set', 'equipa_set', 'existemJogadores')
+        fields = ('id', 'nome', 'estado', 'clube', 'epoca_set', 'equipa_set', 'existemJogadores')
 
     def get_existemJogadores(self, obj):
 

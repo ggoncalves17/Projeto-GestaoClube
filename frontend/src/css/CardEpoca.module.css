@@ -1,0 +1,115 @@
+.card {
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+  padding: 50px;
+  font-weight: bold;
+  box-shadow: 3px 3px 10px #aaaaaa;
+}
+
+.cardModalidade {
+  padding: 20px;
+  position: relative;
+}
+
+.cardModalidade p {
+  font-weight: lighter;
+}
+
+.cardModalidade h2 {
+  margin-top: 30px;
+}
+
+.painelSuperior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.painelInferior p {
+  display: flex;
+  align-items: left;
+}
+
+.nome {
+  word-wrap: break-word;
+}
+
+.btnRemover {
+  cursor: pointer;
+  padding: 13px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff8c8c;
+  border: none;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.btnRemover:hover {
+  background-color: #fd5858;
+}
+
+.btnRemover:disabled {
+  cursor: default;
+  background-color: rgb(195, 195, 195);
+}
+
+.iconRemover {
+  width: 15px;
+  height: 15px;
+}
+/* 
+.btnEditar {
+  cursor: pointer;
+  background-color: #EAEAEA;
+  border: 2px solid #747474;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+}
+
+.btnEditar:hover {
+  background-color: rgb(210, 210, 210);
+} */
+
+/* .iconEditar {
+  width: 30px;
+  height: 30px;
+} */
+
+.estado {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.estado p {
+    margin: 0;
+}
+
+.emCurso {
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+}
+
+.futura {
+  background-color: #fff8e1;
+  color: #db9b07;
+  border: 1px solid #db9b07;
+}
+
+.terminou {
+  background-color: #ffdddd;
+  color: #f45757;
+  border: 1px solid #f45757;
+}

@@ -8,7 +8,6 @@ urlpatterns = [
     path('api/listaUtilizadores/', views.listaUtilizadores_view, name='listaUtilizadores'),
     path('api/listaStaff/', views.listaStaff_view, name='listaUtilizadores'),
     path('api/listaJogadores/', views.listaJogadores, name='listaJogadores'),
-    path('api/listaModalidades/<int:id>/', views.listaModalidades, name='listaModalidades'),
     path('api/verificaAutenticacao/', views.verificaAutenticacao_view, name='verificaAutenticacao'),
     path('api/estatisticas/', views.estatisticas_view, name='estatisticas'),
     path('api/logout/', views.logout_view, name='logout'),
@@ -22,7 +21,18 @@ urlpatterns = [
     path('api/altera-password/<int:id>/', views.altera_password, name='/edita-password'),
     path('api/altera-estado-utilizador/<int:id>/', views.altera_estado, name='altera-estado'),
     path('api/remove-utilizador/<int:id>/', views.remove_utilizador, name='remove_utilizador'),
+
+    # MODALIDADES ------------------------------------------------------------------------------------
+    path('api/listaModalidades/<int:id>/', views.listaModalidades, name='listaModalidades'),
     path('api/adiciona-modalidade/', views.adiciona_modalidade, name='adiciona-modalidade'),    
     path('api/edita-modalidade/<int:id>/', views.edita_modalidade, name='edita-modalidade'),   
     path('api/remove-modalidade/<int:id>/', views.remove_modalidade, name='remove-modalidade'), 
+    path('api/info-modalidade/<int:id>/', views.info_modalidade, name='info-modalidade'),
+    
+    # EQUIPAS ------------------------------------------------------------------------------------
+    path('api/listaEquipas/<int:id>/', views.listaEquipas, name='listaEquipas'),
+    
+    # ÉPOCAS ------------------------------------------------------------------------------------
+    path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),
+
 ]

@@ -53,6 +53,7 @@
   background: white;
   font-family: 'Inter', sans-serif;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .btnDetalhes:hover {
@@ -143,3 +144,39 @@
   opacity: 1;
   pointer-events: auto;
 } */
+
+/* ---------------------- CARD EQUIPAS ---------------------- */
+
+.infoEquipa h2 {
+  margin-top: 20px;
+}
+
+.caixaCategoria {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoria {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 15px;
+}
+
+.categoria p {
+  padding: 0;
+  margin: 0;
+}
+
+.masculino {
+  background-color: #a6d2f3;
+  border: 1px solid #1b3c78;
+  color: #1b3c78;
+}
+
+.feminino {
+  background-color: #F9D9F2;
+  color: #c740aa;
+  border: 1px solid #c740aa;
+}
+

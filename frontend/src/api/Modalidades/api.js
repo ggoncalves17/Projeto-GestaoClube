@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const url = "http://localhost:8000/api"
 
 // FUNÇÃO PARA LISTAR TODAS AS MODALIDADES ------------------------------------------------------
-export const listaModalidades = (id_clube, setDesportos, listaNomes=false) => {
+export const listaModalidades = (id_clube, setDesportos, setLoading=null, listaNomes=false) => {
   axios
   .get(
     `${url}/listaModalidades/${id_clube}/`,
@@ -22,6 +22,10 @@ export const listaModalidades = (id_clube, setDesportos, listaNomes=false) => {
       dados = dados.map((elemento) => elemento.nome);
     }
     setDesportos(dados);
+
+    if(setLoading != null) {
+      setLoading(false);
+    }
   })
   .catch((err) => {
     console.log("Mensagem do erro:", err.response.data.mensagem);

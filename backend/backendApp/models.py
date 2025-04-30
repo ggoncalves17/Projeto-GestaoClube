@@ -48,12 +48,13 @@ class Modalidade(models.Model):
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
 
 class Epoca(models.Model):
+    nome = models.CharField(max_length=512, null=True)
     inicio_epoca = models.DateField(null=True)
     fim_epoca = models.DateField(null=True)
     modalidade = models.ForeignKey(Modalidade, on_delete=models.CASCADE)
 
 class Equipa(models.Model):
-    escalao = models.CharField(max_length=512)
+    nome = models.CharField(max_length=512)
     categoria = models.CharField(max_length=512)
     epoca = models.ForeignKey(Epoca, on_delete=models.CASCADE)
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE)

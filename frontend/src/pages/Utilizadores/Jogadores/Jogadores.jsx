@@ -76,7 +76,7 @@ const Jogadores = () => {
 
   // Função para ir buscar as modalidades ao carregar o componente
   useEffect(() => {      
-    listaModalidades(utilizadorInfo.id_clube, setDesportos, true)
+    listaModalidades(utilizadorInfo.id_clube, setDesportos, null, true)
   }, []);
 
   const jogadoresFiltrados = jogadores.filter((utilizador) => 

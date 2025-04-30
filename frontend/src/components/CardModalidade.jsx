@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./CardsDashboard/CardDashboard.module.css";
 import { FaTrash } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const CardModalidade = ({ modalidade, setModo, setModalidade, setNomeModalidade, modalRemover, setModalRemover }) => {
 
@@ -39,7 +40,10 @@ const CardModalidade = ({ modalidade, setModo, setModalidade, setNomeModalidade,
         <p>Épocas: {modalidade.epoca_set.length}</p>
       </div>
       <div className={styles.botoes}>
-        <button type="button" className={styles.btnDetalhes}>Ver Detalhes</button>
+        {/* <button type="button" className={styles.btnDetalhes}>Ver Detalhes</button> */}
+        <Link to={`/modalidades/${modalidade.id}`} className={styles.btnDetalhes}>
+        Ver Detalhes
+        </Link>
         <button type="button" className={styles.btnRemover} disabled={btnDesativado} onClick={handleRemoveModalidade}>
           <FaTrash title="Remover" className={styles.iconRemover} />
         </button>

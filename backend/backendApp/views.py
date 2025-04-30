@@ -105,14 +105,18 @@ def info_utilizador_view(request, id):
     else:
         return Response({"mensagem": "Não existe o utilizador pretendido."}, status=404)
 
+#TODO: VERIFICAR SE O JOGADOR PERTENCE AO CLUBE DE QUEM ESTÁ A ACEDER
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def info_jogador(request, id):
 
     jogador = get_object_or_404(Elemento_Clube, id=id)
     if jogador:
-        serializer = ElementoClubeSerializer(jogador)
-        return Response(serializer.data)
+        if(jogador.clube == request.user.clube):
+            serializer = ElementoClubeSerializer(jogador)
+            return Response(serializer.data, status=200)
+        else:
+            return Response({"mensagem": "Não existe o jogador pretendido."}, status=404)
     else:
         return Response({"mensagem": "Não existe o jogador pretendido."}, status=404)
 
@@ -572,8 +576,42 @@ def remove_modalidade(request, id):
     
     except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
-    
 
-    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def info_modalidade(request, id):
+
+    modalidade = get_object_or_404(Modalidade, id=id)
+
+    if modalidade:
+        if(modalidade.clube == request.user.clube):
+            serializer = ModalidadeSerializer(modalidade)
+            return Response(serializer.data, status=200)
+        else:
+            return Response({"mensagem": "Não existe a modalidade pretendida."}, status=404)
+    else:
+        return Response({"mensagem": "Não existe a modalidade pretendida."}, status=404)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaEquipas(request, id):
+
+    id_clube = request.user.clube
+
+    equipas = Equipa.objects.filter(clube=id_clube, modalidade=id).order_by('nome')
+
+    serializer = EquipaSerializer(equipas, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaEpocas(request, id):
+
+    epocas = Epoca.objects.filter(modalidade=id).order_by('-nome')
+
+    serializer = EpocaSerializer(epocas, many=True)
+
+    return Response(serializer.data)
 
   

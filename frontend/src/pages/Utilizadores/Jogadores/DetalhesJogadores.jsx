@@ -5,6 +5,7 @@ import styles from './DetalhesJogadores.module.css'
 import {MdOutlineArrowBackIosNew} from "react-icons/md";
 import { differenceInYears } from 'date-fns';
 
+//TODO: PASSAR TAMBÉM O ID DO CLUBE PARA VERIFICAR SE É OU NÃO É JOGADOR DO CLUBE DO GESTOR A ACEDER
 const jogadorLoader = async ({ params }) => {
   try {
     const res = await axios.get(`http://localhost:8000/api/info-jogador/${params.id}/`, {

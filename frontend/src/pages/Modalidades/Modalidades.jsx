@@ -13,6 +13,7 @@ import {
   adicionaModalidade,
   editaModalidade,
 } from "../../api/Modalidades/api";
+import Spinner from "../../components/Spinner";
 
 const Modalidades = () => {
   const [filtroNome, setFiltroNome] = useState("");
@@ -24,6 +25,7 @@ const Modalidades = () => {
   const [erro, setErro] = useState(null);
   const [modalidadeEscolhida, setModalidadeEscolhida] = useState(null);
   const [modalRemover, setModalRemover] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
 
@@ -51,7 +53,7 @@ const Modalidades = () => {
 
   // Função para ir buscar as modalidades ao carregar o componente
   useEffect(() => {
-    listaModalidades(utilizadorInfo.id_clube, setDesportos);
+    listaModalidades(utilizadorInfo.id_clube, setDesportos, setLoading);
   }, []);
 
   const modalidadesFiltradas = desportos.filter(
@@ -136,14 +138,18 @@ const Modalidades = () => {
           </div>
         </div>
         <div className={styles.painelInferior}>
-          <ListaModalidades
-            modalidadesFiltradas={modalidadesFiltradas}
-            setModo={setModo}
-            setModalidade={setModalidadeEscolhida}
-            setNomeModalidade={setNomeModalidade}
-            modalRemover={modalRemover}
-            setModalRemover={setModalRemover}
-          />
+          {loading ? (
+            <Spinner loading={loading} />
+          ) : (
+            <ListaModalidades
+              modalidadesFiltradas={modalidadesFiltradas}
+              setModo={setModo}
+              setModalidade={setModalidadeEscolhida}
+              setNomeModalidade={setNomeModalidade}
+              modalRemover={modalRemover}
+              setModalRemover={setModalRemover}
+            />
+          )}
         </div>
         {/* <Paginacao totalUtilizadores={jogadoresFiltrados.length} utilizadoresPagina={utilizadoresPagina} paginaAtual={paginaAtual} setPaginaAtual={setPaginaAtual}/> */}
       </div>
