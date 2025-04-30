@@ -192,4 +192,9 @@
   margin-top: 30px;
 }
 
+.painelBotoes {
+  display: flex;
+  gap: 20px;
+}
+
 

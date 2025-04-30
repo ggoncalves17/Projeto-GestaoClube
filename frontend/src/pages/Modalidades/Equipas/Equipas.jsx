@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState  } from "react";
+import { useParams, useOutletContext } from "react-router-dom";
 import CardEquipa from "../../../components/CardEquipa";
 import styles from "../../../components/ListaUtilizadores.module.css";
 import { listaEquipas } from "../../../api/Equipas/api";
@@ -7,32 +7,38 @@ import Spinner from "../../../components/Spinner";
 
 const Equipas = () => {
   const { id: id_modalidade } = useParams();
+  const { filtroCategoria } = useOutletContext();
 
   const [loading, setLoading] = useState(true);
   const [equipas, setEquipas] = useState([]);
-  const epocasUnicas = [...new Set(equipas.map((equipa) => equipa.epoca.nome))]
-    .sort()
-    .reverse();
 
   useEffect(() => {
     listaEquipas(id_modalidade, setEquipas, setLoading);
   }, []);
+
+  const equipasFiltradas = equipas.filter((equipa) =>
+    ((filtroCategoria === "Tipo" || filtroCategoria === "Ambos" || filtroCategoria === "") ? true : equipa.categoria === filtroCategoria) 
+  )
+
+  const epocasUnicas = [...new Set(equipasFiltradas.map((equipa) => equipa.epoca.nome))]
+    .sort()
+    .reverse();
 
   return (
     <div>
       {loading ? (
         <Spinner loading={loading} />
       ) : (
-        <div>
-          {equipas.length > 0 ? (
+        <div className={styles.equipasEpoca}>
+          {equipasFiltradas.length > 0 ? (
             epocasUnicas.map((epoca, index) => (
               <div key={index}>
                 <h2>
                   <u>Época {epoca}</u>
                 </h2>
                 <div className={styles.grelhaModalidades}>
-                  {equipas.map((equipa, index) => (
-                    <CardEquipa key={index} equipa={equipa} />
+                  {equipasFiltradas.map((equipa, index) => (
+                    equipa.epoca.nome == epoca && <CardEquipa key={index} equipa={equipa} />
                   ))}
                 </div>
               </div>

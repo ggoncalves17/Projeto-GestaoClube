@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Outlet,
   useLoaderData,
   redirect,
   useNavigate,
-  Link,
+  useLocation,
   NavLink,
 } from "react-router-dom";
 import styles from "./Modalidades.module.css";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import axios from "axios";
+import Dropdown from "../../components/Dropdown";
 
 const modalidadeLoader = async ({ params }) => {
-
   try {
     const res = await axios.get(
       `http://localhost:8000/api/info-modalidade/${params.id}/`,
@@ -33,8 +33,17 @@ const modalidadeLoader = async ({ params }) => {
 
 const DetalhesModalidades = () => {
   const infoModalidade = useLoaderData();
+  const [filtroCategoria, setFiltroCategoria] = useState("");
+  const categorias = ["Ambos", "Masculino", "Feminino"];
+  // const [filtroEpoca, setFiltroEpoca] = useState("");
+  // const [epocasExistentes, setEpocasExistentes] = useState(["Teste"]);
 
+  const localizacao = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setFiltroCategoria("");
+  }, [localizacao.pathname]);
 
   return (
     <div className={styles.estrutura}>
@@ -79,6 +88,21 @@ const DetalhesModalidades = () => {
             </div>
 
             <div className={styles.painelBotoes}>
+              {localizacao.pathname.endsWith("equipas") && (
+                <>
+                  <Dropdown
+                    tipo={filtroCategoria}
+                    setTipo={setFiltroCategoria}
+                    dados={categorias}
+                  />
+
+                  {/* <Dropdown
+                    tipo={filtroEpoca}
+                    setTipo={setFiltroEpoca}
+                    dados={epocasExistentes}
+                  /> */}
+                </>
+              )}
               <button
                 onClick={() => setModo("Adicionar")}
                 className={styles.botaoAdicionar}
@@ -89,7 +113,7 @@ const DetalhesModalidades = () => {
           </div>
           <hr />
           <div className={styles.conteudo}>
-            <Outlet />
+            <Outlet context={{ filtroCategoria }} />
           </div>
         </div>
       </div>
