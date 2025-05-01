@@ -4,9 +4,17 @@ import { FaTrash } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
-const CardEquipa = ({ equipa }) => {
+const CardEquipa = ({ equipa, setModalRemover, setEquipaEscolhida }) => {
 
   const categoria = equipa.categoria
+
+  const handleRemoveEquipa = () => {
+    setModalRemover(true)
+    setEquipaEscolhida({
+      id:equipa.id,
+      nome:equipa.nome,
+    })
+  }
 
   return (
     <div className={`${styles.card} ${styles.cardModalidade}`}>
@@ -28,7 +36,7 @@ const CardEquipa = ({ equipa }) => {
         <Link to={``} className={styles.btnDetalhes}>
         Ver Detalhes
         </Link>
-        <button type="button" className={styles.btnRemover} disabled={equipa.nElementos > 0}>
+        <button type="button" className={styles.btnRemover} disabled={equipa.nElementos > 0} onClick={handleRemoveEquipa}>
           <FaTrash title="Remover" className={styles.iconRemover} />
         </button>
       </div>

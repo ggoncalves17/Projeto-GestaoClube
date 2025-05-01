@@ -62,3 +62,29 @@ export const adicionaEquipa = (
       }
     });
 };
+
+// FUNÇÃO PARA REMOVER EQUIPA ------------------------------------------------------
+export const removeEquipa = (id_equipa, setEquipas, setModalRemover) => {
+  axios
+  .delete(
+    `${url}/remove-equipa/${id_equipa}/`,
+    {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      
+      setEquipas((prev) => prev.filter((equipa) => equipa.id != id_equipa));
+
+      setModalRemover(false)
+      toast.success(`Equipa Removida com Sucesso!`);
+
+    })
+    .catch((err) => {
+      console.log("Código do erro:", err.response.status);
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+}

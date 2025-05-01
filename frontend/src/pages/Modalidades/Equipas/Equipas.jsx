@@ -8,6 +8,7 @@ import Modal from "../../../components/JanelaModal/Modal";
 import InputForm from "../../../components/InputForm";
 import SelectForm from "../../../components/SelectForm";
 import { adicionaEquipa } from "../../../api/Equipas/api";
+import PopUpRemoverModalidade from "../../../components/PopUpRemoverModalidade";
 
 const Equipas = () => {
   const { id: id_modalidade } = useParams();
@@ -22,7 +23,8 @@ const Equipas = () => {
   const [loading, setLoading] = useState(true);
   const [equipas, setEquipas] = useState([]);
   const [erro, setErro] = useState("");
-
+  const [equipaEscolhida, setEquipaEscolhida] = useState(null);
+  const [modalRemover, setModalRemover] = useState(null);
   const [novaEquipa, setNovaEquipa] = useState({
     nome: "",
     epoca: "",
@@ -105,7 +107,7 @@ const Equipas = () => {
                   {equipasFiltradas.map(
                     (equipa, index) =>
                       equipa.epoca.nome == epoca && (
-                        <CardEquipa key={index} equipa={equipa} />
+                        <CardEquipa key={index} equipa={equipa} setModalRemover={setModalRemover} setEquipaEscolhida={setEquipaEscolhida}/>
                       )
                   )}
                 </div>
@@ -154,14 +156,15 @@ const Equipas = () => {
             </Modal>
           )}
 
-          {/* {modalRemover && (
+          {modalRemover && (
             <PopUpRemoverModalidade
-              setDesportos={setDesportos}
-              idModalidade={modalidadeEscolhida}
-              modalidadeNome={nomeModalidade}
+              titulo="equipa"
+              setDesportos={setEquipas}
+              idModalidade={equipaEscolhida.id}
+              modalidadeNome={equipaEscolhida.nome}
               setModalRemover={setModalRemover}
             />
-          )} */}
+          )}
         </div>
       )}
     </div>
