@@ -654,10 +654,6 @@ def adiciona_epoca(request, id):
     nome = request.data.get("nome")
     data_inicio = request.data.get("data_inicio")
     data_fim = request.data.get("data_fim")
-
-    print("NOME: ", nome)
-    print("INICIO: ", data_inicio)
-    print("FIM: ", data_fim)
     
     if Equipa.objects.filter(nome__iexact=nome, modalidade=id).exists():
         return Response({"mensagem": "Já existe uma época com o mesmo nome"}, status=404)
@@ -707,4 +703,35 @@ def remove_equipa(request, id):
         return Response({"mensagem": "Equipa removida com sucesso!"}, status=200)    
     
     except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+    
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def edita_equipa(request, id):
+
+    equipa = get_object_or_404(Equipa, id=id)
+
+    nome = request.data.get("nome")
+    epoca = request.data.get("epoca")
+    categoria = request.data.get("categoria")
+
+    id_epoca = get_object_or_404(Epoca, nome=epoca).id
+    id_clube = request.user.clube.id
+
+    if Equipa.objects.filter(nome__iexact=nome, epoca=id_epoca, categoria=categoria, modalidade=id, clube=id_clube).exclude(id=id).exists():
+        return Response({"mensagem": "Já existe uma equipa exatamente com os mesmos atributos colocados"}, status=404)
+    else:
+
+        equipa.nome = nome
+        equipa.categoria = categoria
+        equipa.epoca_id = id_epoca
+
+        try:
+            equipa.save() 
+
+            serializer = EquipaSerializer(equipa)
+
+            return Response({"mensagem": "Equipa atualizada com sucesso!", "equipa": serializer.data}, status=200)
+        
+        except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

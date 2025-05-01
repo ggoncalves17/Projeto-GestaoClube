@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/listaEquipas/<int:id>/', views.listaEquipas, name='listaEquipas'),
     path('api/adiciona-equipa/<int:id>/', views.adiciona_equipa, name='adiciona-equipa'),    
     path('api/remove-equipa/<int:id>/', views.remove_equipa, name='remove-equipa'), 
+    path('api/edita-equipa/<int:id>/', views.edita_equipa, name='edita-equipa'),   
 
     # ÉPOCAS ------------------------------------------------------------------------------------
     path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),

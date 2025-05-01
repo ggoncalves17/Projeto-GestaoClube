@@ -7,18 +7,13 @@ import Spinner from "../../../components/Spinner";
 import Modal from "../../../components/JanelaModal/Modal";
 import InputForm from "../../../components/InputForm";
 import SelectForm from "../../../components/SelectForm";
-import { adicionaEquipa } from "../../../api/Equipas/api";
+import { adicionaEquipa, editaEquipa } from "../../../api/Equipas/api";
 import PopUpRemoverModalidade from "../../../components/PopUpRemoverModalidade";
 
 const Equipas = () => {
   const { id: id_modalidade } = useParams();
-  const {
-    filtroCategoria,
-    filtroEpoca,
-    modo,
-    setModo,
-    infoModalidade,
-  } = useOutletContext();
+  const { filtroCategoria, filtroEpoca, modo, setModo, infoModalidade } =
+    useOutletContext();
 
   const [loading, setLoading] = useState(true);
   const [equipas, setEquipas] = useState([]);
@@ -37,8 +32,15 @@ const Equipas = () => {
 
   useEffect(() => {
     setNovaEquipa({ nome: "", epoca: "", categoria: "" });
-    setErro("")
+    setErro("");
   }, [modo]);
+
+  // Como tenho os campos no Input a ir buscar à novaEquipa, então passo o equipaEscolhida visto que aproveito que mando para o card também no remover
+  useEffect(() => {
+    if (modo == "Editar") {      
+      setNovaEquipa(equipaEscolhida);
+    }
+  }, [equipaEscolhida]);
 
   const equipasFiltradas = equipas.filter(
     (equipa) =>
@@ -76,18 +78,34 @@ const Equipas = () => {
             equipa.categoria == novaEquipa.categoria
         )
       ) {
-        setErro("Já existe uma equipa exatamente com os mesmos atributos colocados");
+        setErro(
+          "Já existe uma equipa exatamente com os mesmos atributos colocados"
+        );
         return;
       }
-      
+
       // Chamada da Função para Adicionar nova Equipa
-      adicionaEquipa(
-        id_modalidade,
-        novaEquipa,
-        setEquipas,
-        setModo,
-        setErro
-      );
+      adicionaEquipa(id_modalidade, novaEquipa, setEquipas, setModo, setErro);
+    } else {
+
+      if (
+        equipas.some(
+          (equipa) =>
+            equipa.nome.trim().toLowerCase() ==
+              novaEquipa.nome.trim().toLowerCase() &&
+            equipa.epoca.nome == novaEquipa.epoca &&
+            equipa.categoria == novaEquipa.categoria &&
+            equipa.id !== equipaEscolhida.id
+        )
+      ) {
+        setErro(
+          "Já existe uma equipa exatamente com os mesmos atributos colocados"
+        );
+        return;
+      }
+
+      // Chamada da Função para Editar Equipa
+      editaEquipa(equipaEscolhida.id, novaEquipa, setEquipas, setModo, setErro);
     }
   };
 
@@ -107,7 +125,13 @@ const Equipas = () => {
                   {equipasFiltradas.map(
                     (equipa, index) =>
                       equipa.epoca.nome == epoca && (
-                        <CardEquipa key={index} equipa={equipa} setModalRemover={setModalRemover} setEquipaEscolhida={setEquipaEscolhida}/>
+                        <CardEquipa
+                          key={index}
+                          setModo={setModo}
+                          equipa={equipa}
+                          setModalRemover={setModalRemover}
+                          setEquipaEscolhida={setEquipaEscolhida}
+                        />
                       )
                   )}
                 </div>
