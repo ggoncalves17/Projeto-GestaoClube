@@ -71,7 +71,7 @@ export const adicionaModalidade = (nome, id_clube, setDesportos, setModo, setErr
 // FUNÇÃO PARA EDITAR MODALIDADE ------------------------------------------------------
 export const editaModalidade = (nome, id_modalidade, setDesportos, setModo, setErro) => {
   axios
-  .post(
+  .put(
     `${url}/edita-modalidade/${id_modalidade}/`,
     {
       nome: nome,
@@ -80,7 +80,7 @@ export const editaModalidade = (nome, id_modalidade, setDesportos, setModo, setE
       withCredentials: true,
       headers: {
         "X-CSRFToken": Cookies.get("csrftoken"),
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
     }
   )
@@ -108,5 +108,31 @@ export const editaModalidade = (nome, id_modalidade, setDesportos, setModo, setE
     }
     
   })
+}
+
+// FUNÇÃO PARA REMOVER MODALIDADE ------------------------------------------------------
+export const removeModalidade = (id_modalidade, setDesportos, setModalRemover) => {
+  axios
+  .delete(
+    `${url}/remove-modalidade/${id_modalidade}/`,
+    {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      
+      setDesportos((prev) => prev.filter((modalidade) => modalidade.id != id_modalidade))
+
+      setModalRemover(false)
+      toast.success(`Modalidade Removida com Sucesso!`);
+
+    })
+    .catch((err) => {
+      console.log("Código do erro:", err.response.status);
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
 }
 

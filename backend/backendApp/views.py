@@ -517,7 +517,7 @@ def adiciona_modalidade(request):
     id_clube = request.data.get("id_clube")
 
     # Referência -> https://docs.djangoproject.com/en/5.2/ref/models/querysets/#iexact
-    if Modalidade.objects.filter(nome__iexact=nome).exists():
+    if Modalidade.objects.filter(nome__iexact=nome, clube=id_clube).exists():
         return Response({"mensagem": "Já existe uma modalidade com o mesmo nome"}, status=404)
     else:
         modalidade = Modalidade(
@@ -536,16 +536,17 @@ def adiciona_modalidade(request):
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
 
-@api_view(['POST'])
+@api_view(['PUT'])
 @permission_classes([AllowAny])
 def edita_modalidade(request, id):
 
     modalidade = get_object_or_404(Modalidade, id=id)
 
     nome = request.data.get("nome")
+    id_clube = request.data.get("id_clube")
 
     # Referência -> https://sentry.io/answers/django-queryset-filter-not-equal/
-    if Modalidade.objects.filter(nome__iexact=nome).exclude(id=id).exists():
+    if Modalidade.objects.filter(nome__iexact=nome, clube=id_clube).exclude(id=id).exists():
         return Response({"mensagem": "Já existe uma modalidade com o mesmo nome"}, status=404)
     else:
 
@@ -562,7 +563,7 @@ def edita_modalidade(request, id):
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
 
 
-@api_view(['POST'])
+@api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def remove_modalidade(request, id):
 
@@ -596,7 +597,7 @@ def info_modalidade(request, id):
 @permission_classes([IsAuthenticated])
 def listaEquipas(request, id):
 
-    id_clube = request.user.clube
+    id_clube = request.user.clube.id
 
     equipas = Equipa.objects.filter(clube=id_clube, modalidade=id).order_by('nome')
 
@@ -614,4 +615,62 @@ def listaEpocas(request, id):
 
     return Response(serializer.data)
 
-  
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adiciona_equipa(request, id):
+
+    nome = request.data.get("nome")
+    epoca = request.data.get("epoca")
+    categoria = request.data.get("categoria")
+    id_clube = request.user.clube.id
+    
+    id_epoca = get_object_or_404(Epoca, nome=epoca).id
+
+    if Equipa.objects.filter(nome__iexact=nome, epoca=id_epoca, categoria=categoria, modalidade=id, clube=id_clube).exists():
+        return Response({"mensagem": "Já existe uma equipa exatamente com os mesmos atributos colocados"}, status=404)
+    else:
+        equipa = Equipa(
+            nome=nome,
+            categoria=categoria,
+            clube_id=id_clube,
+            modalidade_id=id,
+            epoca_id=id_epoca,
+        )
+
+        try:
+            equipa.save() 
+
+            serializer = EquipaSerializer(equipa)
+
+            return Response({"mensagem": "Equipa inserida com sucesso!", "equipa": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adiciona_epoca(request, id):
+
+    nome = request.data.get("nome")
+    data_inicio = request.data.get("data_inicio")
+    data_fim = request.data.get("data_fim")
+    
+    if Equipa.objects.filter(nome__iexact=nome, modalidade=id).exists():
+        return Response({"mensagem": "Já existe uma época com o mesmo nome"}, status=404)
+    else:
+        epoca = Epoca(
+            nome=nome,
+            inicio_epoca=data_inicio,
+            fim_epoca=data_fim,
+            modalidade_id=id,
+        )
+
+        try:
+            epoca.save() 
+
+            serializer = EpocaSerializer(epoca)
+
+            return Response({"mensagem": "Época inserida com sucesso!", "epoca": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

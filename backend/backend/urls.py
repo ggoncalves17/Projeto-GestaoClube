@@ -31,8 +31,10 @@ urlpatterns = [
     
     # EQUIPAS ------------------------------------------------------------------------------------
     path('api/listaEquipas/<int:id>/', views.listaEquipas, name='listaEquipas'),
-    
+    path('api/adiciona-equipa/<int:id>/', views.adiciona_equipa, name='adiciona-equipa'),    
+
     # ÉPOCAS ------------------------------------------------------------------------------------
     path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),
+    path('api/adiciona-epoca/<int:id>/', views.adiciona_epoca, name='adiciona-epoca'),    
 
 ]

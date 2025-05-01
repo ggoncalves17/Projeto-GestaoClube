@@ -36,8 +36,12 @@ const DetalhesModalidades = () => {
   const [filtroCategoria, setFiltroCategoria] = useState("");
   const categorias = ["Ambos", "Masculino", "Feminino"];
   const [filtroEpoca, setFiltroEpoca] = useState("");
-  const [epocasExistentes, setEpocasExistentes] = useState([""]);
 
+  const todasEpocasExistentes = ["Todas", ...new Set((infoModalidade.epoca_set).map((epoca) => epoca.nome).sort().reverse())]
+
+  const [epocasExistentes, setEpocasExistentes] = useState(todasEpocasExistentes);
+  const [modo, setModo] = useState(null);
+  
   const localizacao = useLocation();
   const navigate = useNavigate();
 
@@ -110,13 +114,13 @@ const DetalhesModalidades = () => {
                 onClick={() => setModo("Adicionar")}
                 className={styles.botaoAdicionar}
               >
-                + Adicionar Modalidade
+                + Adicionar {localizacao.pathname.endsWith("equipas") ? "Equipa" : "Época"}
               </button>
             </div>
           </div>
           <hr />
           <div className={styles.conteudo}>
-            <Outlet context={{ filtroCategoria, setEpocasExistentes, filtroEpoca }} />
+            <Outlet context={{ filtroCategoria, setEpocasExistentes, filtroEpoca, modo, setModo, infoModalidade }} />
           </div>
         </div>
       </div>
