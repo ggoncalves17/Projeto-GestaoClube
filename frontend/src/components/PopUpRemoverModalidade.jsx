@@ -4,14 +4,24 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { removeModalidade } from "../api/Modalidades/api";
+import { removeEpoca } from "../api/Epocas/api";
 
-const PopUpRemoverModalidade = ({ idModalidade, modalidadeNome, setModalRemover, setDesportos }) => {
+const PopUpRemoverModalidade = ({ titulo="modalidade", idModalidade, modalidadeNome, setModalRemover, setDesportos }) => {
+
+  const opcoesRemocao = () => {
+    switch(titulo){
+      case "modalidade":
+        removeModalidade(idModalidade, setDesportos, setModalRemover)
+      case "época":
+        removeEpoca(idModalidade, setDesportos, setModalRemover)
+    }
+  }
 
   return (
     <div onClick={() => setModalRemover(false)} className={styles.janelaModal}>
       <div onClick={(e) => e.stopPropagation()} className={styles.modal}>
         <h3>
-          Deseja mesmo remover a modalidade "<b>{modalidadeNome}</b>" ?
+          Deseja mesmo remover a {titulo} "<b>{modalidadeNome}</b>" ?
         </h3>
         <p>Ao confirmar não vai poder recuperar a mesma.</p>
         <div className={styles.botoes}>
@@ -22,7 +32,7 @@ const PopUpRemoverModalidade = ({ idModalidade, modalidadeNome, setModalRemover,
             Não
           </button>
           <button
-            onClick={() => removeModalidade(idModalidade, setDesportos, setModalRemover)}
+            onClick={opcoesRemocao}
             className={`${styles.botao} ${styles.btnRemover}`}
           >
             Sim

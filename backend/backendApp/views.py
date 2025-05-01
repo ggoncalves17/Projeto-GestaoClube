@@ -678,3 +678,18 @@ def adiciona_epoca(request, id):
         
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+        
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_epoca(request, id):
+
+    epoca = get_object_or_404(Epoca, id=id)
+
+    try:
+
+        epoca.delete()
+
+        return Response({"mensagem": "Época removida com sucesso!"}, status=200)    
+    
+    except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

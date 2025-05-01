@@ -7,6 +7,7 @@ import Spinner from "../../../components/Spinner";
 import Modal from "../../../components/JanelaModal/Modal";
 import InputForm from "../../../components/InputForm";
 import { adicionaEpoca } from "../../../api/Epocas/api";
+import PopUpRemoverModalidade from "../../../components/PopUpRemoverModalidade";
 
 const Epocas = () => {
   const { id: id_modalidade } = useParams();
@@ -15,6 +16,8 @@ const Epocas = () => {
   const [loading, setLoading] = useState(true);
   const [epocas, setEpocas] = useState([]);
   const [erro, setErro] = useState("");
+  const [epocaEscolhida, setEpocaEscolhida] = useState(null);
+  const [modalRemover, setModalRemover] = useState(null);
   const [novaEpoca, setNovaEpoca] = useState({
     nome: "",
     data_inicial: "",
@@ -32,7 +35,6 @@ const Epocas = () => {
 
   useEffect(() => {
     if (novaEpoca.data_inicial && novaEpoca.data_final) {
-
       const data_inicio_ano = new Date(novaEpoca.data_inicial).getFullYear();
       const data_fim_ano = new Date(novaEpoca.data_final).getFullYear();
 
@@ -67,7 +69,7 @@ const Epocas = () => {
 
       const inicio = new Date(novaEpoca.data_inicial);
       const fim = new Date(novaEpoca.data_final);
-    
+
       if (fim < inicio) {
         setErro("A data final não pode ser anterior à data inicial.");
         return;
@@ -87,7 +89,7 @@ const Epocas = () => {
           {epocas.length > 0 ? (
             <div className={styles.grelhaEpocas}>
               {epocas.map((epoca, index) => (
-                <CardEpoca key={index} epoca={epoca} />
+                <CardEpoca key={index} epoca={epoca} setModalRemover={setModalRemover} setEpocaEscolhida={setEpocaEscolhida}/>
               ))}
             </div>
           ) : (
@@ -109,7 +111,7 @@ const Epocas = () => {
                 onChange={(e) =>
                   setNovaEpoca({ ...novaEpoca, nome: e.target.value })
                 }
-                placeholder="Ex: 2024/2025"
+                placeholder="Selecione a Data Inicial e Final"
                 disabled={true}
                 erro={erro}
               />
@@ -120,7 +122,6 @@ const Epocas = () => {
                 onChange={(e) =>
                   setNovaEpoca({ ...novaEpoca, data_inicial: e.target.value })
                 }
-                placeholder="Ex: 2024/2025"
               />
               <InputForm
                 tipo="date"
@@ -129,9 +130,18 @@ const Epocas = () => {
                 onChange={(e) =>
                   setNovaEpoca({ ...novaEpoca, data_final: e.target.value })
                 }
-                placeholder="Ex: 2024/2025"
               />
             </Modal>
+          )}
+
+          {modalRemover && (
+            <PopUpRemoverModalidade
+              titulo="época"
+              setDesportos={setEpocas}
+              idModalidade={epocaEscolhida.id}
+              modalidadeNome={epocaEscolhida.nome}
+              setModalRemover={setModalRemover}
+            />
           )}
         </div>
       )}

@@ -69,3 +69,29 @@ export const adicionaEpoca = (
       }
     });
 };
+
+// FUNÇÃO PARA REMOVER ÉPOCA ------------------------------------------------------
+export const removeEpoca = (id_epoca, setEpocas, setModalRemover) => {
+  axios
+  .delete(
+    `${url}/remove-epoca/${id_epoca}/`,
+    {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      
+      setEpocas((prev) => prev.filter((epoca) => epoca.id != id_epoca));
+
+      setModalRemover(false)
+      toast.success(`Época Removida com Sucesso!`);
+
+    })
+    .catch((err) => {
+      console.log("Código do erro:", err.response.status);
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+}

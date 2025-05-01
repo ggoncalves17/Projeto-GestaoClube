@@ -36,5 +36,6 @@ urlpatterns = [
     # ÉPOCAS ------------------------------------------------------------------------------------
     path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),
     path('api/adiciona-epoca/<int:id>/', views.adiciona_epoca, name='adiciona-epoca'),    
+    path('api/remove-epoca/<int:id>/', views.remove_epoca, name='remove-epoca'), 
 
 ]

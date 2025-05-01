@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import styles from "../css/CardEpoca.module.css";
 import { FaTrash } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
-import { Link } from "react-router-dom";
 
-const CardEpoca = ({ epoca }) => {
+const CardEpoca = ({ epoca, setModalRemover, setEpocaEscolhida }) => {
   const data_inicio = new Date(epoca.inicio_epoca);
   const data_fim = new Date(epoca.fim_epoca);
   const data_atual = new Date();
-
+  
   let estado;
 
   if(data_atual > data_inicio && data_atual < data_fim) {
@@ -19,6 +18,14 @@ const CardEpoca = ({ epoca }) => {
   }
   else {
     estado = "Terminou"
+  }
+
+  const handleRemoveEpoca = () => {
+    setModalRemover(true)
+    setEpocaEscolhida({
+      id:epoca.id,
+      nome:epoca.nome,
+    })
   }
 
   return (
@@ -42,7 +49,7 @@ const CardEpoca = ({ epoca }) => {
           <p>Equipas: {epoca.nEquipas}</p>
         </div>
       </div>
-      <button type="button" className={styles.btnRemover}>
+      <button type="button" className={styles.btnRemover} disabled={epoca.nEquipas > 0} onClick={handleRemoveEpoca}>
         <FaTrash title="Remover" className={styles.iconRemover} />
       </button>
     </div>
