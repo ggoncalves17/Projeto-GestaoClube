@@ -5,6 +5,8 @@ import styles from "../../../components/ListaUtilizadores.module.css";
 import { listaEpocas } from "../../../api/Epocas/api";
 import Spinner from "../../../components/Spinner";
 import Modal from "../../../components/JanelaModal/Modal";
+import InputForm from "../../../components/InputForm";
+import { adicionaEpoca } from "../../../api/Epocas/api";
 
 const Epocas = () => {
   const { id: id_modalidade } = useParams();
@@ -13,10 +15,68 @@ const Epocas = () => {
   const [loading, setLoading] = useState(true);
   const [epocas, setEpocas] = useState([]);
   const [erro, setErro] = useState("");
+  const [novaEpoca, setNovaEpoca] = useState({
+    nome: "",
+    data_inicial: "",
+    data_final: "",
+  });
 
   useEffect(() => {
     listaEpocas(id_modalidade, setEpocas, setLoading);
   }, []);
+
+  useEffect(() => {
+    setNovaEpoca({ nome: "", data_inicial: "", data_final: "" });
+    setErro("");
+  }, [modo]);
+
+  useEffect(() => {
+    if (novaEpoca.data_inicial && novaEpoca.data_final) {
+
+      const data_inicio_ano = new Date(novaEpoca.data_inicial).getFullYear();
+      const data_fim_ano = new Date(novaEpoca.data_final).getFullYear();
+
+      if (data_inicio_ano == data_fim_ano) {
+        setNovaEpoca((prev) => ({
+          ...prev,
+          nome: `${data_inicio_ano}`,
+        }));
+      } else {
+        setNovaEpoca((prev) => ({
+          ...prev,
+          nome: `${data_inicio_ano}/${data_fim_ano}`,
+        }));
+      }
+    }
+  }, [novaEpoca.data_inicial, novaEpoca.data_final]);
+
+  const handleSubmeteEpoca = (event) => {
+    event.preventDefault();
+
+    if (modo == "Adicionar") {
+      if (
+        epocas.some(
+          (epoca) =>
+            epoca.nome.trim().toLowerCase() ==
+            novaEpoca.nome.trim().toLowerCase()
+        )
+      ) {
+        setErro("Já existe uma época com o mesmo nome");
+        return;
+      }
+
+      const inicio = new Date(novaEpoca.data_inicial);
+      const fim = new Date(novaEpoca.data_final);
+    
+      if (fim < inicio) {
+        setErro("A data final não pode ser anterior à data inicial.");
+        return;
+      }
+    }
+
+    // Chamada da Função para Adicionar nova Éoca
+    adicionaEpoca(id_modalidade, novaEpoca, setEpocas, setModo, setErro);
+  };
 
   return (
     <div>
@@ -41,8 +101,37 @@ const Epocas = () => {
               setModal={setModo}
               titulo={`${modo} Época`}
               botao={modo == "Adicionar" ? "Adicionar" : "Guardar"}
-              onSubmit={null}
-            ></Modal>
+              onSubmit={handleSubmeteEpoca}
+            >
+              <InputForm
+                label="Época"
+                valor={novaEpoca.nome}
+                onChange={(e) =>
+                  setNovaEpoca({ ...novaEpoca, nome: e.target.value })
+                }
+                placeholder="Ex: 2024/2025"
+                disabled={true}
+                erro={erro}
+              />
+              <InputForm
+                tipo="date"
+                label="Data Inicial"
+                valor={novaEpoca.data_inicial}
+                onChange={(e) =>
+                  setNovaEpoca({ ...novaEpoca, data_inicial: e.target.value })
+                }
+                placeholder="Ex: 2024/2025"
+              />
+              <InputForm
+                tipo="date"
+                label="Data Final"
+                valor={novaEpoca.data_final}
+                onChange={(e) =>
+                  setNovaEpoca({ ...novaEpoca, data_final: e.target.value })
+                }
+                placeholder="Ex: 2024/2025"
+              />
+            </Modal>
           )}
         </div>
       )}

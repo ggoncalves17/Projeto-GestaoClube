@@ -9,6 +9,7 @@ const InputForm = ({
   erro,
   placeholder,
   required = true,
+  disabled=false
 }) => {
   return (
     <div>
@@ -25,6 +26,7 @@ const InputForm = ({
           className={styles.inputCampo}
           placeholder={placeholder}
           required={required}
+          disabled={disabled}
         />
       </div>
     </div>

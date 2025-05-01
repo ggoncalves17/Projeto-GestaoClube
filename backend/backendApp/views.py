@@ -654,6 +654,10 @@ def adiciona_epoca(request, id):
     nome = request.data.get("nome")
     data_inicio = request.data.get("data_inicio")
     data_fim = request.data.get("data_fim")
+
+    print("NOME: ", nome)
+    print("INICIO: ", data_inicio)
+    print("FIM: ", data_fim)
     
     if Equipa.objects.filter(nome__iexact=nome, modalidade=id).exists():
         return Response({"mensagem": "Já existe uma época com o mesmo nome"}, status=404)

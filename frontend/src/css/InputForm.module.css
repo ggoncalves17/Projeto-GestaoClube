@@ -21,6 +21,10 @@
   outline-offset: -2px;
 }
 
+.inputCampo:disabled {
+  background-color: #EBEAEA;
+}
+
 .erro {
   color: red;
   font-size: 0.9rem;
