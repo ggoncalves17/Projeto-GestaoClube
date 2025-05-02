@@ -17,7 +17,7 @@ const CardElemento = ({ id, foto, nome, posicao }) => {
       </div>
       <div className={styles.infoJogador}>
         <div className={styles.nomeJogador}>
-          <h3>{nome}</h3>
+          <h4>{nome}</h4>
         </div>
         <div className={styles.infoAdicional}>
           <div className={styles.modalidade}>

@@ -163,11 +163,16 @@
   cursor: pointer;
   user-select: none;
   flex: none;
+  max-width: 100px;
 }
 
 .desportoSelecionado {
   background-color: #eff8fc;
   border: 2px solid #2170BD;
+}
+
+.desportoExistente {
+  word-wrap: break-word;
 }
 
 .fotoDesporto {

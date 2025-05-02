@@ -58,11 +58,17 @@ class ElementoClubeSerializer(serializers.ModelSerializer):
         model = Elemento_Clube
         fields = ('id', 'nome', 'sexo', 'data_nascimento', 'nacionalidade', 'cartao_cidadao', 'data_validade_cc', 'tipo', 'posicao', 'foto', 'peso', 'altura', 'estado', 'modalidade', 'clube')
 
+class ElementoClubeGeralSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Elemento_Clube
+        fields = ('id', 'nome', 'nacionalidade', 'tipo', 'posicao', 'foto')
+
 class EquipaDetalhesSerializer(serializers.ModelSerializer):
 
     epoca = serializers.SerializerMethodField()
     modalidade = serializers.SerializerMethodField()
-    elemento_clube_set = ElementoClubeSerializer(many=True, read_only=True)
+    elemento_clube_set = ElementoClubeGeralSerializer(many=True, read_only=True)
     class Meta:
         model = Equipa
         fields = ('id', 'nome', 'categoria', 'modalidade', 'epoca', 'elemento_clube_set')

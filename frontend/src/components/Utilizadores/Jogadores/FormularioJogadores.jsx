@@ -11,10 +11,16 @@ import { UtilizadorContext } from "../../../context/UtilizadorContext";
 import { listaModalidades } from "../../../api/Modalidades/api";
 
 const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
+  console.log(
+    "MODO DO PAINEL: ",
+    modo,
+    " E TIPO DE UTILIZADOR: ",
+    tipo,
+    " E ID_UTILIZADOR: ",
+    utilizador
+  );
 
-  console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo, " E ID_UTILIZADOR: ", utilizador);
-
-  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext)
+  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
 
   const [dadosFormulario, setDadosFormulario] = useState({
     tipo: "",
@@ -28,11 +34,11 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
     altura: "",
     foto: "",
     desporto: "",
-  }); 
+  });
 
   const [errosCampos, setErrosCampos] = useState({});
-  const [faseAdicionar, setFaseAdicionar] = useState(1)
-  const [desportosExistentes, setDesportosExistentes] = useState([])
+  const [faseAdicionar, setFaseAdicionar] = useState(1);
+  const [desportosExistentes, setDesportosExistentes] = useState([]);
 
   const {
     fotoPerfil: FotoPerfil,
@@ -42,22 +48,24 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
 
   // Função para selecionar o desporto a associar ao Jogador/Treinador
   const selecionaDesporto = (desportoSelecionado) => {
-    if(dadosFormulario.desporto == desportoSelecionado) {
-      setDadosFormulario({...dadosFormulario, desporto: ""})
+    if (dadosFormulario.desporto == desportoSelecionado) {
+      setDadosFormulario({ ...dadosFormulario, desporto: "" });
+    } else {
+      setDadosFormulario({ ...dadosFormulario, desporto: desportoSelecionado });
     }
-    else {
-      setDadosFormulario({...dadosFormulario, desporto: desportoSelecionado});
-    }
-  }
-
+  };
 
   useEffect(() => {
+    // Função para ir buscar as modalidades ao carregar o componente
+    listaModalidades(
+      utilizadorInfo.id_clube,
+      setDesportosExistentes,
+      null,
+      true
+    );
 
-      // Função para ir buscar as modalidades ao carregar o componente
-      listaModalidades(utilizadorInfo.id_clube, setDesportosExistentes, null, true)
-
-      if(modo === "Editar") {
-        axios
+    if (modo === "Editar") {
+      axios
         .get(`http://localhost:8000/api/info-jogador/${utilizador}/`, {
           withCredentials: true,
         })
@@ -70,27 +78,31 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
             data: res.data.data_nascimento,
             nacionalidade: res.data.nacionalidade,
             cc: res.data.cartao_cidadao != null ? res.data.cartao_cidadao : "",
-            cc_validade: res.data.data_validade_cc != null ? res.data.data_validade_cc : "",
+            cc_validade:
+              res.data.data_validade_cc != null
+                ? res.data.data_validade_cc
+                : "",
             peso: res.data.peso != null ? res.data.peso : "",
             altura: res.data.altura != null ? res.data.altura : "",
             foto: res.data.foto,
-            desporto: res.data.modalidade != null ? res.data.modalidade.nome : "",
+            desporto:
+              res.data.modalidade != null ? res.data.modalidade.nome : "",
           });
         })
         .catch((err) => {
           console.log("Mensagem do erro:", err.response.data.mensagem);
         });
-      }
+    }
   }, []);
 
   const handleSubmissao = (event) => {
     event.preventDefault();
 
     const erros = validaFormularioJogadores(dadosFormulario);
-    
+
     if (Object.keys(erros).length > 0) {
       setErrosCampos(erros);
-      setFaseAdicionar(1)
+      setFaseAdicionar(1);
       return;
     }
 
@@ -106,7 +118,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
     dados.append("altura", dadosFormulario.altura);
     dados.append("foto", FotoPerfil);
     dados.append("desporto", dadosFormulario.desporto);
-    dados.append("id_clube", utilizadorInfo.id_clube)
+    dados.append("id_clube", utilizadorInfo.id_clube);
 
     if (modo === "Adicionar") {
       axios
@@ -126,20 +138,15 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
           console.log("Código do erro:", err.response.status);
           console.log("Mensagem do erro:", err.response.data.mensagem);
         });
-    } 
-    else if (modo === "Editar") {
+    } else if (modo === "Editar") {
       axios
-        .post(
-          `http://localhost:8000/api/edita-jogador/${utilizador}/`,
-          dados,
-          {
-            withCredentials: true,
-            headers: {
-              "X-CSRFToken": Cookies.get("csrftoken"),
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .post(`http://localhost:8000/api/edita-jogador/${utilizador}/`, dados, {
+          withCredentials: true,
+          headers: {
+            "X-CSRFToken": Cookies.get("csrftoken"),
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
           setModo(null);
@@ -187,25 +194,63 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
         </div>
         <div className={styles.painelInfo}>
           <div className={styles.painelForm}>
+            {faseAdicionar == 1 ? (
+              <>
+                <div className={styles.campo}>
+                  <label htmlFor="">Tipo *</label>
+                  {errosCampos["tipo"] && (
+                    <p className={styles.erro}>{errosCampos["tipo"]}</p>
+                  )}
+                  <Dropdown
+                    tipo={dadosFormulario.tipo}
+                    setTipo={setDadosFormulario}
+                    dadosFormulario={dadosFormulario}
+                    campo={"tipo"}
+                    dados={["Jogador", "Treinador"]}
+                    jogador={true}
+                  />
+                </div>
 
-              {faseAdicionar == 1 ?
-              
-                <>
-                  <div className={styles.campo}>
-                    <label htmlFor="">Tipo *</label>
-                    {errosCampos["tipo"] && <p className={styles.erro}>{errosCampos["tipo"]}</p>}
-                    <Dropdown tipo={dadosFormulario.tipo} setTipo={setDadosFormulario} dadosFormulario={dadosFormulario} campo={"tipo"} dados={["Jogador", "Treinador"]} jogador={true}/>
-                  </div>
-                  
-                  <div className={styles.campo}>
-                    <label htmlFor="">Sexo *</label>
-                    {errosCampos["sexo"] && <p className={styles.erro}>{errosCampos["sexo"]}</p>}
-                    <Dropdown tipo={dadosFormulario.sexo} setTipo={setDadosFormulario} dadosFormulario={dadosFormulario} campo={"sexo"} dados={["Masculino", "Feminino"]} jogador={true}/>
-                  </div>
+                <div className={styles.campo}>
+                  <label htmlFor="">Sexo *</label>
+                  {errosCampos["sexo"] && (
+                    <p className={styles.erro}>{errosCampos["sexo"]}</p>
+                  )}
+                  <Dropdown
+                    tipo={dadosFormulario.sexo}
+                    setTipo={setDadosFormulario}
+                    dadosFormulario={dadosFormulario}
+                    campo={"sexo"}
+                    dados={["Masculino", "Feminino"]}
+                    jogador={true}
+                  />
+                </div>
 
+                {camposFormularioJogadores
+                  .filter((campo) => !campo.grupo)
+                  .map((campo) => (
+                    <Input
+                      key={campo.id}
+                      label={campo.label}
+                      tipo={campo.tipo}
+                      id={campo.id}
+                      placeholder={campo.placeholder}
+                      valor={dadosFormulario[campo.id]}
+                      onChange={(e) =>
+                        setDadosFormulario({
+                          ...dadosFormulario,
+                          [campo.id]: e.target.value,
+                        })
+                      }
+                      erro={errosCampos[campo.id]}
+                      required={true}
+                    />
+                  ))}
+
+                <div className={styles.formLinhasAgrupadas}>
                   {camposFormularioJogadores
-                    .filter(campo => !campo.grupo)
-                    .map((campo) => (                      
+                    .filter((campo) => campo.grupo)
+                    .map((campo) => (
                       <Input
                         key={campo.id}
                         label={campo.label}
@@ -221,68 +266,64 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
                         }
                         erro={errosCampos[campo.id]}
                         required={true}
+                        disabled={
+                          campo.id == "cc_validade" &&
+                          dadosFormulario.cc.trim() == ""
+                        }
                       />
+                    ))}
+                </div>
+              </>
+            ) : (
+              <div className={styles.painelAssociarDesporto}>
+                <h3>Associar Desporto</h3>
+                <div className={styles.painelDesportosExistentes}>
+                  {desportosExistentes.map((desporto, index) => (
+                    <div
+                      key={index}
+                      className={`${styles.caixaDesporto} ${
+                        dadosFormulario.desporto == desporto &&
+                        styles.desportoSelecionado
+                      }`}
+                      onClick={() => selecionaDesporto(desporto)}
+                    >
+                      <div className={styles.desportoExistente}>{desporto}</div>
+                      <img
+                        src={`/Fotos-Desportos/${desporto}.png`}
+                        alt="FotoDesporto"
+                        className={styles.fotoDesporto}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/Fotos-Desportos/Default.png";
+                        }}
+                      />
+                    </div>
                   ))}
-              
-                  <div className={styles.formLinhasAgrupadas}>
-                    {camposFormularioJogadores
-                      .filter(campo => campo.grupo)
-                      .map((campo) => (
-                        <Input
-                          key={campo.id}
-                          label={campo.label}
-                          tipo={campo.tipo}
-                          id={campo.id}
-                          placeholder={campo.placeholder}
-                          valor={dadosFormulario[campo.id]}
-                          onChange={(e) =>
-                            setDadosFormulario({
-                              ...dadosFormulario,
-                              [campo.id]: e.target.value,
-                            })
-                          }
-                          erro={errosCampos[campo.id]}
-                          required={true}
-                          disabled={campo.id == "cc_validade" && dadosFormulario.cc.trim() == ""}
-                        />
-                    ))} 
-                  </div>
-                </>
-              :
-                <div className={styles.painelAssociarDesporto}>
-                  <h3>Associar Desporto</h3>
-                  <div className={styles.painelDesportosExistentes}>
-                      {desportosExistentes.map((desporto, index) =>
-                        <div key={index} className={`${styles.caixaDesporto} ${dadosFormulario.desporto == desporto && styles.desportoSelecionado}`} onClick={() => selecionaDesporto(desporto)}>
-                          <div className={styles.desportoExistente} >{desporto}</div>
-                          <img src={`/Fotos-Desportos/${desporto}.png`} alt="FotoDesporto" className={styles.fotoDesporto}/>    
-                        </div>
-                      )}
-                  </div>
-                </div>}
-
+                </div>
+              </div>
+            )}
 
             {/* TODO: PARTE DO REQUIRED NÃO APARECER É DISTO */}
 
-            {faseAdicionar == 1  ?
-              <button onClick={() => setFaseAdicionar(2)}>
-                Avançar
-              </button>
-            :
-            <div className={styles.botoesFinais}> 
-               <button type="button" className={styles.botaoVoltar} onClick={() => setFaseAdicionar(1)}>
-                 Voltar Atrás
-               </button>
- 
-               <button type="submit">
-                 {modo == "Adicionar"
-                   ? "Adicionar Utilizador"
-                     : "Guardar Alterações"}
-               </button>
-               
-             </div>
+            {faseAdicionar == 1 ? (
+              <button onClick={() => setFaseAdicionar(2)}>Avançar</button>
+            ) : (
+              <div className={styles.botoesFinais}>
+                <button
+                  type="button"
+                  className={styles.botaoVoltar}
+                  onClick={() => setFaseAdicionar(1)}
+                >
+                  Voltar Atrás
+                </button>
 
-            }
+                <button type="submit">
+                  {modo == "Adicionar"
+                    ? "Adicionar Utilizador"
+                    : "Guardar Alterações"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </form>

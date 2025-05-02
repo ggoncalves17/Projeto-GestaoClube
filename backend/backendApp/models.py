@@ -97,7 +97,7 @@ class Inscricao(models.Model):
     data_inscricao = models.DateField()
     documentacao = models.BooleanField()
     estado = models.BooleanField()
-    competicao = models.ForeignKey(Competicao, on_delete=models.CASCADE)
+    # competicao = models.ForeignKey(Competicao, on_delete=models.CASCADE)
     epoca = models.ForeignKey(Epoca, on_delete=models.CASCADE)
     elemento_clube = models.ForeignKey(Elemento_Clube, on_delete=models.CASCADE)
 

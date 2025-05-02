@@ -26,9 +26,9 @@ const Plantel = () => {
     <div className={styles.paineisElementos}>
       {elementosFiltrados.map((tipo, index) => (
         <div key={index}>
-          <h2>
+          <h3>
             <u>{tipo.tipo}es</u>
-          </h2>
+          </h3>
           <div className={styles.grelhaModalidades}>
             {tipo.elementos.length > 0 ? (
               tipo.elementos.map((elemento, index) => (
