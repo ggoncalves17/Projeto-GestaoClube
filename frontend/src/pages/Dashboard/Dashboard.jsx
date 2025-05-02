@@ -33,7 +33,7 @@ const Dashboard = () => {
         <p className={styles.titulo}>Dashboard</p>
         <div className={styles.painelSuperior}>
           <CardDashboard tituloCard="Jogadores Ativos" valor={estatisticas.Jogadores}/>
-          <CardDashboard tituloCard="Equipas" valor={estatisticas.Equipas}/>
+          <CardDashboard tituloCard="Modalidades" valor={estatisticas.Modalidades}/>
           <CardDashboard tituloCard="Staff" valor={estatisticas.Staff}/>
           <CardDashboard tituloCard="Sócios Ativos" valor={estatisticas.Socios}/>
         </div>

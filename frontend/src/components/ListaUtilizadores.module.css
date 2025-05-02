@@ -28,4 +28,15 @@
     flex-direction: column;
     gap: 20px;
 }
+
+.paineisElementos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.infoElementos {
+    position: absolute;
+    top: -15px;
+}
   

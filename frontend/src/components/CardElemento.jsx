@@ -1,0 +1,36 @@
+import React from "react";
+import styles from "../css/CardElemento.module.css";
+import { useNavigate } from "react-router-dom";
+
+const CardElemento = ({ id, foto, nome, posicao }) => {
+
+  const navigate = useNavigate()
+
+  return (
+    <div className={styles.card} onClick={() => navigate(`/utilizadores/jogadores/${id}`)}>
+      <div>
+        <img
+          src={`/Fotos-Jogadores/${foto}`}
+          alt="FotoPerfil"
+          className={styles.fotoPerfil}
+        />
+      </div>
+      <div className={styles.infoJogador}>
+        <div className={styles.nomeJogador}>
+          <h3>{nome}</h3>
+        </div>
+        <div className={styles.infoAdicional}>
+          <div className={styles.modalidade}>
+            {posicao == null ? <p>Não Definida</p> : <p>{posicao}</p>}
+          </div>
+          <div>
+            {/* TODO: IR BUSCAR A PARTE DA INSCRIÇÃO DO UTILIZADOR */}
+            <p>Inscrito</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CardElemento;

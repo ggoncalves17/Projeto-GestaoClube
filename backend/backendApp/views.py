@@ -42,16 +42,15 @@ def verificaAutenticacao_view(request):
 @permission_classes([IsAuthenticated])
 def estatisticas_view(request):
 
-    #TODO: Aplicar Filtro da Época Atual para ver quais são as equipas atuais
-    #TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS AS ESTATISTICAS DESSE CLUBE 
+    id_clube = request.user.clube.id
 
     estatisticas = {
-        "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1).count(),
-        "Jogadores": Elemento_Clube.objects.filter(tipo="Jogador", estado=1).count(),
-        "Equipas": Equipa.objects.filter().count(),
+        "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1, clube=id_clube).count(),
+        "Jogadores": Elemento_Clube.objects.filter(tipo="Jogador", estado=1, clube=id_clube).count(),
+        "Modalidades": Modalidade.objects.filter(clube=id_clube).count(),
         "Socios": 0,
         "Eventos": 0,
-        "Jogos": Jogo.objects.all().count(),
+        "Jogos": 0,
     }
     return Response(estatisticas)
 
@@ -735,3 +734,20 @@ def edita_equipa(request, id):
         
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+        
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def info_equipa(request, id):
+
+    equipa = get_object_or_404(Equipa, id=id)
+
+    if equipa:
+
+        if(equipa.clube == request.user.clube):
+
+            serializer = EquipaDetalhesSerializer(equipa)
+            return Response(serializer.data, status=200)
+        else:
+            return Response({"mensagem": "Não existe a equipa pretendida."}, status=404)
+    else:
+        return Response({"mensagem": "Não existe a equipa pretendida."}, status=404)

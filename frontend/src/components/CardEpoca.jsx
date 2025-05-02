@@ -3,7 +3,7 @@ import styles from "../css/CardEpoca.module.css";
 import { FaTrash } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 
-const CardEpoca = ({ epoca, setModalRemover, setEpocaEscolhida }) => {
+const CardEpoca = ({ setModo, epoca, setModalRemover, setEpocaEscolhida }) => {
   const data_inicio = new Date(epoca.inicio_epoca);
   const data_fim = new Date(epoca.fim_epoca);
   const data_atual = new Date();
@@ -28,12 +28,22 @@ const CardEpoca = ({ epoca, setModalRemover, setEpocaEscolhida }) => {
     })
   }
 
+  const handleEditaEpoca = () => {
+    setModo("Editar")
+    setEpocaEscolhida({
+      id:epoca.id,
+      nome:epoca.nome,
+      data_inicial: epoca.inicio_epoca,
+      data_final: epoca.fim_epoca
+    })
+  }
+
   return (
     <div className={`${styles.card} ${styles.cardModalidade}`}>
       <div className={styles.infoEquipa}>
-        {/* <button className={styles.btnEditar}>
+        <button className={styles.btnEditar} onClick={handleEditaEpoca}>
           <CiEdit className={styles.iconEditar}/>
-        </button> */}
+        </button>
         <div className={styles.painelSuperior}>
           <div className={styles.nome}>
             <h3><u>{epoca.nome}</u></h3>

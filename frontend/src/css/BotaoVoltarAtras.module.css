@@ -1,0 +1,18 @@
+.voltarAtras {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    cursor: pointer;
+    width: fit-content;
+    border-radius: 5px;
+  }
+  
+  .voltarAtras:hover {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .voltarAtras p {
+    padding: 0;
+    margin: 5px;
+  }

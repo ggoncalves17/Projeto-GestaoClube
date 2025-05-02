@@ -40,7 +40,6 @@ const CardModalidade = ({ modalidade, setModo, setModalidade, setNomeModalidade,
         <p>Épocas: {modalidade.epoca_set.length}</p>
       </div>
       <div className={styles.botoes}>
-        {/* <button type="button" className={styles.btnDetalhes}>Ver Detalhes</button> */}
         <Link to={`/modalidades/${modalidade.id}`} className={styles.btnDetalhes}>
         Ver Detalhes
         </Link>

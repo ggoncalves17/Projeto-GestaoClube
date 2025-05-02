@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/adiciona-equipa/<int:id>/', views.adiciona_equipa, name='adiciona-equipa'),    
     path('api/remove-equipa/<int:id>/', views.remove_equipa, name='remove-equipa'), 
     path('api/edita-equipa/<int:id>/', views.edita_equipa, name='edita-equipa'),   
+    path('api/info-equipa/<int:id>/', views.info_equipa, name='info-equipa'),
 
     # ÉPOCAS ------------------------------------------------------------------------------------
     path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),

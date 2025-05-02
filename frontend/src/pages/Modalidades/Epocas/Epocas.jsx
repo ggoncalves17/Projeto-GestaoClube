@@ -34,6 +34,12 @@ const Epocas = () => {
   }, [modo]);
 
   useEffect(() => {
+    if (modo == "Editar") {
+      setNovaEpoca(epocaEscolhida);
+    }
+  }, [epocaEscolhida]);
+
+  useEffect(() => {
     if (novaEpoca.data_inicial && novaEpoca.data_final) {
       const data_inicio_ano = new Date(novaEpoca.data_inicial).getFullYear();
       const data_fim_ano = new Date(novaEpoca.data_final).getFullYear();
@@ -89,7 +95,13 @@ const Epocas = () => {
           {epocas.length > 0 ? (
             <div className={styles.grelhaEpocas}>
               {epocas.map((epoca, index) => (
-                <CardEpoca key={index} epoca={epoca} setModalRemover={setModalRemover} setEpocaEscolhida={setEpocaEscolhida}/>
+                <CardEpoca
+                  key={index}
+                  setModo={setModo}
+                  epoca={epoca}
+                  setModalRemover={setModalRemover}
+                  setEpocaEscolhida={setEpocaEscolhida}
+                />
               ))}
             </div>
           ) : (

@@ -17,6 +17,7 @@ const CardEquipa = ({ setModo, equipa, setModalRemover, setEquipaEscolhida }) =>
   }
   
   const handleEditaEquipa = () => {
+
     setModo("Editar")
     setEquipaEscolhida({
       id:equipa.id,
@@ -43,7 +44,7 @@ const CardEquipa = ({ setModo, equipa, setModalRemover, setEquipaEscolhida }) =>
         <p>Elementos: {equipa.nElementos}</p>
       </div>
       <div className={styles.botoes}>
-        <Link to={``} className={styles.btnDetalhes}>
+        <Link to={`${equipa.id}`} className={styles.btnDetalhes}>
         Ver Detalhes
         </Link>
         <button type="button" className={styles.btnRemover} disabled={equipa.nElementos > 0} onClick={handleRemoveEquipa}>

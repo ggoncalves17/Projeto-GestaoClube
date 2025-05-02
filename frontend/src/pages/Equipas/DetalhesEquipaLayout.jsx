@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import {
   Outlet,
   useLoaderData,
-  redirect,
-  useLocation,
+  useParams,
+  redirect
 } from "react-router-dom";
-import styles from "./Modalidades.module.css";
+import styles from "../Modalidades/Modalidades.module.css";
 import axios from "axios";
 import Dropdown from "../../components/Dropdown";
 import BotaoVoltarAtras from "../../components/BotaoVoltarAtras";
 import OpcoesLink from "../../components/OpcoesLink";
 
-const modalidadeLoader = async ({ params }) => {
+const equipaLoader = async ({ params }) => {
+
   try {
     const res = await axios.get(
-      `http://localhost:8000/api/info-modalidade/${params.id}/`,
+      `http://localhost:8000/api/info-equipa/${params.id_equipa}/`,
       {
         withCredentials: true,
       }
@@ -22,6 +23,8 @@ const modalidadeLoader = async ({ params }) => {
 
     return res.data;
   } catch (err) {
+    console.log("ERRO: ", err);
+    
     if (err.response.status === 403) {
       return redirect("/login");
     } else if (err.response.status == 404) {
@@ -30,48 +33,37 @@ const modalidadeLoader = async ({ params }) => {
   }
 };
 
-const DetalhesModalidades = () => {
-  const infoModalidade = useLoaderData();
-  const [filtroCategoria, setFiltroCategoria] = useState("");
-  const categorias = ["Ambos", "Masculino", "Feminino"];
-  const [filtroEpoca, setFiltroEpoca] = useState("");
+const DetalhesEquipaLayout = () => {
 
-  const todasEpocasExistentes = [
-    "Todas",
-    ...new Set(
-      infoModalidade.epoca_set
-        .map((epoca) => epoca.nome)
-        .sort()
-        .reverse()
-    ),
-  ];
+  const { id: id_modalidade } = useParams();
+  
+  const infoEquipa = useLoaderData();
 
-  const [epocasExistentes, setEpocasExistentes] = useState(
-    todasEpocasExistentes
-  );
-  const [modo, setModo] = useState(null);
+  console.log("INFO EQUIPA: ", infoEquipa);
 
-  const localizacao = useLocation();
-
-  useEffect(() => {
-    setFiltroCategoria("");
-    setFiltroEpoca("");
-  }, [localizacao.pathname]);
-
-  // Todas as opções que ficarão no painel dos detalhes da modalidade 
   const opcoesLink = [
-    { conteudo: "Equipas", caminho: "equipas"},
-    { conteudo: "Épocas", caminho: "epocas"},
+    { conteudo: "Plantel", caminho: "plantel"},
+    { conteudo: "Jogos", caminho: "jogos"},
+    { conteudo: "Competições", caminho: "competicoes"},
   ]
 
   return (
     <div className={styles.estrutura}>
       <div className={styles.painel}>
         <div className={styles.painelSuperiorDetalhes}>
-          <BotaoVoltarAtras caminho="/modalidades" />
+          <BotaoVoltarAtras caminho={`/modalidades/${id_modalidade}`} />
           <hr />
-          <div className={styles.tituloModalidade}>
-            <h1>{infoModalidade.nome}</h1>
+          <div className={styles.painelInfo}>
+            <h1>{infoEquipa.nome}</h1>
+            <div className={styles.modalidade}>
+              <p>{infoEquipa.modalidade}</p>
+            </div>
+            <div className={`${styles.categoria} ${infoEquipa.categoria == "Masculino" ? styles.masculino : styles.feminino}`}>
+              <p>{infoEquipa.categoria}</p>
+            </div>
+            <div className={styles.epoca}>
+              <p>{infoEquipa.epoca}</p>
+            </div>
           </div>
         </div>
         <div className={styles.painelInferiorDetalhes}>
@@ -79,7 +71,7 @@ const DetalhesModalidades = () => {
           <div className={styles.painelOpcoes}>
 
             <OpcoesLink opcoes={opcoesLink}/>
-
+{/* 
             <div className={styles.painelBotoes}>
               {localizacao.pathname.endsWith("equipas") && (
                 <>
@@ -99,7 +91,6 @@ const DetalhesModalidades = () => {
                 </>
               )}
 
-              {/* TODO: CRIAR COMPONENTE BOTÃO ADICIONAR PARA NÃO ESTAR SEMPRE A REPETIR NAS VÁRIAS PÁGINAS EM QUE O TENHO*/}
               <button
                 onClick={() => setModo("Adicionar")}
                 className={styles.botaoAdicionar}
@@ -107,19 +98,14 @@ const DetalhesModalidades = () => {
                 + Adicionar{" "}
                 {localizacao.pathname.endsWith("equipas") ? "Equipa" : "Época"}
               </button>
-            </div>
+            </div> */}
           </div>
 
           <hr />
           <div className={styles.conteudo}>
             <Outlet
               context={{
-                filtroCategoria,
-                setEpocasExistentes,
-                filtroEpoca,
-                modo,
-                setModo,
-                infoModalidade,
+                infoEquipa,
               }}
             />
           </div>
@@ -129,4 +115,4 @@ const DetalhesModalidades = () => {
   );
 };
 
-export { DetalhesModalidades as default, modalidadeLoader };
+export { DetalhesEquipaLayout as default, equipaLoader };

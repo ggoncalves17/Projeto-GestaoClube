@@ -62,7 +62,7 @@
   width: 15px;
   height: 15px;
 }
-/* 
+
 .btnEditar {
   cursor: pointer;
   background-color: #EAEAEA;
@@ -79,12 +79,12 @@
 
 .btnEditar:hover {
   background-color: rgb(210, 210, 210);
-} */
+}
 
-/* .iconEditar {
+.iconEditar {
   width: 30px;
   height: 30px;
-} */
+}
 
 .estado {
   width: fit-content;
