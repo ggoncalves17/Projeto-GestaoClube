@@ -135,3 +135,56 @@ export const removeEquipa = (id_equipa, setEquipas, setModalRemover) => {
       console.log("Mensagem do erro:", err.response.data.mensagem);
     });
 }
+
+// FUNÇÃO PARA ASSOCIAR ELEMENTOS A DETERMINADA EQUIPA
+export const associaElementoEquipa = (
+  id_equipa,
+  elementosGuardar,
+  setElementosEquipa,
+  setModo,
+) => {
+  axios
+    .post(
+      `${url}/associa-elemento/${id_equipa}/`,
+      {
+        elementosGuardar: elementosGuardar,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setElementosEquipa(res.data.elementos);
+
+      setModo(null);
+
+      toast.success("Elementos Associados / Desassociados com Sucesso!");
+
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+
+    });
+};
+
+// FUNÇÃO PARA LISTAR TODAS OS ELEMENTOS DISPONIVEIS PARA ASSOCIAÇÃO ------------------------------------------------------
+export const listaElementosDisponiveis = (id_equipa, setElementosDisponiveis) => {
+  axios
+    .get(`${url}/listaElementosDisponiveis/${id_equipa}/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setElementosDisponiveis(res.data);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};

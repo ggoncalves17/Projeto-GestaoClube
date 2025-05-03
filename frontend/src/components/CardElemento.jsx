@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../css/CardElemento.module.css";
 import { useNavigate } from "react-router-dom";
 
-const CardElemento = ({ id, foto, nome, posicao }) => {
+const CardElemento = ({ id, foto, nome, posicao, inscricao }) => {
 
   const navigate = useNavigate()
 
@@ -22,10 +22,9 @@ const CardElemento = ({ id, foto, nome, posicao }) => {
         <div className={styles.infoAdicional}>
           <div className={styles.modalidade}>
             {posicao == null ? <p>Não Definida</p> : <p>{posicao}</p>}
-          </div>
-          <div>
-            {/* TODO: IR BUSCAR A PARTE DA INSCRIÇÃO DO UTILIZADOR */}
-            <p>Inscrito</p>
+          </div >
+          <div className={`${styles.inscricao} ${inscricao == true ? styles.inscrito : styles.naoInscrito}`}>
+            <p>{inscricao == true ? "Inscrito" : "Não Inscrito"}</p>
           </div>
         </div>
       </div>

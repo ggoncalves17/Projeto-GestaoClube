@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import CardElemento from "../../../components/CardElemento";
 import styles from "../../../components/ListaUtilizadores.module.css";
+import Modal from "../../../components/JanelaModal/Modal";
+import SelectAllTransferList from "../../../components/SelectAllTransferList";
+import { associaElementoEquipa, listaElementosDisponiveis } from "../../../api/Equipas/api";
 
 const Plantel = () => {
-  const { infoEquipa } = useOutletContext();
-  const elementosEquipa = infoEquipa.elemento_clube_set;
+  const { infoEquipa, modo, setModo } = useOutletContext();
+  const [elementosEquipa, setElementosEquipa] = useState(
+    infoEquipa.elemento_clube_set
+  );
+
+  // console.log("ELEMENTOS EQUIPA: ", elementosEquipa);
 
   const elementosFiltrados = [
     {
@@ -21,6 +28,30 @@ const Plantel = () => {
       ),
     },
   ];
+
+  const [elementosDisponiveis, setElementosDisponiveis] = useState([]);
+
+  const elementosAssociados = elementosEquipa.map((elemento) => ({
+    id: elemento.id,
+    nome: elemento.nome,
+  }));
+
+  const [elementosGuardar, setElementosGuardar] = useState([]);
+
+  const handleGuardaElementos = (event) => {
+    event.preventDefault();
+
+    associaElementoEquipa(
+      infoEquipa.id,
+      elementosGuardar,
+      setElementosEquipa,
+      setModo
+    );
+  };
+
+  useEffect(() => {
+    listaElementosDisponiveis(infoEquipa.id, setElementosDisponiveis);
+  }, [elementosEquipa]);
 
   return (
     <div className={styles.paineisElementos}>
@@ -38,6 +69,10 @@ const Plantel = () => {
                   foto={elemento.foto}
                   nome={elemento.nome}
                   posicao={elemento.posicao}
+                  inscricao={elemento.inscricao_set.map(
+                    (inscricao) =>
+                      inscricao.epoca == infoEquipa.epoca && inscricao.estado
+                  )}
                 />
               ))
             ) : (
@@ -48,6 +83,22 @@ const Plantel = () => {
           </div>
         </div>
       ))}
+
+      {modo && (
+        <Modal
+          setModal={setModo}
+          titulo={"Associar / Desassociar Jogadores"}
+          botao={"Guardar"}
+          onSubmit={handleGuardaElementos}
+        >
+          {/* TODO: NO TRANSFERLIST BLOQUEAR A PARTE DE GUARDAR SE OS ELEMENTOS A ASSOCIAR FOREM IGUAIS AO QUE ESTÃO INICIALMENTE e COLOCAR FUNCAO ELEMENTO*/}
+          <SelectAllTransferList
+            elementosDisponiveis={elementosDisponiveis}
+            elementosAssociados={elementosAssociados}
+            setElementosGuardar={setElementosGuardar}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

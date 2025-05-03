@@ -3,7 +3,8 @@ import {
   Outlet,
   useLoaderData,
   useParams,
-  redirect
+  redirect,
+  useLocation,
 } from "react-router-dom";
 import styles from "../Modalidades/Modalidades.module.css";
 import axios from "axios";
@@ -39,13 +40,16 @@ const DetalhesEquipaLayout = () => {
   
   const infoEquipa = useLoaderData();
 
-  console.log("INFO EQUIPA: ", infoEquipa);
+  // console.log("INFO EQUIPA: ", infoEquipa);
 
   const opcoesLink = [
     { conteudo: "Plantel", caminho: "plantel"},
     { conteudo: "Jogos", caminho: "jogos"},
     { conteudo: "Competições", caminho: "competicoes"},
   ]
+
+  const localizacao = useLocation();
+  const [modo, setModo] = useState(null);
 
   return (
     <div className={styles.estrutura}>
@@ -71,9 +75,9 @@ const DetalhesEquipaLayout = () => {
           <div className={styles.painelOpcoes}>
 
             <OpcoesLink opcoes={opcoesLink}/>
-{/* 
+
             <div className={styles.painelBotoes}>
-              {localizacao.pathname.endsWith("equipas") && (
+              {/* {localizacao.pathname.endsWith("equipas") && (
                 <>
                   <Dropdown
                     tipo={filtroCategoria}
@@ -89,16 +93,16 @@ const DetalhesEquipaLayout = () => {
                     dados={epocasExistentes}
                   />
                 </>
-              )}
+              )} */}
 
               <button
                 onClick={() => setModo("Adicionar")}
                 className={styles.botaoAdicionar}
               >
                 + Adicionar{" "}
-                {localizacao.pathname.endsWith("equipas") ? "Equipa" : "Época"}
+                {localizacao.pathname.endsWith("plantel") ? "Elementos" : localizacao.pathname.endsWith("jogos") ? "Jogo" : "Competição"}
               </button>
-            </div> */}
+            </div>
           </div>
 
           <hr />
@@ -106,6 +110,8 @@ const DetalhesEquipaLayout = () => {
             <Outlet
               context={{
                 infoEquipa,
+                modo,
+                setModo,
               }}
             />
           </div>

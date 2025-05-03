@@ -1,11 +1,16 @@
-import React from "react";
+import React, { Children } from "react";
 import styles from "./Modal.module.css";
 import { IoMdClose } from "react-icons/io";
+import SelectAllTransferList from "../SelectAllTransferList";
 
 const Modal = ({ setModal, titulo, children, botao="Adicionar", onSubmit }) => {
+
+  // Referência -> https://react.dev/reference/react/Children#children-toarray
+  const isfilhoTransferList = Children.toArray(children).some((filho) => filho.type == SelectAllTransferList);
+    
   return (
     <div onClick={() => setModal(false)} className={styles.janelaModal}>
-      <div onClick={(e) => e.stopPropagation()} className={styles.modal}>
+      <div onClick={(e) => e.stopPropagation()} className={`${styles.modal} ${isfilhoTransferList && styles.modalTransferList}`}>
         <div className={styles.painelSuperior}>
           <h3>{titulo}</h3>
           <div onClick={() => setModal(false)} className={styles.botaoFechar}>

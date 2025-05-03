@@ -58,11 +58,24 @@ class ElementoClubeSerializer(serializers.ModelSerializer):
         model = Elemento_Clube
         fields = ('id', 'nome', 'sexo', 'data_nascimento', 'nacionalidade', 'cartao_cidadao', 'data_validade_cc', 'tipo', 'posicao', 'foto', 'peso', 'altura', 'estado', 'modalidade', 'clube')
 
+class InscricaoGeralSerializer(serializers.ModelSerializer):
+
+    epoca = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Inscricao
+        fields = ('id', 'estado', 'epoca')
+
+    def get_epoca(self, obj):
+        return obj.epoca.nome     
+
 class ElementoClubeGeralSerializer(serializers.ModelSerializer):
+
+    inscricao_set = InscricaoGeralSerializer(many=True, read_only=True)
 
     class Meta:
         model = Elemento_Clube
-        fields = ('id', 'nome', 'nacionalidade', 'tipo', 'posicao', 'foto')
+        fields = ('id', 'nome', 'nacionalidade', 'tipo', 'posicao', 'foto', 'inscricao_set')
 
 class EquipaDetalhesSerializer(serializers.ModelSerializer):
 

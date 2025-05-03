@@ -35,6 +35,8 @@ urlpatterns = [
     path('api/remove-equipa/<int:id>/', views.remove_equipa, name='remove-equipa'), 
     path('api/edita-equipa/<int:id>/', views.edita_equipa, name='edita-equipa'),   
     path('api/info-equipa/<int:id>/', views.info_equipa, name='info-equipa'),
+    path('api/listaElementosDisponiveis/<int:id>/', views.listaElementosDisponiveis, name='listaElementosDisponiveis'),
+    path('api/associa-elemento/<int:id>/', views.associa_elemento, name='associa_elemento'),    
 
     # ÉPOCAS ------------------------------------------------------------------------------------
     path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),

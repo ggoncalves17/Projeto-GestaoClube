@@ -20,6 +20,10 @@
     width: 25%;
 }
 
+.modalTransferList {
+    width: fit-content;
+}
+
 .painelSuperior {
     display: flex;
     justify-content: space-between;

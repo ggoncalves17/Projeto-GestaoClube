@@ -751,3 +751,53 @@ def info_equipa(request, id):
             return Response({"mensagem": "Não existe a equipa pretendida."}, status=404)
     else:
         return Response({"mensagem": "Não existe a equipa pretendida."}, status=404)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaElementosDisponiveis(request, id):
+
+    id_clube = request.user.clube.id
+
+    modalidade_equipa = get_object_or_404(Equipa, id=id).modalidade
+
+    elementos = Elemento_Clube.objects.filter(clube=id_clube, estado=1, modalidade=modalidade_equipa).exclude(equipas=id).order_by('nome')
+
+    serializer = ElementoClubeGeralSerializer(elementos, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def associa_elemento(request, id):
+
+    elementosGuardar = request.data.get("elementosGuardar")
+
+    equipa = get_object_or_404(Equipa, id=id)
+
+    # Referência -> https://docs.djangoproject.com/en/5.2/ref/models/querysets/#values-list
+    elemento_ids = equipa.elemento_clube_set.values_list('id', flat=True)
+
+    for id_elemento_equipa in list(elemento_ids):
+        if not id_elemento_equipa in elementosGuardar:
+
+            elemento = get_object_or_404(Elemento_Clube, id=id_elemento_equipa)
+
+            elemento.equipas.remove(equipa)
+            
+    for id_elemento in sorted(elementosGuardar):
+        print("Id Elemento Associar: ", id_elemento)
+
+        elemento = get_object_or_404(Elemento_Clube, id=id_elemento)
+
+        # Verifica se o elemento já está associado à equipa
+        if (elemento.equipas.filter(id=id).exists()):
+            print("Elemento já está associado à equipa.")
+            continue;
+        else:
+            print("Novo Elemento associado à equipa.")
+            elemento.equipas.add(equipa)
+    
+    elementos = equipa.elemento_clube_set.all()
+    serializer = ElementoClubeGeralSerializer(elementos, many=True)
+
+    return Response({"mensagem" : "Elementos Associados / Desassociados com sucesso!", "elementos" : serializer.data})

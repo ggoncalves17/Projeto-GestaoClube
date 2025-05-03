@@ -16,10 +16,10 @@
 .card p {
   margin: 0;
   padding: 0;
-  font-size: 13px;
+  font-size: 12px;
 }
 
-.card h3 {
+.card h4 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -27,7 +27,7 @@
 .infoAdicional {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .fotoPerfil {
@@ -43,7 +43,7 @@
 .modalidade {
   width: fit-content;
   border-radius: 25px;
-  padding: 5px 15px;
+  padding: 5px 10px;
   background-color: #ededed;
   border: 1px solid #666666;
   color: #666666;
@@ -52,4 +52,22 @@
 .infoJogador {
     flex: 1;
     min-width: 0;
+}
+
+.inscricao {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.inscrito {
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+}
+
+.naoInscrito {
+  background-color: #FF8C8C;
+  color: #981a1a;
+  border: 1px solid #981a1a;
 }
