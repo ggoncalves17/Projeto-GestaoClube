@@ -91,3 +91,19 @@ class EquipaDetalhesSerializer(serializers.ModelSerializer):
     
     def get_modalidade(self, obj):
         return obj.modalidade.nome 
+
+class JogoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Jogo
+        fields = ('id', 'nome')
+
+class CompeticaoSerializer(serializers.ModelSerializer):
+
+    nJogos = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Competicao
+        fields = ('id', 'nome', 'nJogos')
+    
+    def get_nJogos(self, obj):
+        return obj.jogo_set.count() 

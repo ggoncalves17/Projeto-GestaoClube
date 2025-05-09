@@ -85,11 +85,12 @@ class Jogo(models.Model):
     data = models.DateField()
     hora = models.TimeField()
     adversario = models.CharField(max_length=512)
-    resultado_final = models.CharField(max_length=512)
-    localizacao = models.CharField(max_length=512)
-    resultado = models.CharField(max_length=512)
-    estado = models.IntegerField()
+    resultado_final = models.CharField(max_length=512, null=True, blank=True)
+    localizacao = models.CharField(max_length=512, null=True, blank=True)
+    resultado = models.CharField(max_length=512, null=True, blank=True)
+    estado = models.IntegerField(null=True, blank=True)
     equipa = models.ForeignKey(Equipa, on_delete=models.CASCADE)
+    competicao = models.ForeignKey(Competicao, on_delete=models.CASCADE, null=True, blank=True)
 
 class Inscricao(models.Model):
     exames_medico = models.BooleanField()

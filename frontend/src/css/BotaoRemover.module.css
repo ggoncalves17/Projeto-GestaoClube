@@ -1,0 +1,24 @@
+.btnRemover {
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff8c8c;
+  border: none;
+}
+
+.btnRemover:hover {
+  background-color: #fd5858;
+}
+
+.btnRemover:disabled {
+  cursor: default;
+  background-color: rgb(195, 195, 195);
+}
+
+.iconRemover {
+  width: 15px;
+  height: 15px;
+}

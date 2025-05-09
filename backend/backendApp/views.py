@@ -673,7 +673,36 @@ def adiciona_epoca(request, id):
         
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def edita_epoca(request, id):
+
+    epoca = get_object_or_404(Epoca, id=id)
+
+    nome = request.data.get("nome")
+    data_inicio = request.data.get("data_inicio")
+    data_fim = request.data.get("data_fim")
+
+    if Epoca.objects.filter(nome__iexact=nome, modalidade=epoca.modalidade).exclude(id=id).exists():
+        return Response({"mensagem": "Já existe uma época com o mesmo nome"}, status=404)
+    else:
+
+        epoca.nome = nome
+        epoca.inicio_epoca = data_inicio
+        epoca.fim_epoca = data_fim
+
+        try:
+            epoca.save() 
+
+            serializer = EpocaSerializer(epoca)
+
+            return Response({"mensagem": "Época atualizada com sucesso!", "epoca": serializer.data}, status=200)
         
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def remove_epoca(request, id):
@@ -758,9 +787,9 @@ def listaElementosDisponiveis(request, id):
 
     id_clube = request.user.clube.id
 
-    modalidade_equipa = get_object_or_404(Equipa, id=id).modalidade
+    modalidade_equipa = get_object_or_404(Equipa, id=id)
 
-    elementos = Elemento_Clube.objects.filter(clube=id_clube, estado=1, modalidade=modalidade_equipa).exclude(equipas=id).order_by('nome')
+    elementos = Elemento_Clube.objects.filter(clube=id_clube, estado=1, modalidade=modalidade_equipa.modalidade, sexo=modalidade_equipa.categoria ).exclude(equipas=id).order_by('nome')
 
     serializer = ElementoClubeGeralSerializer(elementos, many=True)
 
@@ -801,3 +830,75 @@ def associa_elemento(request, id):
     serializer = ElementoClubeGeralSerializer(elementos, many=True)
 
     return Response({"mensagem" : "Elementos Associados / Desassociados com sucesso!", "elementos" : serializer.data})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaCompeticoesEquipa(request, id):
+
+    competicoes = Competicao.objects.filter(equipa=id).order_by('nome')
+
+    serializer = CompeticaoSerializer(competicoes, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adicionaCompeticoesEquipa(request, id):
+
+    nome = request.data.get("nome")
+    
+    if Competicao.objects.filter(nome__iexact=nome, equipa=id).exists():
+        return Response({"mensagem": "Já existe uma competição com o mesmo nome"}, status=404)
+    else:
+        competicao = Competicao(
+            nome=nome,
+            equipa_id=id,
+        )
+
+        try:
+            competicao.save() 
+
+            serializer = CompeticaoSerializer(competicao)
+
+            return Response({"mensagem": "Competição inserida com sucesso!", "competicao": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+        
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def editaCompeticao(request, id):
+
+    competicao = get_object_or_404(Competicao, id=id)
+
+    nome = request.data.get("nome")
+
+    if Competicao.objects.filter(nome__iexact=nome, equipa=competicao.equipa).exclude(id=id).exists():
+        return Response({"mensagem": "Já existe uma competição com o mesmo nome"}, status=404)
+    else:
+
+        competicao.nome = nome
+
+        try:
+            competicao.save() 
+
+            serializer = CompeticaoSerializer(competicao)
+
+            return Response({"mensagem": "Competição atualizada com sucesso!", "competicao": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+        
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_competicao(request, id):
+
+    competicao = get_object_or_404(Competicao, id=id)
+
+    try:
+        competicao.delete()
+
+        return Response({"mensagem": "Competição removida com sucesso!"}, status=200)    
+    
+    except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

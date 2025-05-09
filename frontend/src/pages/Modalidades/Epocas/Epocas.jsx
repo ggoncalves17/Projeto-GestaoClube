@@ -6,7 +6,7 @@ import { listaEpocas } from "../../../api/Epocas/api";
 import Spinner from "../../../components/Spinner";
 import Modal from "../../../components/JanelaModal/Modal";
 import InputForm from "../../../components/InputForm";
-import { adicionaEpoca } from "../../../api/Epocas/api";
+import { adicionaEpoca, editaEpoca } from "../../../api/Epocas/api";
 import PopUpRemoverModalidade from "../../../components/PopUpRemoverModalidade";
 
 const Epocas = () => {
@@ -29,15 +29,13 @@ const Epocas = () => {
   }, []);
 
   useEffect(() => {
-    setNovaEpoca({ nome: "", data_inicial: "", data_final: "" });
-    setErro("");
-  }, [modo]);
-
-  useEffect(() => {
     if (modo == "Editar") {
       setNovaEpoca(epocaEscolhida);
+    } else {
+      setNovaEpoca({ nome: "", data_inicial: "", data_final: "" });
+      setErro("");
     }
-  }, [epocaEscolhida]);
+  }, [modo, epocaEscolhida]);
 
   useEffect(() => {
     if (novaEpoca.data_inicial && novaEpoca.data_final) {
@@ -72,18 +70,34 @@ const Epocas = () => {
         setErro("Já existe uma época com o mesmo nome");
         return;
       }
-
-      const inicio = new Date(novaEpoca.data_inicial);
-      const fim = new Date(novaEpoca.data_final);
-
-      if (fim < inicio) {
-        setErro("A data final não pode ser anterior à data inicial.");
+    } else if (modo == "Editar") {
+      if (
+        epocas.some(
+          (epoca) =>
+            epoca.nome.trim().toLowerCase() ==
+              novaEpoca.nome.trim().toLowerCase() && epoca.id != novaEpoca.id
+        )
+      ) {
+        setErro("Já existe uma época com o mesmo nome");
         return;
       }
     }
 
-    // Chamada da Função para Adicionar nova Éoca
-    adicionaEpoca(id_modalidade, novaEpoca, setEpocas, setModo, setErro);
+    const inicio = new Date(novaEpoca.data_inicial);
+    const fim = new Date(novaEpoca.data_final);
+
+    if (fim < inicio) {
+      setErro("A data final não pode ser anterior à data inicial.");
+      return;
+    }
+
+    if (modo == "Adicionar") {
+      // Chamada da Função para Adicionar nova Época
+      adicionaEpoca(id_modalidade, novaEpoca, setEpocas, setModo, setErro);
+    } else if (modo == "Editar") {
+      // Chamada da Função para Editar Época
+      editaEpoca(novaEpoca, setEpocas, setModo, setErro);
+    }
   };
 
   return (

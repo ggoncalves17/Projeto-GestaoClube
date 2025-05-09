@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from backendApp import views 
 
+
+#TODO: ALTERAR FORMATO DOS ENDPOINTS -> SEGUIR NORMAS REST
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login/', views.login_view, name='login'),
@@ -35,12 +37,21 @@ urlpatterns = [
     path('api/remove-equipa/<int:id>/', views.remove_equipa, name='remove-equipa'), 
     path('api/edita-equipa/<int:id>/', views.edita_equipa, name='edita-equipa'),   
     path('api/info-equipa/<int:id>/', views.info_equipa, name='info-equipa'),
+
+    # EQUIPAS --> PLANTEL ------------------------------------------------------------------------------------
     path('api/listaElementosDisponiveis/<int:id>/', views.listaElementosDisponiveis, name='listaElementosDisponiveis'),
-    path('api/associa-elemento/<int:id>/', views.associa_elemento, name='associa_elemento'),    
+    path('api/associa-elemento/<int:id>/', views.associa_elemento, name='associa_elemento'),   
+
+    # EQUIPAS --> COMPETIÇÕES ------------------------------------------------------------------------------------
+    path('api/equipas/<int:id>/competicoes/', views.listaCompeticoesEquipa, name='listaCompeticoesEquipa'),
+    path('api/equipas/<int:id>/competicoes/adicionar/', views.adicionaCompeticoesEquipa, name='adicionaCompeticoesEquipa'),
+    path('api/competicoes/<int:id>/editar/', views.editaCompeticao, name='editaCompeticao'),
+    path('api/competicoes/<int:id>/remover/', views.remove_competicao, name='remove_competicao'),
 
     # ÉPOCAS ------------------------------------------------------------------------------------
     path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),
     path('api/adiciona-epoca/<int:id>/', views.adiciona_epoca, name='adiciona-epoca'),    
+    path('api/epocas/<int:id>/editar/', views.edita_epoca, name='edita_epoca'),    
     path('api/remove-epoca/<int:id>/', views.remove_epoca, name='remove-epoca'), 
 
 ]

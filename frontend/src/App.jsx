@@ -18,6 +18,7 @@ import Equipas from "./pages/Modalidades/Equipas/Equipas";
 import Epocas from "./pages/Modalidades/Epocas/Epocas";
 import DetalhesEquipaLayout, { equipaLoader } from "./pages/Equipas/DetalhesEquipaLayout";
 import Plantel from "./pages/Equipas/Plantel/plantel";
+import Competicoes from "./pages/Equipas/Competicoes";
 
 function App() {
   const router = createBrowserRouter([
@@ -80,7 +81,7 @@ function App() {
             { index: true, element: <Navigate to="plantel" /> },
             { path: "plantel", element: <Plantel /> },
             { path: "jogos", element: <Plantel /> },
-            { path: "competicoes", element: <Plantel /> },
+            { path: "competicoes", element: <Competicoes /> },
           ],
         },
       ],

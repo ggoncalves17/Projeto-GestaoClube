@@ -70,6 +70,57 @@ export const adicionaEpoca = (
     });
 };
 
+// FUNÇÃO PARA EDITAR ÉPOCA DE UMA DETERMINADA MODALIDADE ------------------------------------------------------
+export const editaEpoca = (
+  epoca,
+  setEpocas,
+  setModo,
+  setErro
+) => {
+
+  const id_epoca = epoca.id
+
+  axios
+    .put(
+      `${url}/epocas/${id_epoca}/editar/`,
+      {
+        nome: epoca.nome,
+        data_inicio: epoca.data_inicial,
+        data_fim: epoca.data_final,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setEpocas((prev) =>
+        prev.map((epoca) =>
+          epoca.id == id_epoca
+            ? res.data.epoca
+            : epoca
+        ).sort((a, b) => b.nome.localeCompare(a.nome))
+      );
+      
+      setModo(null);
+
+      toast.success("Época Atualizada com Sucesso!");
+
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+
+      if (err.response.status == 404) {
+        setErro(err.response.data.mensagem);
+      }
+    });
+};
+
 // FUNÇÃO PARA REMOVER ÉPOCA ------------------------------------------------------
 export const removeEpoca = (id_epoca, setEpocas, setModalRemover) => {
   axios

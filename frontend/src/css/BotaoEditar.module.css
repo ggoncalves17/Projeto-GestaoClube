@@ -1,0 +1,19 @@
+.btnEditar {
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.btnEditar:hover {
+  background-color: rgb(210, 210, 210);
+}
+
+.iconEditar {
+  width: 15px;
+  height: 15px;
+}

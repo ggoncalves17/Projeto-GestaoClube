@@ -16,6 +16,12 @@
     position: relative;
 }
 
+.grelhaCompeticoes {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 .infoModalidades {
     position: absolute;
     top: 50%;
