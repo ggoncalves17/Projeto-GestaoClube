@@ -24,11 +24,9 @@ const Competicoes = () => {
 
   useEffect(() => {
     if (modo == "Editar") {
-      setNomeCompeticao(competicaoEscolhida.nome);
-
-      console.log("COMPETIÇÃO ESCOLHIDA -: ", competicaoEscolhida);
-      
-    } else {
+      setNomeCompeticao(competicaoEscolhida.nome);  
+    } 
+    else {
       setNomeCompeticao("");
       setErro("");
     }

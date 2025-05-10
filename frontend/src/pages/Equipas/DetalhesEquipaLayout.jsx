@@ -11,9 +11,9 @@ import axios from "axios";
 import Dropdown from "../../components/Dropdown";
 import BotaoVoltarAtras from "../../components/BotaoVoltarAtras";
 import OpcoesLink from "../../components/OpcoesLink";
+import BotaoAdicionar from "../../components/BotaoAdicionar";
 
 const equipaLoader = async ({ params }) => {
-
   try {
     const res = await axios.get(
       `http://localhost:8000/api/info-equipa/${params.id_equipa}/`,
@@ -25,7 +25,7 @@ const equipaLoader = async ({ params }) => {
     return res.data;
   } catch (err) {
     console.log("ERRO: ", err);
-    
+
     if (err.response.status === 403) {
       return redirect("/login");
     } else if (err.response.status == 404) {
@@ -35,21 +35,26 @@ const equipaLoader = async ({ params }) => {
 };
 
 const DetalhesEquipaLayout = () => {
-
   const { id: id_modalidade } = useParams();
-  
+
   const infoEquipa = useLoaderData();
 
   // console.log("INFO EQUIPA: ", infoEquipa);
 
   const opcoesLink = [
-    { conteudo: "Plantel", caminho: "plantel"},
-    { conteudo: "Jogos", caminho: "jogos"},
-    { conteudo: "Competições", caminho: "competicoes"},
-  ]
+    { conteudo: "Plantel", caminho: "plantel" },
+    { conteudo: "Jogos", caminho: "jogos" },
+    { conteudo: "Competições", caminho: "competicoes" },
+  ];
 
   const localizacao = useLocation();
   const [modo, setModo] = useState(null);
+
+  const caminho = localizacao.pathname.endsWith("plantel")
+    ? "Elementos"
+    : localizacao.pathname.endsWith("jogos")
+    ? "Jogo"
+    : "Competição";
 
   return (
     <div className={styles.estrutura}>
@@ -62,7 +67,13 @@ const DetalhesEquipaLayout = () => {
             <div className={styles.modalidade}>
               <p>{infoEquipa.modalidade}</p>
             </div>
-            <div className={`${styles.categoria} ${infoEquipa.categoria == "Masculino" ? styles.masculino : styles.feminino}`}>
+            <div
+              className={`${styles.categoria} ${
+                infoEquipa.categoria == "Masculino"
+                  ? styles.masculino
+                  : styles.feminino
+              }`}
+            >
               <p>{infoEquipa.categoria}</p>
             </div>
             <div className={styles.epoca}>
@@ -71,37 +82,14 @@ const DetalhesEquipaLayout = () => {
           </div>
         </div>
         <div className={styles.painelInferiorDetalhes}>
-        
           <div className={styles.painelOpcoes}>
-
-            <OpcoesLink opcoes={opcoesLink}/>
+            <OpcoesLink opcoes={opcoesLink} />
 
             <div className={styles.painelBotoes}>
-              {/* {localizacao.pathname.endsWith("equipas") && (
-                <>
-                  <Dropdown
-                    tipo={filtroCategoria}
-                    campo="Categoria"
-                    setTipo={setFiltroCategoria}
-                    dados={categorias}
-                  />
-
-                  <Dropdown
-                    tipo={filtroEpoca}
-                    campo="Época"
-                    setTipo={setFiltroEpoca}
-                    dados={epocasExistentes}
-                  />
-                </>
-              )} */}
-
-              <button
+              <BotaoAdicionar
+                titulo={caminho}
                 onClick={() => setModo("Adicionar")}
-                className={styles.botaoAdicionar}
-              >
-                + Adicionar{" "}
-                {localizacao.pathname.endsWith("plantel") ? "Elementos" : localizacao.pathname.endsWith("jogos") ? "Jogo" : "Competição"}
-              </button>
+              />
             </div>
           </div>
 

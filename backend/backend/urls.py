@@ -42,6 +42,12 @@ urlpatterns = [
     path('api/listaElementosDisponiveis/<int:id>/', views.listaElementosDisponiveis, name='listaElementosDisponiveis'),
     path('api/associa-elemento/<int:id>/', views.associa_elemento, name='associa_elemento'),   
 
+    # EQUIPAS --> JOGOS ------------------------------------------------------------------------------------
+    path('api/equipas/<int:id>/jogos/', views.listaJogosEquipa, name='listaJogosEquipa'),
+    path('api/equipas/<int:id>/jogos/adicionar/', views.adicionaCompeticoesEquipa, name='adicionaCompeticoesEquipa'),
+    # path('api/jogos/<int:id>/editar/', views.editaCompeticao, name='editaCompeticao'),
+    # path('api/jogos/<int:id>/remover/', views.remove_competicao, name='remove_competicao'),
+
     # EQUIPAS --> COMPETIÇÕES ------------------------------------------------------------------------------------
     path('api/equipas/<int:id>/competicoes/', views.listaCompeticoesEquipa, name='listaCompeticoesEquipa'),
     path('api/equipas/<int:id>/competicoes/adicionar/', views.adicionaCompeticoesEquipa, name='adicionaCompeticoesEquipa'),

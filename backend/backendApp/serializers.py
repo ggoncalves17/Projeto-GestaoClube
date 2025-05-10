@@ -93,9 +93,15 @@ class EquipaDetalhesSerializer(serializers.ModelSerializer):
         return obj.modalidade.nome 
 
 class JogoSerializer(serializers.ModelSerializer):
+
+    competicao = serializers.SerializerMethodField()
+
     class Meta:
         model = Jogo
-        fields = ('id', 'nome')
+        fields = ('id', 'competicao', 'data', 'hora', 'adversario', 'localizacao', 'resultado', 'resultado_final', 'estado')
+
+    def get_competicao(self, obj):
+        return obj.competicao.nome 
 
 class CompeticaoSerializer(serializers.ModelSerializer):
 

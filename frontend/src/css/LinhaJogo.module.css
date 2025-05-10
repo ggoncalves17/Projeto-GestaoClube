@@ -1,0 +1,48 @@
+.linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.linha:hover {
+  background-color: #f9fafb;
+}
+
+.painelInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 30%;
+  height: 100%;
+}
+
+.painelInfo p {
+    margin: 0;
+    padding: 0;
+}
+
+.painelBotoes {
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.competicao {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+  background-color: #ededed;
+  border: 1px solid #666666;
+  color: #666666;
+}
+
+.resultado {
+    font-size: 30px;
+    font-weight: bold;
+}
+

@@ -1,48 +1,54 @@
 .info {
-    text-align: center;
+  text-align: center;
 }
 
 .grelhaModalidades {
-    display: grid;
-    grid-gap: 30px;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 300px));
-    position: relative;
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 300px));
+  position: relative;
 }
 
 .grelhaEpocas {
-    display: grid;
-    grid-gap: 30px;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 280px));
-    position: relative;
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 280px));
+  position: relative;
 }
 
 .grelhaCompeticoes {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .infoModalidades {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .equipasEpoca {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .paineisElementos {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .infoElementos {
-    position: absolute;
-    top: -15px;
+  position: absolute;
+  top: -15px;
 }
-  
+
+.grupoDataHora {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  column-gap: 20px;
+}

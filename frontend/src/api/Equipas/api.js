@@ -319,3 +319,21 @@ export const removeCompeticao = (id_competicao, setCompeticoes, setModalRemover)
       console.log("Mensagem do erro:", err.response.data.mensagem);
     });
 };
+
+// FUNÇÃO PARA LISTAR TODOS OS JOGOS DE UMA DETERMINADA EQUIPA ------------------------------------------------------
+export const listaJogos = (id_equipa, setJogos, setLoading) => {
+  axios
+    .get(`${url}/equipas/${id_equipa}/jogos/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setJogos(res.data);
+
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};

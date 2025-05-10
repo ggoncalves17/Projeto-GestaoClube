@@ -902,3 +902,13 @@ def remove_competicao(request, id):
     
     except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaJogosEquipa(request, id):
+
+    jogos = Jogo.objects.filter(equipa=id).order_by('data')
+
+    serializer = JogoSerializer(jogos, many=True)
+
+    return Response(serializer.data)
