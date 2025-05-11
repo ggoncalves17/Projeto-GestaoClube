@@ -337,3 +337,65 @@ export const listaJogos = (id_equipa, setJogos, setLoading) => {
       console.log("Mensagem do erro:", err.response.data.mensagem);
     });
 };
+
+// FUNÇÃO PARA ADICIONAR NOVO JOGO DE UMA DETERMINADA EQUIPA ------------------------------------------------------
+export const adicionaJogo = (
+  id_equipa,
+  jogo,
+  setJogos,
+  setModo,
+  setErro
+) => {
+  axios
+    .post(
+      `${url}/equipas/${id_equipa}/jogos/adicionar/`,
+      {
+        jogo : jogo
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setJogos((prev) => [...prev, res.data.jogo]);
+      setModo(null);
+
+      toast.success("Jogo Adicionado com Sucesso!");
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+
+      if (err.response.status == 404) {
+        setErro(err.response.data.mensagem);
+      }
+    });
+};
+
+// FUNÇÃO PARA REMOVER JOGO ------------------------------------------------------
+export const removeJogo = (id_jogo, setJogos, setModalRemover) => {
+  axios
+    .delete(`${url}/jogos/${id_jogo}/remover/`, {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setJogos((prev) => prev.filter((jogo) => jogo.id != id_jogo));
+
+      setModalRemover(false);
+      toast.success(`Jogo Removido com Sucesso!`);
+    })
+    .catch((err) => {
+      console.log("Código do erro:", err.response.status);
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};

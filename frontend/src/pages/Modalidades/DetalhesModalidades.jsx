@@ -10,6 +10,7 @@ import axios from "axios";
 import Dropdown from "../../components/Dropdown";
 import BotaoVoltarAtras from "../../components/BotaoVoltarAtras";
 import OpcoesLink from "../../components/OpcoesLink";
+import BotaoAdicionar from "../../components/BotaoAdicionar";
 
 const modalidadeLoader = async ({ params }) => {
   try {
@@ -64,6 +65,8 @@ const DetalhesModalidades = () => {
     { conteudo: "Épocas", caminho: "epocas"},
   ]
 
+  const titulo = localizacao.pathname.endsWith("equipas") ? "Equipa" : "Época"
+
   return (
     <div className={styles.estrutura}>
       <div className={styles.painel}>
@@ -99,14 +102,10 @@ const DetalhesModalidades = () => {
                 </>
               )}
 
-              {/* TODO: CRIAR COMPONENTE BOTÃO ADICIONAR PARA NÃO ESTAR SEMPRE A REPETIR NAS VÁRIAS PÁGINAS EM QUE O TENHO*/}
-              <button
+              <BotaoAdicionar
+                titulo={titulo}
                 onClick={() => setModo("Adicionar")}
-                className={styles.botaoAdicionar}
-              >
-                + Adicionar{" "}
-                {localizacao.pathname.endsWith("equipas") ? "Equipa" : "Época"}
-              </button>
+              />
             </div>
           </div>
 

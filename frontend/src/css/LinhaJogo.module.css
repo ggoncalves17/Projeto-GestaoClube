@@ -3,8 +3,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  /* border-radius: 8px; */
   background-color: white;
 }
 
@@ -16,13 +17,25 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  max-width: 30%;
-  height: 100%;
 }
 
 .painelInfo p {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.infoGeral {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 320px;
+  gap: 15px;
+}
+
+.infoResultado {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .painelBotoes {
@@ -42,7 +55,29 @@
 }
 
 .resultado {
-    font-size: 30px;
-    font-weight: bold;
+  font-size: 30px;
+  font-weight: bold;
 }
 
+.barraVertical {
+  border-left: 2px solid #8a8a8a;
+  align-self: stretch;
+}
+
+.localizacao {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.localCasa {
+  background-color: #1971C2;
+  border: 1px solid #1971C2;
+  color: white;
+}
+
+.localFora {
+  background-color: black;
+  border: 1px solid black;
+  color: white;
+}

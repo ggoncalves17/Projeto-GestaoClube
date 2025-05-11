@@ -24,6 +24,7 @@ const RadioButtonForm = ({
             <label key={index} className={styles.label}>
               <input
                 type="radio"
+                name={label}
                 value={opcao}
                 checked={valor === opcao}
                 onChange={onChange}

@@ -5,13 +5,13 @@ import BotaoRemover from "./BotaoRemover";
 import BotaoEditar from "./BotaoEditar";
 
 const LinhaJogo = ({ setModo, jogo, setModalRemover, setJogoEscolhido }) => {
-  // const handleRemove = () => {
-  //   setModalRemover(true)
-  //   setCompeticaoEscolhida({
-  //     id:competicao.id,
-  //     nome:competicao.nome,
-  //   })
-  // }
+  const handleRemove = () => {
+    setModalRemover(true)
+    setJogoEscolhido({
+      id:jogo.id,
+      nome: "vs " + jogo.adversario,
+    })
+  }
 
   // const handleEdita = () => {
   //   setModo("Editar")
@@ -24,23 +24,44 @@ const LinhaJogo = ({ setModo, jogo, setModalRemover, setJogoEscolhido }) => {
   return (
     <div className={styles.linha}>
       <div className={styles.painelInfo}>
-        <div className={styles.competicao}>
-          <p>{jogo.competicao}</p>
+        <div className={styles.infoGeral}>
+          <div className={styles.competicao}>
+            <p>{jogo.competicao}</p>
+          </div>
+
+          <div className={styles.infoResultado}>
+            {jogo.estado == "Finalizado" ? (
+              <p className={styles.resultado}>
+                <b>{jogo.resultado_final}</b>
+              </p>
+            ) : (
+              <p className={styles.resultado}>
+                {jogo.hora.split(":").slice(0, 2).join(":")}
+              </p>
+            )}
+
+            <div className={styles.barraVertical}></div>
+          </div>
         </div>
-        {jogo.estado == "Finalizado" ? (
-          <p className={styles.resultado}>
-            <b>{jogo.resultado_final}</b>
-          </p>
-        ) : (
-          <p className={styles.resultado}>
-            {jogo.hora?.split(":").slice(0, 2).join(":")}
-          </p>
-        )}
-        <p>vs <b>{jogo.adversario}</b></p>
+
+        <div
+          className={`${styles.localizacao} ${
+            jogo.localizacao == "Casa" ? styles.localCasa : styles.localFora
+          }`}
+        >
+          <p>{jogo.localizacao}</p>
+        </div>
+
+        <p>
+          vs <b>{jogo.adversario}</b>
+        </p>
+
+        <p>{new Date(jogo.data).toLocaleDateString()}</p>
+        <p>{jogo.hora.split(":").slice(0, 2).join(":")}</p>
       </div>
       <div className={styles.painelBotoes}>
         <BotaoEditar onClick={null} />
-        <BotaoRemover onClick={null} />
+        <BotaoRemover onClick={handleRemove} />
       </div>
     </div>
   );

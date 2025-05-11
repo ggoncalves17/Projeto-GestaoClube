@@ -6,7 +6,11 @@ import InputForm from "../../components/InputForm";
 import styles from "../../components/ListaUtilizadores.module.css";
 import PopUpRemoverModalidade from "../../components/PopUpRemoverModalidade";
 import SelectForm from "../../components/SelectForm";
-import { listaCompeticoes, listaJogos } from "../../api/Equipas/api";
+import {
+  adicionaJogo,
+  listaCompeticoes,
+  listaJogos,
+} from "../../api/Equipas/api";
 import RadioButtonForm from "../../components/RadioButtonForm";
 import LinhaJogo from "../../components/LinhaJogo";
 
@@ -44,8 +48,26 @@ const Jogos = () => {
   }, []);
 
   useEffect(() => {
-    console.log("NOVO JOGO: ", novoJogo);
-  }, [novoJogo]);
+    setNovoJogo({
+      competicao: "",
+      adversario: "",
+      local: "",
+      data: "",
+      hora: "",
+      estado: "",
+      resultado: "",
+      resultadoFinal: "",
+    });
+    setErro("");
+  }, [modo]);
+
+  const handleSubmeteJogo = (event) => {
+    event.preventDefault();
+
+    //TODO: FAZER DEPOIS A PARTE DAS VERIFICAÇÕES DOS CAMPS (JÁ TENHO COM OS REQUIREDS MAS É MAIS 1)
+
+    adicionaJogo(id_equipa, novoJogo, setJogos, setModo, setErro);
+  };
 
   return (
     <div>
@@ -76,7 +98,7 @@ const Jogos = () => {
               setModal={setModo}
               titulo={`${modo} Jogo`}
               botao={modo == "Adicionar" ? "Adicionar" : "Guardar"}
-              onSubmit={null}
+              onSubmit={handleSubmeteJogo}
             >
               <SelectForm
                 label="Competição"
@@ -84,6 +106,7 @@ const Jogos = () => {
                 onChange={(e) =>
                   setNovoJogo({ ...novoJogo, competicao: e.target.value })
                 }
+                erro={erro}
                 opcoes={competicoesDisponiveis}
               />
               <InputForm
@@ -92,7 +115,6 @@ const Jogos = () => {
                 onChange={(e) =>
                   setNovoJogo({ ...novoJogo, adversario: e.target.value })
                 }
-                erro={erro}
                 placeholder="Ex: Sporting"
               />
               <RadioButtonForm
@@ -112,7 +134,6 @@ const Jogos = () => {
                   onChange={(e) =>
                     setNovoJogo({ ...novoJogo, data: e.target.value })
                   }
-                  erro={erro}
                 />
                 <InputForm
                   tipo="time"
@@ -121,7 +142,6 @@ const Jogos = () => {
                   onChange={(e) =>
                     setNovoJogo({ ...novoJogo, hora: e.target.value })
                   }
-                  erro={erro}
                 />
               </div>
               <SelectForm
@@ -152,7 +172,7 @@ const Jogos = () => {
                         resultadoFinal: e.target.value,
                       })
                     }
-                    erro={erro}
+                    placeholder={"Ex: 2-1"}
                   />
                 </>
               )}
@@ -161,10 +181,10 @@ const Jogos = () => {
 
           {modalRemover && (
             <PopUpRemoverModalidade
-              titulo="competição"
-              setDesportos={setCompeticoes}
-              idModalidade={competicaoEscolhida.id}
-              modalidadeNome={competicaoEscolhida.nome}
+              titulo="jogo"
+              setDesportos={setJogos}
+              idModalidade={jogoEscolhido.id}
+              modalidadeNome={jogoEscolhido.nome}
               setModalRemover={setModalRemover}
             />
           )}

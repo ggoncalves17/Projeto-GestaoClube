@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { removeModalidade } from "../api/Modalidades/api";
 import { removeEpoca } from "../api/Epocas/api";
-import { removeEquipa, removeCompeticao } from "../api/Equipas/api";
+import { removeEquipa, removeCompeticao, removeJogo } from "../api/Equipas/api";
 
 const PopUpRemoverModalidade = ({ titulo="modalidade", idModalidade, modalidadeNome, setModalRemover, setDesportos }) => {
 
@@ -19,6 +19,8 @@ const PopUpRemoverModalidade = ({ titulo="modalidade", idModalidade, modalidadeN
         removeEquipa(idModalidade, setDesportos, setModalRemover)
       case "competição":
         removeCompeticao(idModalidade, setDesportos, setModalRemover)
+      case "jogo":
+        removeJogo(idModalidade, setDesportos, setModalRemover)
     }
   }
 

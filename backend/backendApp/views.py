@@ -54,32 +54,38 @@ def estatisticas_view(request):
     }
     return Response(estatisticas)
 
-#TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS OS UTILIZADORES DESSE CLUBE 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaUtilizadores_view(request):
+
+    id_clube = request.user.clube.id
+
     # Referência -> https://docs.djangoproject.com/en/5.2/topics/db/queries/#the-pk-lookup-shortcut
-    utilizadores = Utilizador.objects.filter(tipo="Utilizador", estado__in=[0, 1]).order_by('nome')
+    utilizadores = Utilizador.objects.filter(tipo="Utilizador", estado__in=[0, 1], clube=id_clube).order_by('nome')
 
     serializer = UtilizadorSerializer(utilizadores, many=True)
 
     return Response(serializer.data)
 
-#TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS O STAFF DESSE CLUBE 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaStaff_view(request):
-    utilizadores = Utilizador.objects.filter(tipo="Gestor", estado=1).order_by('nome')
+
+    id_clube = request.user.clube.id
+
+    utilizadores = Utilizador.objects.filter(tipo="Gestor", estado=1, clube=id_clube).order_by('nome')
 
     serializer = UtilizadorSerializer(utilizadores, many=True)
 
     return Response(serializer.data)
 
-#TODO: PASSAR O ID DO CLUBE PARA IR BUSCAR APENAS OS JOGADORES DESSE CLUBE 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listaJogadores(request):
-    utilizadores = Elemento_Clube.objects.filter(estado__in=[0, 1]).order_by('nome')
+
+    id_clube = request.user.clube.id
+
+    utilizadores = Elemento_Clube.objects.filter(estado__in=[0, 1], clube=id_clube).order_by('nome')
 
     serializer = ElementoClubeSerializer(utilizadores, many=True)
 
@@ -912,3 +918,70 @@ def listaJogosEquipa(request, id):
     serializer = JogoSerializer(jogos, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adicionaJogosEquipa(request, id):
+
+    dados = request.data
+
+    jogo = dados.get('jogo')
+
+    print("JOGO: ", jogo)
+
+    adversario = jogo.get('adversario')
+    localizacao = jogo.get('local')
+    competicao = jogo.get('competicao')
+    data = jogo.get('data')
+    hora = jogo.get('hora')
+    estadoStr = jogo.get('estado')
+    resultado = jogo.get('resultado')
+    resultado_final = jogo.get('resultadoFinal')
+
+    if estadoStr == "Por Acontecer":
+        estado = 1
+    else:
+        estado = 2
+
+    id_competicao = get_object_or_404(Competicao, nome=competicao).id
+
+    #TODO: FAZER ESTA VERIFICAÇÃO TAMBÉM NO FRONTEND
+    if Jogo.objects.filter(adversario=adversario, localizacao=localizacao, competicao=id_competicao, equipa=id).exists():
+        return Response({"mensagem": "Já existe um jogo com os mesmos atributos (Adversário, Local e Competição)"}, status=404)
+    else:
+        jogo = Jogo(
+            data=data,
+            hora=hora,
+            adversario=adversario,
+            localizacao=localizacao,
+            resultado = resultado,
+            resultado_final=resultado_final,
+            estado=estado,
+            equipa_id = id,
+            competicao_id = id_competicao,
+        )
+
+        try:
+            jogo.save() 
+
+            serializer = JogoSerializer(jogo)
+
+            return Response({"mensagem": "Jogo inserido com sucesso!", "jogo": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+    
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_jogo(request, id):
+
+    jogo = get_object_or_404(Jogo, id=id)
+
+    try:
+        jogo.delete()
+
+        return Response({"mensagem": "Jogo removido com sucesso!"}, status=200)    
+    
+    except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
