@@ -10,6 +10,7 @@ import {
   adicionaJogo,
   listaCompeticoes,
   listaJogos,
+  editaJogo,
 } from "../../api/Equipas/api";
 import RadioButtonForm from "../../components/RadioButtonForm";
 import LinhaJogo from "../../components/LinhaJogo";
@@ -48,25 +49,42 @@ const Jogos = () => {
   }, []);
 
   useEffect(() => {
-    setNovoJogo({
-      competicao: "",
-      adversario: "",
-      local: "",
-      data: "",
-      hora: "",
-      estado: "",
-      resultado: "",
-      resultadoFinal: "",
-    });
+    if (modo == "Editar") {
+      setNovoJogo(jogoEscolhido);
+    } 
+    else {
+      setNovoJogo({
+        competicao: "",
+        adversario: "",
+        local: "",
+        data: "",
+        hora: "",
+        estado: "",
+        resultado: "",
+        resultadoFinal: "",
+      });
+    }
     setErro("");
   }, [modo]);
 
   const handleSubmeteJogo = (event) => {
     event.preventDefault();
 
-    //TODO: FAZER DEPOIS A PARTE DAS VERIFICAÇÕES DOS CAMPS (JÁ TENHO COM OS REQUIREDS MAS É MAIS 1)
+    //TODO: FAZER DEPOIS A PARTE DAS VERIFICAÇÕES DOS CAMPOS (JÁ TENHO COM OS REQUIREDS MAS É MAIS 1)
+    // COLOCAR VERIFICAÇÃO CASO O JOGO ESTEJA FINALIZADO NÃO POSSO ALTERAR A DATA PARA ALGO MAIOR QUE HOJE.PARA ISSO TEM DE COLOCAR POR ACONTECER e BLOQUEAR O CAMPO FINALIZADO CASO A DATA SEJA MAIOR QUE HOJE
+    let jogo = novoJogo
 
-    adicionaJogo(id_equipa, novoJogo, setJogos, setModo, setErro);
+    if(jogo.estado == "Por Acontecer") {
+      jogo.resultado = "",
+      jogo.resultadoFinal = ""
+    }
+    
+    if(modo == "Adicionar") {
+      adicionaJogo(id_equipa, jogo, setJogos, setModo, setErro);
+    }
+    else if (modo == "Editar") {
+      editaJogo(jogo, setJogos, setModo, setErro);
+    }
   };
 
   return (
@@ -76,7 +94,7 @@ const Jogos = () => {
       ) : (
         <div>
           {jogos.length > 0 ? (
-            <div className={styles.grelhaCompeticoes}>
+            <div className={styles.grelhaJogos}>
               {jogos.map((jogo, index) => (
                 <LinhaJogo
                   key={index}

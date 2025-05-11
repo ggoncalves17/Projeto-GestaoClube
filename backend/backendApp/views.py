@@ -928,8 +928,6 @@ def adicionaJogosEquipa(request, id):
 
     jogo = dados.get('jogo')
 
-    print("JOGO: ", jogo)
-
     adversario = jogo.get('adversario')
     localizacao = jogo.get('local')
     competicao = jogo.get('competicao')
@@ -984,4 +982,53 @@ def remove_jogo(request, id):
         return Response({"mensagem": "Jogo removido com sucesso!"}, status=200)    
     
     except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+    
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def edita_jogo(request, id):
+
+    jogo = get_object_or_404(Jogo, id=id)
+
+    dados = request.data
+
+    novoJogo = dados.get('jogo')
+
+    adversario = novoJogo.get('adversario')
+    localizacao = novoJogo.get('local')
+    competicao = novoJogo.get('competicao')
+    data = novoJogo.get('data')
+    hora = novoJogo.get('hora')
+    estadoStr = novoJogo.get('estado')
+    resultado = novoJogo.get('resultado')
+    resultado_final = novoJogo.get('resultadoFinal')
+
+    if estadoStr == "Por Acontecer":
+        estado = 1
+    else:
+        estado = 2
+
+    id_competicao = get_object_or_404(Competicao, nome=competicao).id
+
+    if Jogo.objects.filter(adversario=adversario, localizacao=localizacao, competicao=id_competicao, equipa=jogo.equipa).exclude(id=id).exists():
+        return Response({"mensagem": "Já existe um jogo com os mesmos atributos (Adversário, Local e Competição)"}, status=404)
+    else:
+
+        jogo.data=data
+        jogo.hora=hora
+        jogo.adversario=adversario
+        jogo.localizacao=localizacao
+        jogo.resultado = resultado
+        jogo.resultado_final=resultado_final
+        jogo.estado=estado
+        jogo.competicao_id = id_competicao
+
+        try:
+            jogo.save() 
+
+            serializer = JogoSerializer(jogo)
+
+            return Response({"mensagem": "Jogo atualizado com sucesso!", "jogo": serializer.data}, status=200)
+        
+        except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

@@ -30,7 +30,7 @@ const Competicoes = () => {
       setNomeCompeticao("");
       setErro("");
     }
-  }, [modo, competicaoEscolhida]);
+  }, [modo]);
 
   const handleSubmeteCompeticao = (event) => {
     event.preventDefault();

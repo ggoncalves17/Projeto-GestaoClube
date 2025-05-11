@@ -279,14 +279,14 @@ export const editaCompeticao = (
       setCompeticoes((prev) =>
         prev.map((competicao) =>
           competicao.id == id_competicao
-            ? {...competicao, nome: res.data.competicao.nome}
+            ? { ...competicao, nome: res.data.competicao.nome }
             : competicao
         )
       );
 
       setModo(null);
 
-      toast.success("Competição Adicionada com Sucesso!");
+      toast.success("Competição Editada com Sucesso!");
     })
     .catch((err) => {
       console.log("Mensagem do erro:", err.response.data.mensagem);
@@ -298,7 +298,11 @@ export const editaCompeticao = (
 };
 
 // FUNÇÃO PARA REMOVER COMPETIÇÃO ------------------------------------------------------
-export const removeCompeticao = (id_competicao, setCompeticoes, setModalRemover) => {
+export const removeCompeticao = (
+  id_competicao,
+  setCompeticoes,
+  setModalRemover
+) => {
   axios
     .delete(`${url}/competicoes/${id_competicao}/remover/`, {
       withCredentials: true,
@@ -309,7 +313,9 @@ export const removeCompeticao = (id_competicao, setCompeticoes, setModalRemover)
     .then((res) => {
       console.log("Resposta do Backend: ", res.data);
 
-      setCompeticoes((prev) => prev.filter((competicao) => competicao.id != id_competicao));
+      setCompeticoes((prev) =>
+        prev.filter((competicao) => competicao.id != id_competicao)
+      );
 
       setModalRemover(false);
       toast.success(`Competição Removida com Sucesso!`);
@@ -339,18 +345,12 @@ export const listaJogos = (id_equipa, setJogos, setLoading) => {
 };
 
 // FUNÇÃO PARA ADICIONAR NOVO JOGO DE UMA DETERMINADA EQUIPA ------------------------------------------------------
-export const adicionaJogo = (
-  id_equipa,
-  jogo,
-  setJogos,
-  setModo,
-  setErro
-) => {
+export const adicionaJogo = (id_equipa, jogo, setJogos, setModo, setErro) => {
   axios
     .post(
       `${url}/equipas/${id_equipa}/jogos/adicionar/`,
       {
-        jogo : jogo
+        jogo: jogo,
       },
       {
         withCredentials: true,
@@ -363,7 +363,11 @@ export const adicionaJogo = (
     .then((res) => {
       console.log("Resposta do Backend: ", res.data);
 
-      setJogos((prev) => [...prev, res.data.jogo]);
+      setJogos((prev) =>
+        [...prev, res.data.jogo].sort(
+          (a, b) => new Date(a.data) - new Date(b.data)
+        )
+      );
       setModo(null);
 
       toast.success("Jogo Adicionado com Sucesso!");
@@ -397,5 +401,45 @@ export const removeJogo = (id_jogo, setJogos, setModalRemover) => {
     .catch((err) => {
       console.log("Código do erro:", err.response.status);
       console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};
+
+// FUNÇÃO PARA EDITAR JOGO DE UMA DETERMINADA EQUIPA ------------------------------------------------------
+export const editaJogo = (jogo, setJogos, setModo, setErro) => {
+  const id_jogo = jogo.id;
+
+  axios
+    .put(
+      `${url}/jogos/${id_jogo}/editar/`,
+      {
+        jogo: jogo,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setJogos((prev) =>
+        prev
+          .map((jogo) => (jogo.id == id_jogo ? res.data.jogo : jogo))
+          .sort((a, b) => new Date(a.data) - new Date(b.data))
+      );
+
+      setModo(null);
+
+      toast.success("Jogo Editado com Sucesso!");
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+
+      if (err.response.status == 404) {
+        setErro(err.response.data.mensagem);
+      }
     });
 };
