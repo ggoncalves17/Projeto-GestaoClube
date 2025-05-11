@@ -8,6 +8,7 @@ const SelectForm = ({
   erro,
   opcoes = [],
   required = true,
+  disabled = false
 }) => {
   return (
     <div>
@@ -22,6 +23,7 @@ const SelectForm = ({
           onChange={onChange}
           className={styles.inputCampo}
           required={required}
+          disabled={disabled}
         >
           <option value="" disabled>
             Selecione a {label}

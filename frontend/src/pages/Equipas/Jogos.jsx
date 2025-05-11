@@ -18,7 +18,7 @@ import LinhaJogo from "../../components/LinhaJogo";
 const Jogos = () => {
   const { id_equipa } = useParams();
   const [loading, setLoading] = useState(true);
-  const { modo, setModo } = useOutletContext();
+  const { modo, setModo, filtroEstado } = useOutletContext();
   const [erro, setErro] = useState("");
   const [competicoes, setCompeticoes] = useState([]);
   const [jogos, setJogos] = useState([]);
@@ -51,8 +51,7 @@ const Jogos = () => {
   useEffect(() => {
     if (modo == "Editar") {
       setNovoJogo(jogoEscolhido);
-    } 
-    else {
+    } else {
       setNovoJogo({
         competicao: "",
         adversario: "",
@@ -67,25 +66,45 @@ const Jogos = () => {
     setErro("");
   }, [modo]);
 
+  useEffect(() => {
+    const hoje = new Date();
+    const dataJogo = new Date(novoJogo.data);
+
+    if (dataJogo > hoje) {
+      setNovoJogo((prev) => ({
+        ...prev,
+        estado: "Por Acontecer",
+      }));
+    }
+  }, [novoJogo.data]);
+
   const handleSubmeteJogo = (event) => {
     event.preventDefault();
 
     //TODO: FAZER DEPOIS A PARTE DAS VERIFICAÇÕES DOS CAMPOS (JÁ TENHO COM OS REQUIREDS MAS É MAIS 1)
     // COLOCAR VERIFICAÇÃO CASO O JOGO ESTEJA FINALIZADO NÃO POSSO ALTERAR A DATA PARA ALGO MAIOR QUE HOJE.PARA ISSO TEM DE COLOCAR POR ACONTECER e BLOQUEAR O CAMPO FINALIZADO CASO A DATA SEJA MAIOR QUE HOJE
-    let jogo = novoJogo
+    let jogo = novoJogo;
 
-    if(jogo.estado == "Por Acontecer") {
-      jogo.resultado = "",
-      jogo.resultadoFinal = ""
+    if (jogo.estado == "Por Acontecer") {
+      (jogo.resultado = ""), (jogo.resultadoFinal = "");
     }
-    
-    if(modo == "Adicionar") {
+
+    if (modo == "Adicionar") {
       adicionaJogo(id_equipa, jogo, setJogos, setModo, setErro);
-    }
-    else if (modo == "Editar") {
+    } else if (modo == "Editar") {
       editaJogo(jogo, setJogos, setModo, setErro);
     }
   };
+
+  const estadosInt = {
+    "Por Acontecer" : 1,
+    "Finalizados" : 2,
+  }
+
+  const jogosFiltrados = jogos.filter(
+      (jogo) => (filtroEstado === "Todos" || filtroEstado === "" ? true :
+      jogo.estado === estadosInt[filtroEstado])
+  );
 
   return (
     <div>
@@ -93,9 +112,9 @@ const Jogos = () => {
         <Spinner loading={loading} />
       ) : (
         <div>
-          {jogos.length > 0 ? (
+          {jogosFiltrados.length > 0 ? (
             <div className={styles.grelhaJogos}>
-              {jogos.map((jogo, index) => (
+              {jogosFiltrados.map((jogo, index) => (
                 <LinhaJogo
                   key={index}
                   setModo={setModo}
@@ -169,6 +188,7 @@ const Jogos = () => {
                   setNovoJogo({ ...novoJogo, estado: e.target.value })
                 }
                 opcoes={estadosDisponiveis}
+                disabled={novoJogo.data && new Date(novoJogo.data) > new Date()}
               />
 
               {novoJogo.estado == "Finalizado" && (

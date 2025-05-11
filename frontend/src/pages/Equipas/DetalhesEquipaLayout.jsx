@@ -36,10 +36,7 @@ const equipaLoader = async ({ params }) => {
 
 const DetalhesEquipaLayout = () => {
   const { id: id_modalidade } = useParams();
-
   const infoEquipa = useLoaderData();
-
-  // console.log("INFO EQUIPA: ", infoEquipa);
 
   const opcoesLink = [
     { conteudo: "Plantel", caminho: "plantel" },
@@ -47,10 +44,13 @@ const DetalhesEquipaLayout = () => {
     { conteudo: "Competições", caminho: "competicoes" },
   ];
 
+  const estadosJogos = ["Todos", "Por Acontecer", "Finalizados"]
+  const [filtroEstado, setFiltroEstado] = useState("")
+
   const localizacao = useLocation();
   const [modo, setModo] = useState(null);
 
-  const caminho = localizacao.pathname.endsWith("plantel")
+  const titulo = localizacao.pathname.endsWith("plantel")
     ? "Elementos"
     : localizacao.pathname.endsWith("jogos")
     ? "Jogo"
@@ -86,8 +86,18 @@ const DetalhesEquipaLayout = () => {
             <OpcoesLink opcoes={opcoesLink} />
 
             <div className={styles.painelBotoes}>
+              {localizacao.pathname.endsWith("jogos") && (
+                <>
+                  <Dropdown
+                    tipo={filtroEstado}
+                    campo="Estado"
+                    setTipo={setFiltroEstado}
+                    dados={estadosJogos}
+                  />
+                </>
+              )}
               <BotaoAdicionar
-                titulo={caminho}
+                titulo={titulo}
                 onClick={() => setModo("Adicionar")}
               />
             </div>
@@ -100,6 +110,7 @@ const DetalhesEquipaLayout = () => {
                 infoEquipa,
                 modo,
                 setModo,
+                filtroEstado,
               }}
             />
           </div>
