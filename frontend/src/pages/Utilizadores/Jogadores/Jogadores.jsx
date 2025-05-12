@@ -12,6 +12,7 @@ import DropdownCheckbox from "../../../components/DropdownCheckbox";
 import { UtilizadorContext } from "../../../context/UtilizadorContext";
 import { useNavigate } from "react-router-dom";
 import { listaModalidades } from "../../../api/Modalidades/api";
+import BotaoAdicionar from '../../../components/BotaoAdicionar'
 
 const Jogadores = () => {
   const [filtroNome, setFiltroNome] = useState("");
@@ -108,9 +109,10 @@ const Jogadores = () => {
             />
           </div>
           <div className={styles.painelSuperiorAdicionar}>
-            <button onClick={() => setModo("Adicionar")} className={styles.botaoAdicionar}>
-              + Adicionar Utilizador
-            </button>
+            <BotaoAdicionar
+              titulo={"Utilizador"}
+              onClick={() => setModo("Adicionar")}
+            />
           </div>
         </div>
         <div className={styles.painelInferior}>

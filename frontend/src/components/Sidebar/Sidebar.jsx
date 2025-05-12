@@ -9,7 +9,6 @@ import { useLocation } from "react-router-dom";
 const Sidebar = () => {
   const [isExpandido, setIsExpandido] = useState(false);
   const [isUtilizadoresAberto, setIsUtilizadoresAberto] = useState(false);
-  const [isClubeAberto, setIsClubeAberto] = useState(false);
 
   const subOpcoesRef = useRef();
   const opcaoUtilizadoresRef = useRef();
@@ -75,7 +74,7 @@ const Sidebar = () => {
           <Opcao isExpandido={isExpandido} conteudo="Finanças" ativo={caminho === "financas"} caminho="/"/>
           <Opcao isExpandido={isExpandido} conteudo="Evento" ativo={caminho === "eventos"} caminho="/"/>
           <hr />
-          <Opcao isExpandido={isExpandido} conteudo="Calendário" ativo={caminho === "calendario"} caminho="/"/>
+          <Opcao isExpandido={isExpandido} conteudo="Calendário" ativo={caminho.startsWith("/calendario")} caminho="/calendario"/>
         </ul>
 
         <ul>

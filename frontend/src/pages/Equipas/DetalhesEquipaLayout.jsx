@@ -50,6 +50,10 @@ const DetalhesEquipaLayout = () => {
   const localizacao = useLocation();
   const [modo, setModo] = useState(null);
 
+  useEffect(() => {
+    setFiltroEstado("");
+  }, [localizacao.pathname]);
+
   const titulo = localizacao.pathname.endsWith("plantel")
     ? "Elementos"
     : localizacao.pathname.endsWith("jogos")
@@ -103,7 +107,6 @@ const DetalhesEquipaLayout = () => {
             </div>
           </div>
 
-          <hr />
           <div className={styles.conteudo}>
             <Outlet
               context={{

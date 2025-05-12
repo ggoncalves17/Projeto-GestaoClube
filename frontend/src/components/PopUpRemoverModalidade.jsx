@@ -10,17 +10,23 @@ import { removeEquipa, removeCompeticao, removeJogo } from "../api/Equipas/api";
 const PopUpRemoverModalidade = ({ titulo="modalidade", idModalidade, modalidadeNome, setModalRemover, setDesportos }) => {
 
   const opcoesRemocao = () => {
+
     switch(titulo){
       case "modalidade":
         removeModalidade(idModalidade, setDesportos, setModalRemover)
+        break
       case "época":
         removeEpoca(idModalidade, setDesportos, setModalRemover)
+        break
       case "equipa":
         removeEquipa(idModalidade, setDesportos, setModalRemover)
+        break
       case "competição":
         removeCompeticao(idModalidade, setDesportos, setModalRemover)
+        break
       case "jogo":
         removeJogo(idModalidade, setDesportos, setModalRemover)
+        break
     }
   }
 

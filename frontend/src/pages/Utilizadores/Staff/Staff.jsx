@@ -6,6 +6,7 @@ import Painel from "../../../components/Utilizadores/Painel";
 import styles from "../UtilizadoresGerais/UtilizadoresGerais.module.css";
 import Paginacao from "../../../components/Paginacao/Paginacao";
 import FormularioStaff from "../../../components/Utilizadores/FormularioStaff";
+import BotaoAdicionar from '../../../components/BotaoAdicionar'
 
 const Staff = () => {
   const [filtroNome, setfiltroNome] = useState("");
@@ -49,9 +50,10 @@ const Staff = () => {
             <SearchBar filtro={filtroNome} setFiltro={setfiltroNome} />
           </div>
           <div className={styles.painelSuperiorAdicionar}>
-            <button onClick={() => setModo("Adicionar")} className={styles.botaoAdicionar}>
-              + Adicionar Utilizador
-            </button>
+            <BotaoAdicionar
+              titulo={"Utilizador"}
+              onClick={() => setModo("Adicionar")}
+            />
           </div>
         </div>
         <div className={styles.painelInferior}>

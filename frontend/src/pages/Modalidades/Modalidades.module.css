@@ -15,26 +15,6 @@
   flex-direction: column;
 }
 
-.estrutura {
-  width: 100%;
-  min-height: 100%;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.estruturaOverflow {
-  overflow: auto;
-}
-
-.painel {
-  height: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
 .painelSuperior,
 .painelInferior {
   padding: 20px;
@@ -134,10 +114,11 @@
 .painelOpcoes {
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .conteudo {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .painelBotoes {

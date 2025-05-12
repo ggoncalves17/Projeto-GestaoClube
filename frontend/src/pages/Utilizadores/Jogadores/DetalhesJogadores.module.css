@@ -109,9 +109,8 @@
   padding: 0;
 }
 
-.painelInferior hr {
-  margin: 2px 0px;
-  padding: 0px;
+.links {
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .opcoes {
@@ -165,14 +164,22 @@
 }
 
 .conteudo {
-  margin-top: 10px;
   padding: 20px 30px;
-  border: 0.5px solid rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
+  border-left: 1px solid #eef0f4;
+  border-right: 1px solid #eef0f4;
+  border-bottom: 1px solid #eef0f4;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .infoJogador {
   display: grid;
   grid-gap: 40px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.titulo {
+  font-size: 20px;
+  font-weight: 600;
 }

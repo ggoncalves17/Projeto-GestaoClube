@@ -14,6 +14,7 @@ import {
   editaModalidade,
 } from "../../api/Modalidades/api";
 import Spinner from "../../components/Spinner";
+import BotaoAdicionar from "../../components/BotaoAdicionar";
 
 const Modalidades = () => {
   const [filtroNome, setFiltroNome] = useState("");
@@ -129,12 +130,7 @@ const Modalidades = () => {
             />
           </div>
           <div className={styles.painelSuperiorAdicionar}>
-            <button
-              onClick={() => setModo("Adicionar")}
-              className={styles.botaoAdicionar}
-            >
-              + Adicionar Modalidade
-            </button>
+            <BotaoAdicionar titulo={"Modalidade"} onClick={() => setModo("Adicionar")}/>
           </div>
         </div>
         <div className={styles.painelInferior}>

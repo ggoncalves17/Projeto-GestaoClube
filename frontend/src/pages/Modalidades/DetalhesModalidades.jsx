@@ -109,7 +109,6 @@ const DetalhesModalidades = () => {
             </div>
           </div>
 
-          <hr />
           <div className={styles.conteudo}>
             <Outlet
               context={{

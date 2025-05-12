@@ -110,7 +110,6 @@ def info_utilizador_view(request, id):
     else:
         return Response({"mensagem": "Não existe o utilizador pretendido."}, status=404)
 
-#TODO: VERIFICAR SE O JOGADOR PERTENCE AO CLUBE DE QUEM ESTÁ A ACEDER
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def info_jogador(request, id):
@@ -1032,3 +1031,17 @@ def edita_jogo(request, id):
         
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+        
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaJogosClube(request):
+
+    id_clube = request.user.clube.id
+
+    equipas = Equipa.objects.filter(clube=id_clube)
+
+    jogos = Jogo.objects.filter(equipa__in=equipas).order_by('data')
+
+    serializer = JogoSerializer(jogos, many=True)
+
+    return Response(serializer.data)
