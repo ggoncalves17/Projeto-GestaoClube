@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  useParams,
+  useLocation,
   useLoaderData,
   redirect,
   useNavigate,
@@ -10,16 +10,16 @@ import axios from "axios";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import styles from "./DetalhesJogadores.module.css";
 import OpcoesLink from "../../../components/OpcoesLink";
+import BotaoAdicionar from "../../../components/BotaoAdicionar";
 
 const jogadorLoader = async ({ params }) => {
-
   try {
     const res = await axios.get(
       `http://localhost:8000/api/info-jogador/${params.id}/`,
       {
         withCredentials: true,
       }
-    );  
+    );
     return res.data;
   } catch (err) {
     if (err.response.status === 403) {
@@ -34,12 +34,17 @@ const DetalhesJogadoresLayout = () => {
   const navigate = useNavigate();
 
   const infoJogador = useLoaderData();
+  const [modo, setModo] = useState(null);
 
   const opcoesLink = [
     { conteudo: "Dados Pessoais", caminho: "dados" },
     { conteudo: "Equipas", caminho: "equipas" },
     { conteudo: "Inscrições", caminho: "inscricoes" },
   ];
+
+  const localizacao = useLocation();
+
+  const titulo = localizacao.pathname.endsWith("inscricoes") && "Inscrição";
 
   return (
     <div className={styles.estrutura}>
@@ -84,12 +89,23 @@ const DetalhesJogadoresLayout = () => {
           </div>
         </div>
         <div className={styles.painelInferior}>
-          <div className={styles.links}>
+          <div className={styles.painelOpcoes}>
             <OpcoesLink opcoes={opcoesLink} />
+
+            {localizacao.pathname.endsWith("inscricoes") && (
+              <div className={styles.painelBotoes}>
+                <BotaoAdicionar
+                  titulo={titulo}
+                  onClick={() => setModo("Adicionar")}
+                />
+              </div>
+            )}
           </div>
           <Outlet
             context={{
               infoJogador,
+              modo,
+              setModo,
             }}
           />
         </div>

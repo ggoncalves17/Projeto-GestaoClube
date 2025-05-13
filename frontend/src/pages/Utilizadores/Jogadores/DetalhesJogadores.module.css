@@ -109,7 +109,14 @@
   padding: 0;
 }
 
-.links {
+.painelBotoes{
+  display: flex;
+  gap: 20px;
+}
+
+.painelOpcoes {
+  display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -182,4 +189,10 @@
 .titulo {
   font-size: 20px;
   font-weight: 600;
+}
+
+.grelhaInscricoes {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
 }

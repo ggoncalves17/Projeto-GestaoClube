@@ -30,6 +30,12 @@ urlpatterns = [
     path('api/edita-modalidade/<int:id>/', views.edita_modalidade, name='edita-modalidade'),   
     path('api/remove-modalidade/<int:id>/', views.remove_modalidade, name='remove-modalidade'), 
     path('api/info-modalidade/<int:id>/', views.info_modalidade, name='info-modalidade'),
+
+    # MODALIDADES --> ÉPOCAS ------------------------------------------------------------------------------------
+    path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),
+    path('api/adiciona-epoca/<int:id>/', views.adiciona_epoca, name='adiciona-epoca'),    
+    path('api/epocas/<int:id>/editar/', views.edita_epoca, name='edita_epoca'),    
+    path('api/remove-epoca/<int:id>/', views.remove_epoca, name='remove-epoca'), 
     
     # EQUIPAS ------------------------------------------------------------------------------------
     path('api/listaEquipas/<int:id>/', views.listaEquipas, name='listaEquipas'),
@@ -50,17 +56,14 @@ urlpatterns = [
 
     path('api/jogos/', views.listaJogosClube, name='listaJogosClube'),
 
-
     # EQUIPAS --> COMPETIÇÕES ------------------------------------------------------------------------------------
     path('api/equipas/<int:id>/competicoes/', views.listaCompeticoesEquipa, name='listaCompeticoesEquipa'),
     path('api/equipas/<int:id>/competicoes/adicionar/', views.adicionaCompeticoesEquipa, name='adicionaCompeticoesEquipa'),
     path('api/competicoes/<int:id>/editar/', views.editaCompeticao, name='editaCompeticao'),
     path('api/competicoes/<int:id>/remover/', views.remove_competicao, name='remove_competicao'),
 
-    # ÉPOCAS ------------------------------------------------------------------------------------
-    path('api/listaEpocas/<int:id>/', views.listaEpocas, name='listaEpocas'),
-    path('api/adiciona-epoca/<int:id>/', views.adiciona_epoca, name='adiciona-epoca'),    
-    path('api/epocas/<int:id>/editar/', views.edita_epoca, name='edita_epoca'),    
-    path('api/remove-epoca/<int:id>/', views.remove_epoca, name='remove-epoca'), 
+    # ELEMENTOS (JOGADORES / TREINADORES) ------------------------------------------------------------------------------------
+    path('api/elementos/<int:id>/inscricoes/', views.listaInscricoesJogador, name='listaInscricoesJogador'),
+    path('api/elementos/<int:id>/inscricoes/adicionar', views.adicionaInscricaoElemento, name='adicionaInscricaoElemento'),
 
 ]

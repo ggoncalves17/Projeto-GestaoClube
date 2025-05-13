@@ -33,6 +33,7 @@ import Jogos from "./pages/Equipas/Jogos";
 import DadosJogador from "./pages/Utilizadores/Jogadores/DadosJogador";
 import EquipasJogador from "./pages/Utilizadores/Jogadores/EquipasJogador";
 import CalendarioEventos from "./pages/Calendario/CalendarioEventos";
+import InscricoesJogador from "./pages/Utilizadores/Jogadores/InscricoesJogador";
 
 function App() {
   const router = createBrowserRouter([
@@ -73,6 +74,7 @@ function App() {
             { index: true, element: <Navigate to="dados" /> },
             { path: "dados", element: <DadosJogador /> },
             { path: "equipas", element: <EquipasJogador /> },
+            { path: "inscricoes", element: <InscricoesJogador /> },
           ],
         },
       ],

@@ -103,6 +103,25 @@ class JogoSerializer(serializers.ModelSerializer):
 
     def get_competicao(self, obj):
         return obj.competicao.nome 
+    
+class JogoInfoSerializer(serializers.ModelSerializer):
+
+    competicao = serializers.SerializerMethodField()
+    equipa = serializers.SerializerMethodField()
+    epoca = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Jogo
+        fields = ('id', 'competicao', 'data', 'hora', 'adversario', 'localizacao', 'resultado', 'resultado_final', 'estado', 'equipa', 'epoca')
+
+    def get_competicao(self, obj):
+        return obj.competicao.nome 
+    
+    def get_equipa(self, obj):
+        return obj.equipa.nome 
+    
+    def get_epoca(self, obj):
+        return obj.equipa.epoca.nome 
 
 class CompeticaoSerializer(serializers.ModelSerializer):
 
@@ -114,3 +133,14 @@ class CompeticaoSerializer(serializers.ModelSerializer):
     
     def get_nJogos(self, obj):
         return obj.jogo_set.count() 
+    
+class InscricaoSerializer(serializers.ModelSerializer):
+
+    epoca = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Inscricao
+        fields = ('id', 'exames_medico', 'data_exame_medico','data_inscricao','documentacao', 'estado', 'epoca')
+
+    def get_epoca(self, obj):
+        return obj.epoca.nome   

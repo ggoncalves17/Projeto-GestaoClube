@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import ptLocale from "@fullcalendar/core/locales/pt";
+import InfoModal from "../pages/Calendario/InfoModal";
 
 const Calendario = ({ eventos }) => {
   const [jogoSelecionado, setJogoSelecionado] = useState(null);
 
   let todosEventos;
+
+  console.log("EVENTOS: ", eventos);
+  
 
   if (eventos != null) {
     todosEventos = eventos.map((evento) => ({
@@ -18,6 +22,8 @@ const Calendario = ({ eventos }) => {
         resultadoFinal: evento.resultado_final,
         competicao: evento.competicao,
         estado: evento.estado,
+        equipa: evento.equipa,
+        epoca: evento.epoca,
       },
     }));
   } else {
@@ -60,10 +66,7 @@ const Calendario = ({ eventos }) => {
       />
 
       {jogoSelecionado && (
-        <div>
-          <p>Teste</p>
-          <button onClick={() => setJogoSelecionado(null)}>Fechar</button>
-        </div>
+        <InfoModal evento={jogoSelecionado} setJogoSelecionado={setJogoSelecionado}/>
       )}
     </div>
   );

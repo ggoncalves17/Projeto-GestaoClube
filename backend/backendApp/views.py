@@ -1042,6 +1042,52 @@ def listaJogosClube(request):
 
     jogos = Jogo.objects.filter(equipa__in=equipas).order_by('data')
 
-    serializer = JogoSerializer(jogos, many=True)
+    serializer = JogoInfoSerializer(jogos, many=True)
 
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaInscricoesJogador(request, id):
+
+    id_clube = request.user.clube.id
+
+    jogador = get_object_or_404(Elemento_Clube, id=id)
+
+    if jogador:
+        if jogador.clube.id == id_clube:
+            inscricoes = Inscricao.objects.filter(elemento_clube=id).order_by('-epoca__nome')
+
+            serializer = InscricaoSerializer(inscricoes, many=True)
+
+            return Response(serializer.data)
+        else:
+            return Response({"mensagem": "Não existe o jogador pretendido."}, status=404)
+    else:
+        return Response({"mensagem": "Não existe o jogador pretendido."}, status=404)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adicionaInscricaoElemento(request, id):
+
+    id_epoca = request.data.get("id_epoca")
+    
+    if Inscricao.objects.filter(epoca=id_epoca, elemento_clube=id).exists():
+        return Response({"mensagem": "Já existe uma inscrição associada a esta época para o elemento selecionado"}, status=404)
+    else:
+        inscricao = Inscricao(
+            estado = 0,
+            epoca_id=id_epoca,
+            elemento_clube_id=id,
+        )
+
+        try:
+            inscricao.save() 
+
+            serializer = InscricaoSerializer(inscricao)
+
+            return Response({"mensagem": "Inscrição inserida com sucesso!", "inscricao": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+

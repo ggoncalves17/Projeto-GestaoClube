@@ -1,0 +1,73 @@
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+
+const url = "http://localhost:8000/api";
+
+// FUNÇÃO PARA LISTAR TODOS AS INSCRIÇÕES DE UM ELEMENTO (JOGADOR / TREINADOR) ------------------------------------------------------
+export const listaInscricoesJogador = (
+  id_elemento,
+  setInscricoes,
+  setLoading
+) => {
+  axios
+    .get(`${url}/elementos/${id_elemento}/inscricoes/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setInscricoes(res.data);
+
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};
+
+// FUNÇÃO PARA ADICIONAR NOVA INSCRIÇÃO DE UMA DETERMINADA ÉPOCA DE UM JOGADOR ------------------------------------------------------
+export const adicionaInscricaoEpoca = (
+  id_jogador,
+  id_epoca,
+  setInscricoes,
+  setModo,
+  setErro
+) => {
+  axios
+    .post(
+      `${url}/elementos/${id_jogador}/inscricoes/adicionar`,
+      {
+        id_epoca: id_epoca,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      console.log("DATA INSCRICAO: ", res.data.inscricao);
+
+      setInscricoes((prev) =>
+        [...prev, res.data.inscricao].sort((a, b) =>
+          b.epoca.localeCompare(a.epoca)
+        )
+      );
+
+      setModo(null);
+
+      toast.success("Inscrição Adicionada com Sucesso!");
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+
+      if (err.response.status == 404) {
+        setErro(err.response.data.mensagem);
+      }
+    });
+};

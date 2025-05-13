@@ -11,10 +11,6 @@ const PaginaCalendario = () => {
     listaTodosJogos(setJogos)
   }, [])
 
-  useEffect(() => {
-    console.log("TODOS OS JOGOS EXISTENTES: ", jogos);
-  }, [jogos])
-
   return (
     <div className={styles.estrutura}>
       <div className={styles.painel}>
