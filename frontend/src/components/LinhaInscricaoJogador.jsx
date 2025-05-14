@@ -6,7 +6,7 @@ import BotaoEditar from "../components/BotaoEditar";
 import BotaoRemover from "../components/BotaoRemover";
 import { MdOutlineFileUpload, MdOutlinePendingActions } from "react-icons/md";
 
-const LinhaInscricaoJogador = ({ inscricao }) => {
+const LinhaInscricaoJogador = ({ inscricao, setModo,setModoUpload, setModalRemover, setInscricaoEscolhida }) => {
   const estadoInscricao = inscricao.estado;
 
   let estadoStr;
@@ -43,6 +43,23 @@ const LinhaInscricaoJogador = ({ inscricao }) => {
     ),
   };
 
+  const handleRemoveInscricao = () => {
+    setModalRemover(true);
+    setInscricaoEscolhida({
+      id: inscricao.id,
+      nome: inscricao.epoca,
+    });
+  };
+  
+  const handleEditaInscricao = () => {
+    setModo("Editar");
+    setInscricaoEscolhida({
+      id: inscricao.id,
+      epoca: inscricao.epoca,
+      estado: estadoStr,
+    });
+  };
+
   return (
     <div className={styles.linha}>
       <div className={styles.painelInfo}>
@@ -71,14 +88,14 @@ const LinhaInscricaoJogador = ({ inscricao }) => {
           </div>
         </div>
         <div className={styles.painelBotoes}>
-          <BotaoEditar />
-          <BotaoRemover />
+          <BotaoEditar onClick={handleEditaInscricao}/>
+          <BotaoRemover onClick={handleRemoveInscricao}/>
         </div>
       </div>
       <div className={styles.painelDocumentos}>
         <div className={styles.tituloDocumentos}>
           <p>Documentos</p>
-          <button className={styles.btnUpload}>
+          <button className={styles.btnUpload} onClick={() => setModoUpload(true)}>
             <MdOutlineFileUpload className={styles.iconUpload} />
             <p className={styles.textoUpload}>Upload</p>
           </button>

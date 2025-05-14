@@ -1091,3 +1091,53 @@ def adicionaInscricaoElemento(request, id):
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_inscricao(request, id):
+
+    inscricao = get_object_or_404(Inscricao, id=id)
+
+    try:
+        inscricao.delete()
+
+        return Response({"mensagem": "Inscrição removida com sucesso!"}, status=200)    
+    
+    except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+    
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def edita_inscricao(request, id):
+
+    inscricao = get_object_or_404(Inscricao, id=id)
+
+    epoca = request.data.get("epoca")
+    estadoStr = request.data.get("estado")
+
+    if estadoStr == "Não Enviado":
+        estado = 0
+    elif estadoStr == "Pendente":
+        estado = 1
+    elif estadoStr == "Aprovado":
+        estado = 2
+    elif estadoStr == "Rejeitado":
+        estado = 3
+
+    id_epoca = get_object_or_404(Epoca, nome=epoca).id
+
+    if Inscricao.objects.filter(epoca=id_epoca, elemento_clube=inscricao.elemento_clube).exclude(id=id).exists():
+        return Response({"mensagem": "Já existe uma inscrição associada a esta época para o elemento selecionado"}, status=404)
+    else:
+
+        inscricao.epoca_id = id_epoca
+        inscricao.estado = estado
+
+        try:
+            inscricao.save() 
+
+            serializer = InscricaoSerializer(inscricao)
+
+            return Response({"mensagem": "Inscrição edita com sucesso!", "inscricao": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

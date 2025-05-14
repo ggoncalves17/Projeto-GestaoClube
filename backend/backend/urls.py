@@ -64,6 +64,8 @@ urlpatterns = [
 
     # ELEMENTOS (JOGADORES / TREINADORES) ------------------------------------------------------------------------------------
     path('api/elementos/<int:id>/inscricoes/', views.listaInscricoesJogador, name='listaInscricoesJogador'),
-    path('api/elementos/<int:id>/inscricoes/adicionar', views.adicionaInscricaoElemento, name='adicionaInscricaoElemento'),
+    path('api/elementos/<int:id>/inscricoes/adicionar/', views.adicionaInscricaoElemento, name='adicionaInscricaoElemento'),
+    path('api/inscricoes/<int:id>/remover/', views.remove_inscricao, name='remove_inscricao'),
+    path('api/inscricoes/<int:id>/editar/', views.edita_inscricao, name='edita_inscricao'),
 
 ]

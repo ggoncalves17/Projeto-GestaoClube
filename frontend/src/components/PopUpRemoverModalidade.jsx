@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { removeModalidade } from "../api/Modalidades/api";
 import { removeEpoca } from "../api/Epocas/api";
 import { removeEquipa, removeCompeticao, removeJogo } from "../api/Equipas/api";
+import { removeInscricao } from "../api/Utilizadores/api";
 
 const PopUpRemoverModalidade = ({ titulo="modalidade", idModalidade, modalidadeNome, setModalRemover, setDesportos }) => {
 
@@ -26,6 +27,9 @@ const PopUpRemoverModalidade = ({ titulo="modalidade", idModalidade, modalidadeN
         break
       case "jogo":
         removeJogo(idModalidade, setDesportos, setModalRemover)
+        break
+      case "inscricao":
+        removeInscricao(idModalidade, setDesportos, setModalRemover)
         break
     }
   }

@@ -6,10 +6,12 @@ import Spinner from "../../../components/Spinner";
 import {
   listaInscricoesJogador,
   adicionaInscricaoEpoca,
+  editaInscricaoEpoca,
 } from "../../../api/Utilizadores/api";
 import Modal from "../../../components/JanelaModal/Modal";
 import SelectForm from "../../../components/SelectForm";
 import { listaEpocas } from "../../../api/Epocas/api";
+import PopUpRemoverModalidade from "../../../components/PopUpRemoverModalidade";
 
 const InscricoesJogador = () => {
   const { infoJogador, modo, setModo } = useOutletContext();
@@ -17,12 +19,17 @@ const InscricoesJogador = () => {
   const [loadingEpocas, setLoadingEpocas] = useState(true);
   const loading = loadingInscricoes || loadingEpocas;
   const [erro, setErro] = useState("");
+  const [modoUpload, setModoUpload] = useState(false);
+  const [modalRemover, setModalRemover] = useState(null);
   const [inscricoes, setInscricoes] = useState([]);
   const [novaInscricao, setNovaInscricao] = useState({
     epoca: "",
   });
+  const [inscricaoEscolhida, setInscricaoEscolhida] = useState(null);
   const [todasEpocas, setTodasEpocas] = useState([]);
   const epocasDisponiveis = todasEpocas.map((epoca) => epoca.nome);
+
+  const estadosDisponiveis = ["Não Enviado", "Pendente", "Aprovado", "Rejeitado"]
 
   useEffect(() => {
     listaInscricoesJogador(infoJogador.id, setInscricoes, setLoadingInscricoes);
@@ -35,6 +42,12 @@ const InscricoesJogador = () => {
     });
     setErro("");
   }, [modo]);
+
+  useEffect(() => {
+    if (modo == "Editar") {
+      setNovaInscricao(inscricaoEscolhida);
+    }
+  }, [inscricaoEscolhida]);
 
   const handleSubmeteInscricao = (event) => {
     event.preventDefault();
@@ -56,13 +69,25 @@ const InscricoesJogador = () => {
       (epoca) => epoca.nome == novaInscricao.epoca
     );
 
-    adicionaInscricaoEpoca(
-      infoJogador.id,
-      epoca.id,
-      setInscricoes,
-      setModo,
-      setErro
-    );
+    if (modo == "Adicionar") {
+      adicionaInscricaoEpoca(
+        infoJogador.id,
+        epoca.id,
+        setInscricoes,
+        setModo,
+        setErro
+      );
+    } else if (modo == "Editar") {
+
+      console.log("NOVA INSCRICAO: ", novaInscricao);
+      
+      editaInscricaoEpoca(
+        novaInscricao,
+        setInscricoes,
+        setModo,
+        setErro
+      );
+    }
   };
 
   return (
@@ -76,7 +101,14 @@ const InscricoesJogador = () => {
             {inscricoes.length > 0 ? (
               <div className={styles.grelhaInscricoes}>
                 {inscricoes.map((inscricao, index) => (
-                  <LinhaInscricaoJogador key={index} inscricao={inscricao} />
+                  <LinhaInscricaoJogador
+                    key={index}
+                    inscricao={inscricao}
+                    setModo={setModo}
+                    setModoUpload={setModoUpload}
+                    setModalRemover={setModalRemover}
+                    setInscricaoEscolhida={setInscricaoEscolhida}
+                  />
                 ))}
               </div>
             ) : (
@@ -84,7 +116,7 @@ const InscricoesJogador = () => {
             )}
           </div>
 
-          {modo == "Adicionar" && (
+          {modo && (
             <Modal
               setModal={setModo}
               titulo={`${modo} Inscrição`}
@@ -100,7 +132,37 @@ const InscricoesJogador = () => {
                 }
                 opcoes={epocasDisponiveis}
               />
+
+              {modo == "Editar" &&
+              <SelectForm
+                label="Estado"
+                valor={novaInscricao.estado}
+                onChange={(e) =>
+                  setNovaInscricao({ ...novaInscricao, estado: e.target.value })
+                }
+                opcoes={estadosDisponiveis}
+              />
+              }
             </Modal>
+          )}
+
+          {modalRemover && (
+            <PopUpRemoverModalidade
+              titulo="inscricao"
+              setDesportos={setInscricoes}
+              idModalidade={inscricaoEscolhida.id}
+              modalidadeNome={inscricaoEscolhida.nome}
+              setModalRemover={setModalRemover}
+            />
+          )}
+
+          {modoUpload == true && (
+            <Modal
+              setModal={setModoUpload}
+              titulo={`Upload Documentos - Inscrição`}
+              botao={"Guardar"}
+              onSubmit={null}
+            ></Modal>
           )}
         </>
       )}
