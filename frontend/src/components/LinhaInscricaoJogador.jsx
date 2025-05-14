@@ -5,8 +5,15 @@ import { FiAlertCircle, FiXCircle } from "react-icons/fi";
 import BotaoEditar from "../components/BotaoEditar";
 import BotaoRemover from "../components/BotaoRemover";
 import { MdOutlineFileUpload, MdOutlinePendingActions } from "react-icons/md";
+import CardDocumento from "./CardDocumento";
 
-const LinhaInscricaoJogador = ({ inscricao, setModo,setModoUpload, setModalRemover, setInscricaoEscolhida }) => {
+const LinhaInscricaoJogador = ({
+  inscricao,
+  setModo,
+  setModoUpload,
+  setModalRemover,
+  setInscricaoEscolhida,
+}) => {
   const estadoInscricao = inscricao.estado;
 
   let estadoStr;
@@ -50,13 +57,20 @@ const LinhaInscricaoJogador = ({ inscricao, setModo,setModoUpload, setModalRemov
       nome: inscricao.epoca,
     });
   };
-  
+
   const handleEditaInscricao = () => {
     setModo("Editar");
     setInscricaoEscolhida({
       id: inscricao.id,
       epoca: inscricao.epoca,
       estado: estadoStr,
+    });
+  };
+
+  const handleUploadDocumentos = () => {
+    setModoUpload(true);
+    setInscricaoEscolhida({
+      id: inscricao.id,
     });
   };
 
@@ -83,24 +97,46 @@ const LinhaInscricaoJogador = ({ inscricao, setModo,setModoUpload, setModalRemov
               </div>
             </div>
             {estadoStr == "Aprovado" && (
-              <p className={styles.dataInscricao}>Data Inscrição: 01/01/2025</p>
+              <p className={styles.dataInscricao}>
+                Data Inscrição:{" "}
+                {new Date(inscricao.data_inscricao).toLocaleDateString()}
+              </p>
             )}
           </div>
         </div>
         <div className={styles.painelBotoes}>
-          <BotaoEditar onClick={handleEditaInscricao}/>
-          <BotaoRemover onClick={handleRemoveInscricao}/>
+          <BotaoEditar onClick={handleEditaInscricao} />
+          <BotaoRemover onClick={handleRemoveInscricao} />
         </div>
       </div>
       <div className={styles.painelDocumentos}>
         <div className={styles.tituloDocumentos}>
           <p>Documentos</p>
-          <button className={styles.btnUpload} onClick={() => setModoUpload(true)}>
+          <button className={styles.btnUpload} onClick={handleUploadDocumentos}>
             <MdOutlineFileUpload className={styles.iconUpload} />
             <p className={styles.textoUpload}>Upload</p>
           </button>
         </div>
-        <div className={styles.documentos}></div>
+
+        <div className={styles.documentos}>
+          {inscricao.cartao_cidadao && (
+            <CardDocumento
+              tipo="Cartão Cidadão"
+              inscricao={inscricao}
+              nomeFicheiro="cartao_cidadao"
+            />
+          )}
+
+          {inscricao.exames_medico && (
+            <CardDocumento
+              tipo="Exame Médico"
+              inscricao={inscricao}
+              nomeFicheiro="exames_medico"
+            />
+          )}
+
+          {(!inscricao.cartao_cidadao && !inscricao.exames_medico) && <p>Não existem documentos associados.</p>}
+        </div>
       </div>
     </div>
   );

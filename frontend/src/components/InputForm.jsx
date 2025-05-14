@@ -9,7 +9,7 @@ const InputForm = ({
   erro,
   placeholder,
   required = true,
-  disabled=false
+  disabled = false
 }) => {
   return (
     <div>
@@ -19,15 +19,27 @@ const InputForm = ({
         <label>
           <b>{label}</b>
         </label>
-        <input
-          type={tipo}
-          value={valor}
-          onChange={onChange}
-          className={styles.inputCampo}
-          placeholder={placeholder}
-          required={required}
-          disabled={disabled}
-        />
+
+        {tipo === "file" ? (
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={onChange}
+            className={styles.inputCampo}
+            required={required}
+            disabled={disabled}
+          />
+        ) : (
+          <input
+            type={tipo}
+            value={valor}
+            onChange={onChange}
+            className={styles.inputCampo}
+            placeholder={placeholder}
+            required={required}
+            disabled={disabled}
+          />
+        )}
       </div>
     </div>
   );

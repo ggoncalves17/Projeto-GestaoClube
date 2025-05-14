@@ -7,11 +7,13 @@ import {
   listaInscricoesJogador,
   adicionaInscricaoEpoca,
   editaInscricaoEpoca,
+  uploadDocumentosInscricao,
 } from "../../../api/Utilizadores/api";
 import Modal from "../../../components/JanelaModal/Modal";
 import SelectForm from "../../../components/SelectForm";
 import { listaEpocas } from "../../../api/Epocas/api";
 import PopUpRemoverModalidade from "../../../components/PopUpRemoverModalidade";
+import InputForm from "../../../components/InputForm";
 
 const InscricoesJogador = () => {
   const { infoJogador, modo, setModo } = useOutletContext();
@@ -25,11 +27,20 @@ const InscricoesJogador = () => {
   const [novaInscricao, setNovaInscricao] = useState({
     epoca: "",
   });
+  const [documentos, setDocumentos] = useState({
+    cartao_cidadao: null,
+    exames_medicos: null,
+  });
   const [inscricaoEscolhida, setInscricaoEscolhida] = useState(null);
   const [todasEpocas, setTodasEpocas] = useState([]);
   const epocasDisponiveis = todasEpocas.map((epoca) => epoca.nome);
 
-  const estadosDisponiveis = ["Não Enviado", "Pendente", "Aprovado", "Rejeitado"]
+  const estadosDisponiveis = [
+    "Não Enviado",
+    "Pendente",
+    "Aprovado",
+    "Rejeitado",
+  ];
 
   useEffect(() => {
     listaInscricoesJogador(infoJogador.id, setInscricoes, setLoadingInscricoes);
@@ -78,16 +89,16 @@ const InscricoesJogador = () => {
         setErro
       );
     } else if (modo == "Editar") {
-
       console.log("NOVA INSCRICAO: ", novaInscricao);
-      
-      editaInscricaoEpoca(
-        novaInscricao,
-        setInscricoes,
-        setModo,
-        setErro
-      );
+
+      editaInscricaoEpoca(novaInscricao, setInscricoes, setModo, setErro);
     }
+  };
+
+  const handleUploadDocumentos = (event) => {
+    event.preventDefault();
+    
+    uploadDocumentosInscricao(inscricaoEscolhida.id, documentos, setInscricoes, setModoUpload, setErro);
   };
 
   return (
@@ -133,16 +144,19 @@ const InscricoesJogador = () => {
                 opcoes={epocasDisponiveis}
               />
 
-              {modo == "Editar" &&
-              <SelectForm
-                label="Estado"
-                valor={novaInscricao.estado}
-                onChange={(e) =>
-                  setNovaInscricao({ ...novaInscricao, estado: e.target.value })
-                }
-                opcoes={estadosDisponiveis}
-              />
-              }
+              {modo == "Editar" && (
+                <SelectForm
+                  label="Estado"
+                  valor={novaInscricao.estado}
+                  onChange={(e) =>
+                    setNovaInscricao({
+                      ...novaInscricao,
+                      estado: e.target.value,
+                    })
+                  }
+                  opcoes={estadosDisponiveis}
+                />
+              )}
             </Modal>
           )}
 
@@ -161,8 +175,31 @@ const InscricoesJogador = () => {
               setModal={setModoUpload}
               titulo={`Upload Documentos - Inscrição`}
               botao={"Guardar"}
-              onSubmit={null}
-            ></Modal>
+              onSubmit={handleUploadDocumentos}
+            >
+              <InputForm
+                erro={erro}
+                tipo="file"
+                label="Cartão de Cidadão (Apenas PDFs)"
+                onChange={(e) =>
+                  setDocumentos(
+                    { ...documentos, cartao_cidadao: e.target.files[0] }
+                  )
+                }
+                required={false}
+              />
+
+              <InputForm
+                tipo="file"
+                label="Exames Médicos (Apenas PDFs)"
+                onChange={(e) =>
+                  setDocumentos(
+                    { ...documentos, exames_medicos: e.target.files[0] }
+                  )
+                }
+                required={false}
+              />
+            </Modal>
           )}
         </>
       )}

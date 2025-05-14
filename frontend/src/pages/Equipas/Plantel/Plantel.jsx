@@ -69,9 +69,9 @@ const Plantel = () => {
                   foto={elemento.foto}
                   nome={elemento.nome}
                   posicao={elemento.posicao}
-                  inscricao={elemento.inscricao_set.map(
+                  inscricao={elemento.inscricao_set.find(
                     (inscricao) =>
-                      inscricao.epoca == infoEquipa.epoca && inscricao.estado
+                      inscricao.epoca == infoEquipa.epoca
                   )}
                 />
               ))

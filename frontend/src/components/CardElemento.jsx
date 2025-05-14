@@ -23,8 +23,8 @@ const CardElemento = ({ id, foto, nome, posicao, inscricao }) => {
           <div className={styles.modalidade}>
             {posicao == null ? <p>Não Definida</p> : <p>{posicao}</p>}
           </div >
-          <div className={`${styles.inscricao} ${inscricao == true ? styles.inscrito : styles.naoInscrito}`}>
-            <p>{inscricao == true ? "Inscrito" : "Não Inscrito"}</p>
+          <div className={`${styles.inscricao} ${inscricao.estado == 2 ? styles.inscrito : styles.naoInscrito}`}>
+            <p>{inscricao.estado == 2 ? "Inscrito" : "Não Inscrito"}</p>
           </div>
         </div>
       </div>

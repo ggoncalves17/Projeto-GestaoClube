@@ -132,7 +132,11 @@ export const editaInscricaoEpoca = (
         prev
           .map((inscricao) =>
             inscricao.id == id_inscricao
-              ? { ...inscricao, epoca: res.data.inscricao.epoca, estado: res.data.inscricao.estado }
+              ? {
+                  ...inscricao,
+                  epoca: res.data.inscricao.epoca,
+                  estado: res.data.inscricao.estado,
+                }
               : inscricao
           )
           .sort((a, b) => b.epoca.localeCompare(a.epoca))
@@ -142,6 +146,65 @@ export const editaInscricaoEpoca = (
       toast.success(`Inscrição Editada com Sucesso!`);
     })
     .catch((err) => {
+      console.log("Código do erro:", err.response.status);
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+
+      if (err.response.status == 404) {
+        setErro(err.response.data.mensagem);
+      }
+    });
+};
+
+// FUNÇÃO PARA EDITAR EPOCA INSCRICAO ------------------------------------------------------
+export const uploadDocumentosInscricao = (
+  id_inscricao,
+  documentos,
+  setInscricoes,
+  setModo,
+  setErro
+) => {
+  const formData = new FormData();
+
+  console.log("DOCUMENTOS A SEREM ENVIADOS: ", documentos);
+  
+  if (documentos.cartao_cidadao) {
+    formData.append("cartao_cidadao", documentos.cartao_cidadao);
+  }
+  if (documentos.exames_medicos) {
+    formData.append("exames_medicos", documentos.exames_medicos);
+  }
+
+  axios
+    .put(`${url}/inscricoes/${id_inscricao}/documentos/upload/`, formData, {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setInscricoes((prev) =>
+        prev.map((inscricao) =>
+          inscricao.id == id_inscricao
+            ? {
+                ...inscricao,
+                cartao_cidadao: res.data.inscricao.cartao_cidadao,
+                exames_medicos: res.data.inscricao.exames_medico,
+              }
+            : inscricao
+        )
+      );
+      setModo(null);
+
+      toast.success(`Documentos Inseridos com Sucesso!`);
+    })
+    .catch((err) => {
+
+      console.log("DOCUMENTOS ERROS: ", err);
+      
+
       console.log("Código do erro:", err.response.status);
       console.log("Mensagem do erro:", err.response.data.mensagem);
 

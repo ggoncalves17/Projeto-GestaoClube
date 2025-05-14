@@ -1141,3 +1141,30 @@ def edita_inscricao(request, id):
         
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def upload_documentos(request, id):
+
+    inscricao = get_object_or_404(Inscricao, id=id)
+
+    cc = request.FILES.get("cartao_cidadao")
+    exames_medicos = request.FILES.get("exames_medicos")
+
+    print("CARTÃO CIDADAO: ", cc)
+    print("EXAMES: ", exames_medicos)
+
+    if cc:
+        inscricao.cartao_cidadao = cc
+    if exames_medicos:
+        inscricao.exames_medico = exames_medicos
+
+    try:
+        inscricao.save() 
+
+        serializer = InscricaoSerializer(inscricao)
+
+        return Response({"mensagem": "Documentos inseridos com sucesso!", "inscricao": serializer.data}, status=200)
+        
+    except Exception as e:
+        return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

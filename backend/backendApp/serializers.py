@@ -137,10 +137,12 @@ class CompeticaoSerializer(serializers.ModelSerializer):
 class InscricaoSerializer(serializers.ModelSerializer):
 
     epoca = serializers.SerializerMethodField()
+    exames_medico = serializers.FileField(required=False)
+    cartao_cidadao = serializers.FileField(required=False)
 
     class Meta:
         model = Inscricao
-        fields = ('id', 'exames_medico', 'data_exame_medico','data_inscricao','documentacao', 'estado', 'epoca')
+        fields = ('id', 'exames_medico','cartao_cidadao','data_inscricao', 'estado', 'epoca')
 
     def get_epoca(self, obj):
         return obj.epoca.nome   

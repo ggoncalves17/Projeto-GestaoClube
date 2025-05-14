@@ -150,3 +150,9 @@
   margin: 0;
   padding: 0;
 }
+
+.documentos {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}

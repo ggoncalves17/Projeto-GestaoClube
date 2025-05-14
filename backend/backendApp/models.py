@@ -93,10 +93,11 @@ class Jogo(models.Model):
     competicao = models.ForeignKey(Competicao, on_delete=models.CASCADE, null=True, blank=True)
 
 class Inscricao(models.Model):
-    exames_medico = models.BooleanField(null=True, blank=True)
-    data_exame_medico = models.DateField(null=True, blank=True)
+    exames_medico = models.FileField(upload_to='documentos/exames/', null=True, blank=True)
+    cartao_cidadao = models.FileField(upload_to='documentos/cartoes/', null=True, blank=True)
+    # data_exame_medico = models.DateField(null=True, blank=True)
     data_inscricao = models.DateField(null=True, blank=True)
-    documentacao = models.BooleanField(null=True, blank=True)
+    # documentacao = models.BooleanField(null=True, blank=True)
     estado = models.IntegerField(null=True, blank=True)
     # competicao = models.ForeignKey(Competicao, on_delete=models.CASCADE)
     epoca = models.ForeignKey(Epoca, on_delete=models.CASCADE)

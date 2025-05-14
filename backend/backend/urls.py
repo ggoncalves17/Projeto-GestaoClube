@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from backendApp import views 
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 #TODO: ALTERAR FORMATO DOS ENDPOINTS -> SEGUIR NORMAS REST
 urlpatterns = [
@@ -67,5 +68,6 @@ urlpatterns = [
     path('api/elementos/<int:id>/inscricoes/adicionar/', views.adicionaInscricaoElemento, name='adicionaInscricaoElemento'),
     path('api/inscricoes/<int:id>/remover/', views.remove_inscricao, name='remove_inscricao'),
     path('api/inscricoes/<int:id>/editar/', views.edita_inscricao, name='edita_inscricao'),
+    path('api/inscricoes/<int:id>/documentos/upload/', views.upload_documentos, name='upload_documentos'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
