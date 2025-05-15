@@ -6,6 +6,7 @@ import { UtilizadorContext } from "../context/UtilizadorContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 import PopUpEstado from "./PopUpEstado";
+import BotaoEditar from './BotaoEditar'
 
 const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
   const [modalAberta, setModalAberta] = useState(false);
@@ -112,12 +113,8 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
                 Inativo
               </span>
             ))}
-          <div
-            onClick={() => botaoUtilizador("Editar")}
-            className={`${styles.icon} ${styles.iconEditar}`}
-          >
-            <FaPen title="Editar" />
-          </div>
+          <BotaoEditar onClick={() => botaoUtilizador("Editar")}/>
+
           <div
             onClick={botaoRemover}
             className={`${styles.icon} ${styles.iconRemover}`}

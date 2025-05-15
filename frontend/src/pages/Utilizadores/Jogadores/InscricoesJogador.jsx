@@ -44,6 +44,8 @@ const InscricoesJogador = () => {
 
   useEffect(() => {
     listaInscricoesJogador(infoJogador.id, setInscricoes, setLoadingInscricoes);
+
+    //TODO: id da modalidade pode não existir se o jogador não tiver uma modalidade associada. Tratar este problema.
     listaEpocas(infoJogador.modalidade.id, setTodasEpocas, setLoadingEpocas);
   }, []);
 
