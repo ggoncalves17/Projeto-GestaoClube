@@ -11,14 +11,6 @@ import { UtilizadorContext } from "../../../context/UtilizadorContext";
 import { listaModalidades } from "../../../api/Modalidades/api";
 
 const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
-  console.log(
-    "MODO DO PAINEL: ",
-    modo,
-    " E TIPO DE UTILIZADOR: ",
-    tipo,
-    " E ID_UTILIZADOR: ",
-    utilizador
-  );
 
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
 
@@ -277,6 +269,9 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
             ) : (
               <div className={styles.painelAssociarDesporto}>
                 <h3>Associar Desporto</h3>
+                {errosCampos["desporto"] && (
+                  <p className={styles.erro}>{errosCampos["desporto"]}</p>
+                )}
                 <div className={styles.painelDesportosExistentes}>
                   {desportosExistentes.map((desporto, index) => (
                     <div

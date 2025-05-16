@@ -7,7 +7,9 @@ import Painel from "../../../components/Utilizadores/Painel";
 import Paginacao from "../../../components/Paginacao/Paginacao";
 import styles from "./UtilizadoresGerais.module.css";
 import FormularioStaff from "../../../components/Utilizadores/FormularioStaff";
-import BotaoAdicionar from '../../../components/BotaoAdicionar'
+import BotaoAdicionar from "../../../components/BotaoAdicionar";
+import Spinner from "../../../components/Spinner";
+import { listaUtilizadoresGerais } from "../../../api/Utilizadores/api";
 
 const UtilizadoresGerais = () => {
   const [filtroNome, setfiltroNome] = useState("");
@@ -18,6 +20,7 @@ const UtilizadoresGerais = () => {
   const [utilizador, setUtilizador] = useState(null);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [utilizadoresPagina, setUtilizadoresPagina] = useState(6);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     switch (filtroEstado) {
@@ -34,17 +37,7 @@ const UtilizadoresGerais = () => {
   }, [filtroEstado]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/listaUtilizadores/", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log("Resposta do Backend: ", res.data);
-        setUtilizadoresGerais(res.data);
-      })
-      .catch((err) => {
-        console.log("Mensagem do erro:", err.response.data.mensagem);
-      });
+    listaUtilizadoresGerais(setUtilizadoresGerais, setLoading);
   }, [modoUtilizadores]);
 
   const utilizadoresFiltrados = utilizadoresGerais.filter(
@@ -83,19 +76,25 @@ const UtilizadoresGerais = () => {
             />
           </div>
         </div>
-        <div className={styles.painelInferior}>
-          <ListaUtilizadores
-            utilizadoresFiltrados={utilizadoresAtuais}
-            setModo={setModoUtilizadores}
-            setUtilizador={setUtilizador}
-          />
-        </div>
-        <Paginacao
-          totalUtilizadores={utilizadoresFiltrados.length}
-          utilizadoresPagina={utilizadoresPagina}
-          paginaAtual={paginaAtual}
-          setPaginaAtual={setPaginaAtual}
-        />
+        {loading ? (
+          <Spinner loading={loading} />
+        ) : (
+          <>
+            <div className={styles.painelInferior}>
+              <ListaUtilizadores
+                utilizadoresFiltrados={utilizadoresAtuais}
+                setModo={setModoUtilizadores}
+                setUtilizador={setUtilizador}
+              />
+            </div>
+            <Paginacao
+              totalUtilizadores={utilizadoresFiltrados.length}
+              utilizadoresPagina={utilizadoresPagina}
+              paginaAtual={paginaAtual}
+              setPaginaAtual={setPaginaAtual}
+            />
+          </>
+        )}
       </div>
 
       {(modoUtilizadores === "Adicionar" ||

@@ -6,43 +6,43 @@ import Painel from "../../../components/Utilizadores/Painel";
 import styles from "../UtilizadoresGerais/UtilizadoresGerais.module.css";
 import Paginacao from "../../../components/Paginacao/Paginacao";
 import FormularioStaff from "../../../components/Utilizadores/FormularioStaff";
-import BotaoAdicionar from '../../../components/BotaoAdicionar'
+import BotaoAdicionar from "../../../components/BotaoAdicionar";
+import Spinner from "../../../components/Spinner";
+import { listaStaff } from "../../../api/Utilizadores/api";
 
 const Staff = () => {
   const [filtroNome, setfiltroNome] = useState("");
   const [staff, setStaff] = useState([]);
-  const [modo, setModo] = useState(null)
-  const [utilizador, setUtilizador] = useState(null)
-  const [paginaAtual, setPaginaAtual] = useState(1)
-  const [utilizadoresPagina, setUtilizadoresPagina] = useState(6)
+  const [modo, setModo] = useState(null);
+  const [utilizador, setUtilizador] = useState(null);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [utilizadoresPagina, setUtilizadoresPagina] = useState(6);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(modo === "Adicionar") {
-      setUtilizador(-1)
+    if (modo === "Adicionar") {
+      setUtilizador(-1);
     }
-    axios
-      .get("http://localhost:8000/api/listaStaff/", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log("Resposta do Backend: ", res.data);
-        setStaff(res.data);
-      })
-      .catch((err) => {
-        console.log("Mensagem do erro:", err.response.data.mensagem);
-      });
+    listaStaff(setStaff, setLoading)
   }, [modo]);
 
-  const staffFiltrado = staff.filter((utilizador) => 
-    utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) 
-  )
+  const staffFiltrado = staff.filter((utilizador) =>
+    utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase())
+  );
 
-  const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina
-  const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina
-  const utilizadoresAtuais = staffFiltrado.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
+  const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina;
+  const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina;
+  const utilizadoresAtuais = staffFiltrado.slice(
+    indicePrimeiroUtilizador,
+    indiceUltimoUtilizador
+  );
 
   return (
-    <div className={`${styles.estrutura} ${modo == null && styles.estruturaOverflow}`}>
+    <div
+      className={`${styles.estrutura} ${
+        modo == null && styles.estruturaOverflow
+      }`}
+    >
       <div className={styles.painel}>
         <p className={styles.titulo}>Staff</p>
         <div className={styles.painelSuperior}>
@@ -56,17 +56,38 @@ const Staff = () => {
             />
           </div>
         </div>
-        <div className={styles.painelInferior}>
-          <ListaUtilizadores utilizadoresFiltrados={utilizadoresAtuais} setModo={setModo} setUtilizador={setUtilizador}/>
-        </div>
-        <Paginacao totalUtilizadores={staffFiltrado.length} utilizadoresPagina={utilizadoresPagina} paginaAtual={paginaAtual} setPaginaAtual={setPaginaAtual}/>
+        {loading ? (
+          <Spinner loading={loading} />
+        ) : (
+          <>
+            <div className={styles.painelInferior}>
+              <ListaUtilizadores
+                utilizadoresFiltrados={utilizadoresAtuais}
+                setModo={setModo}
+                setUtilizador={setUtilizador}
+              />
+            </div>
+            <Paginacao
+              totalUtilizadores={staffFiltrado.length}
+              utilizadoresPagina={utilizadoresPagina}
+              paginaAtual={paginaAtual}
+              setPaginaAtual={setPaginaAtual}
+            />
+          </>
+        )}
       </div>
 
-      {(modo === "Adicionar" || modo === "Editar" || modo === "Detalhes") && 
-        <Painel modo={modo} tipo="Gestor" setModo={setModo}>  
-          <FormularioStaff setModo={setModo} tipo="Gestor" modo={modo} setStaff={setStaff} utilizador={utilizador} />
+      {(modo === "Adicionar" || modo === "Editar" || modo === "Detalhes") && (
+        <Painel modo={modo} tipo="Gestor" setModo={setModo}>
+          <FormularioStaff
+            setModo={setModo}
+            tipo="Gestor"
+            modo={modo}
+            setStaff={setStaff}
+            utilizador={utilizador}
+          />
         </Painel>
-      }
+      )}
     </div>
   );
 };

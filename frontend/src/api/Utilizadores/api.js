@@ -4,6 +4,63 @@ import { toast } from "react-toastify";
 
 const url = "http://localhost:8000/api";
 
+// FUNÇÃO PARA LISTAR TODOS OS UTILIZADORES GERAIS ------------------------------------------------------
+export const listaUtilizadoresGerais = (
+  setUtilizadoresGerais,
+  setLoading
+) => {
+  axios
+    .get(`${url}/utilizadores/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      setUtilizadoresGerais(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};
+
+// FUNÇÃO PARA LISTAR TODOS OS ELEMENTOS DO STAFF ------------------------------------------------------
+export const listaStaff = (
+  setStaff,
+  setLoading
+) => {
+  axios
+    .get(`${url}/staff/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      setStaff(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};
+
+// FUNÇÃO PARA LISTAR TODOS OS ELEMENTOS (JOGADORES / TREINADORES) ------------------------------------------------------
+export const listaElementos = (
+  setJogadores,
+  setLoading
+) => {
+  axios
+    .get(`${url}/elementos/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      setJogadores(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};
+
 // FUNÇÃO PARA LISTAR TODOS AS INSCRIÇÕES DE UM ELEMENTO (JOGADOR / TREINADOR) ------------------------------------------------------
 export const listaInscricoesJogador = (
   id_elemento,
@@ -166,7 +223,7 @@ export const uploadDocumentosInscricao = (
   const formData = new FormData();
 
   console.log("DOCUMENTOS A SEREM ENVIADOS: ", documentos);
-  
+
   if (documentos.cartao_cidadao) {
     formData.append("cartao_cidadao", documentos.cartao_cidadao);
   }
@@ -201,9 +258,7 @@ export const uploadDocumentosInscricao = (
       toast.success(`Documentos Inseridos com Sucesso!`);
     })
     .catch((err) => {
-
       console.log("DOCUMENTOS ERROS: ", err);
-      
 
       console.log("Código do erro:", err.response.status);
       console.log("Mensagem do erro:", err.response.data.mensagem);

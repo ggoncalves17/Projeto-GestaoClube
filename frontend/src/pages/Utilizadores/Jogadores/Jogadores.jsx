@@ -12,86 +12,92 @@ import DropdownCheckbox from "../../../components/DropdownCheckbox";
 import { UtilizadorContext } from "../../../context/UtilizadorContext";
 import { useNavigate } from "react-router-dom";
 import { listaModalidades } from "../../../api/Modalidades/api";
-import BotaoAdicionar from '../../../components/BotaoAdicionar'
+import BotaoAdicionar from "../../../components/BotaoAdicionar";
+import Spinner from "../../../components/Spinner";
+import { listaElementos } from "../../../api/Utilizadores/api";
 
 const Jogadores = () => {
   const [filtroNome, setFiltroNome] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroDesporto, setFiltroDesporto] = useState([]);
-  const tipos=["Ambos","Jogador","Treinador"]
+  const tipos = ["Ambos", "Jogador", "Treinador"];
   const [desportos, setDesportos] = useState([]);
   const [jogadores, setJogadores] = useState([]);
-  const [modo, setModo] = useState(null)
+  const [modo, setModo] = useState(null);
   // Id do Utilizador a Editar, ver Detalhes ou Remover
-  const [idUtilizador, setIdUtilizador] = useState(null)
-  const [paginaAtual, setPaginaAtual] = useState(1)
-  const [utilizadoresPagina, setUtilizadoresPagina] = useState(6)
+  const [idUtilizador, setIdUtilizador] = useState(null);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [utilizadoresPagina, setUtilizadoresPagina] = useState(6);
   const [estado, setEstado] = useState();
+  const [loading, setLoading] = useState(true);
 
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    console.log("MODO: ", modo);
-    if(modo === "Detalhes") {
-      setModo(null)
+    if (modo === "Detalhes") {
+      setModo(null);
       navigate(`/utilizadores/jogadores/${idUtilizador}`);
     }
-  }, [modo])
-  
-  useEffect(() => {
-      switch(filtroEstado) {
-        case "todos":
-          setEstado(-1);
-          break;
-        case "ativos":
-          setEstado(1);
-          break;
-        case "inativos":  
-          setEstado(0);
-          break;
-      }
-    }, [filtroEstado])
+  }, [modo]);
 
+  useEffect(() => {
+    switch (filtroEstado) {
+      case "todos":
+        setEstado(-1);
+        break;
+      case "ativos":
+        setEstado(1);
+        break;
+      case "inativos":
+        setEstado(0);
+        break;
+    }
+  }, [filtroEstado]);
 
   // TODO: OTIMIZAR A LÓGICA DE ATUALIZAR OS JOGADORES EM TERMOS DE ESTADO. O MELHOR SERIA PASSAR O SETJOGADORES PARA AS LINHAS E ATUALIZAR LÁ O ESTADO
   // SEM TER DE VOLTAR A FAZER PEDIDOS À API APÓS MUDAR O ESTADO VISTO QUE É A FORMA QUE TENHO LÁ AGORA NO POPUPESTADO
   useEffect(() => {
-    if(modo === "Adicionar") {
-      setIdUtilizador(-1)
-    }
-    axios
-      .get("http://localhost:8000/api/listaJogadores/", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log("Resposta do Backend: ", res.data);
-        setJogadores(res.data);
-      })
-      .catch((err) => {
-        console.log("Mensagem do erro:", err.response.data.mensagem);
-      });
-  }, [modo]);
-
-  // Função para ir buscar as modalidades ao carregar o componente
-  useEffect(() => {      
-    listaModalidades(utilizadorInfo.id_clube, setDesportos, null, true)
+    if (modo === "Adicionar") {
+      setIdUtilizador(-1);
+    }   
+    listaElementos(setJogadores, setLoading)    
   }, []);
 
-  const jogadoresFiltrados = jogadores.filter((utilizador) => 
-    (utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase())) && (estado === -1 ? true : utilizador.estado === estado) && 
-    ((filtroTipo === "Tipo" || filtroTipo === "Ambos" || filtroTipo === "") ? true : utilizador.tipo === filtroTipo) 
-    && (filtroDesporto.length > 0 ? filtroDesporto.includes(utilizador.modalidade ? utilizador.modalidade.nome : "") : true)
-  )
+  // Função para ir buscar as modalidades ao carregar o componente
+  useEffect(() => {
+    listaModalidades(utilizadorInfo.id_clube, setDesportos, null, true);
+  }, []);
 
-  const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina
-  const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina
-  const utilizadoresAtuais = jogadoresFiltrados.slice(indicePrimeiroUtilizador, indiceUltimoUtilizador)
+  const jogadoresFiltrados = jogadores.filter(
+    (utilizador) =>
+      utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase()) &&
+      (estado === -1 ? true : utilizador.estado === estado) &&
+      (filtroTipo === "Tipo" || filtroTipo === "Ambos" || filtroTipo === ""
+        ? true
+        : utilizador.tipo === filtroTipo) &&
+      (filtroDesporto.length > 0
+        ? filtroDesporto.includes(
+            utilizador.modalidade ? utilizador.modalidade.nome : ""
+          )
+        : true)
+  );
+
+  const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina;
+  const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina;
+  const utilizadoresAtuais = jogadoresFiltrados.slice(
+    indicePrimeiroUtilizador,
+    indiceUltimoUtilizador
+  );
 
   return (
-    <div className={`${styles.estrutura} ${modo == null && styles.estruturaOverflow}`}>
+    <div
+      className={`${styles.estrutura} ${
+        modo == null && styles.estruturaOverflow
+      }`}
+    >
       <div className={styles.painel}>
         <p className={styles.titulo}>Jogadores / Treinadores</p>
         <div className={styles.painelSuperior}>
@@ -101,7 +107,7 @@ const Jogadores = () => {
               filtro={filtroEstado}
               setFiltro={setFiltroEstado}
             />
-            <Dropdown tipo={filtroTipo} setTipo={setFiltroTipo} dados={tipos}/>
+            <Dropdown tipo={filtroTipo} setTipo={setFiltroTipo} dados={tipos} />
             <DropdownCheckbox
               opcoes={desportos}
               desportosSelecionados={filtroDesporto}
@@ -115,17 +121,39 @@ const Jogadores = () => {
             />
           </div>
         </div>
-        <div className={styles.painelInferior}>
-          <ListaUtilizadores utilizadoresFiltrados={utilizadoresAtuais} setModo={setModo} setUtilizador={setIdUtilizador}/>
-        </div>
-        <Paginacao totalUtilizadores={jogadoresFiltrados.length} utilizadoresPagina={utilizadoresPagina} paginaAtual={paginaAtual} setPaginaAtual={setPaginaAtual}/>
+
+        {loading ? (
+          <Spinner loading={loading} />
+        ) : (
+          <>
+            <div className={styles.painelInferior}>
+              <ListaUtilizadores
+                utilizadoresFiltrados={utilizadoresAtuais}
+                setModo={setModo}
+                setUtilizador={setIdUtilizador}
+              />
+            </div>
+            <Paginacao
+              totalUtilizadores={jogadoresFiltrados.length}
+              utilizadoresPagina={utilizadoresPagina}
+              paginaAtual={paginaAtual}
+              setPaginaAtual={setPaginaAtual}
+            />
+          </>
+        )}
       </div>
 
-      {(modo === "Adicionar" || modo === "Editar") && 
-        <Painel modo={modo} tipo="Elemento" setModo={setModo} >
-          <FormularioJogadores setModo={setModo} tipo="Elemento" modo={modo} setStaff={setJogadores} utilizador={idUtilizador} />
+      {(modo === "Adicionar" || modo === "Editar") && (
+        <Painel modo={modo} tipo="Elemento" setModo={setModo}>
+          <FormularioJogadores
+            setModo={setModo}
+            tipo="Elemento"
+            modo={modo}
+            setStaff={setJogadores}
+            utilizador={idUtilizador}
+          />
         </Painel>
-      }
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "../css/LinhaJogo.module.css";
 import { GoTrophy } from "react-icons/go";
 import BotaoRemover from "./BotaoRemover";
-import BotaoEditar from "./BotaoEditar";
+import BotaoInfoEditar from "./BotaoInfoEditar";
 
 const LinhaJogo = ({ setModo, jogo, setModalRemover, setJogoEscolhido }) => {
   const handleRemove = () => {
@@ -87,7 +87,7 @@ const LinhaJogo = ({ setModo, jogo, setModalRemover, setJogoEscolhido }) => {
         <p>{jogo.hora.split(":").slice(0, 2).join(":")}</p>
       </div>
       <div className={styles.painelBotoes}>
-        <BotaoEditar onClick={handleEdita} />
+        <BotaoInfoEditar onClick={handleEdita} />
         <BotaoRemover onClick={handleRemove} />
       </div>
     </div>

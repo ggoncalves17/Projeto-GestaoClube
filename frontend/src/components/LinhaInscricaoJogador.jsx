@@ -2,7 +2,7 @@ import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import styles from "../css/LinhaInscricaoJogador.module.css";
 import { FiAlertCircle, FiXCircle } from "react-icons/fi";
-import BotaoEditar from "../components/BotaoEditar";
+import BotaoInfoEditar from "../components/BotaoInfoEditar";
 import BotaoRemover from "../components/BotaoRemover";
 import { MdOutlineFileUpload, MdOutlinePendingActions } from "react-icons/md";
 import CardDocumento from "./CardDocumento";
@@ -105,7 +105,7 @@ const LinhaInscricaoJogador = ({
           </div>
         </div>
         <div className={styles.painelBotoes}>
-          <BotaoEditar onClick={handleEditaInscricao} />
+          <BotaoInfoEditar onClick={handleEditaInscricao} />
           <BotaoRemover onClick={handleRemoveInscricao} />
         </div>
       </div>

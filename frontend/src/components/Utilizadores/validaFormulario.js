@@ -28,6 +28,7 @@ export const validaFormularioJogadores = (dados) => {
   if (dados.sexo.trim() == "") erros.sexo = "Campo Obrigatório";
   if (dados.nome.trim() == "") erros.nome = "Campo Obrigatório";
   if (dados.data.trim() == "") erros.data = "Campo Obrigatório";
+  if (dados.desporto.trim() == "") erros.desporto = "Campo Obrigatório";
   else if (dataNascimento > dataHoje) erros.data = "Data Inválida. Não pode ser superior a hoje.";
   if (dados.nacionalidade.trim() == "") erros.nacionalidade = "Campo Obrigatório";
   if (dados.cc.trim() !== "")  {

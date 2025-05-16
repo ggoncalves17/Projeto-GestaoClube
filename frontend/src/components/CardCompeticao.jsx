@@ -2,7 +2,7 @@
   import styles from "../css/LinhaCompeticao.module.css";
   import { GoTrophy } from "react-icons/go";
   import BotaoRemover from "./BotaoRemover";
-  import BotaoEditar from "./BotaoEditar";
+  import BotaoInfoEditar from "./BotaoInfoEditar";
 
   const CardCompeticao = ({
     setModo,
@@ -35,7 +35,7 @@
           <p className={styles.jogos}>{competicao.nJogos} jogo(s)</p>
         </div>
         <div className={styles.painelBotoes}>
-          <BotaoEditar onClick={handleEdita} />
+          <BotaoInfoEditar onClick={handleEdita} />
           <BotaoRemover onClick={handleRemove} disabled={competicao.nJogos > 0}/>
         </div>
       </div>

@@ -6,7 +6,8 @@ import { UtilizadorContext } from "../context/UtilizadorContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 import PopUpEstado from "./PopUpEstado";
-import BotaoEditar from './BotaoEditar'
+import BotaoInfoEditar from "./BotaoInfoEditar";
+import BotaoRemover from "./BotaoRemover";
 
 const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
   const [modalAberta, setModalAberta] = useState(false);
@@ -14,7 +15,7 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
   const [estadoUtilizador, setEstadoUtilizador] = useState(utilizador.estado);
 
-  const botaoUtilizador = (modo) => {    
+  const botaoUtilizador = (modo) => {
     setModo(modo);
     setUtilizador(utilizador.id);
   };
@@ -26,12 +27,11 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
 
   const handleEstado = (id, estado) => {
     if (estado === 1) {
-      setModo("AlteraEstado")
+      setModo("AlteraEstado");
       setModalEstadoAberta(true);
-    } 
-    else {
-      setModo("AlteraEstado")
-      const tipo = utilizador.tipo
+    } else {
+      setModo("AlteraEstado");
+      const tipo = utilizador.tipo;
 
       axios
         .post(
@@ -50,11 +50,11 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
           setEstadoUtilizador((prev) => (prev === 1 ? 0 : 1));
-          setModo(null)
+          setModo(null);
         })
         .catch((err) => {
           console.log("Mensagem do erro:", err.response.data.mensagem);
-          setModo(null)
+          setModo(null);
         });
     }
   };
@@ -62,20 +62,20 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
   return (
     <div className={styles.contentor}>
       <div className={styles.informacoesUtilizador}>
-        {(utilizador.tipo === "Jogador" || utilizador.tipo === "Treinador") ?
+        {utilizador.tipo === "Jogador" || utilizador.tipo === "Treinador" ? (
           <img
-          src={`/Fotos-Jogadores/${utilizador.foto}`}
-          alt="FotoPerfil"
-          className={styles.fotoPerfil}
-        />
-        :
-        <img
-          src={`/Fotos-Perfil/${utilizador.foto}`}
-          alt="FotoPerfil"
-          className={styles.fotoPerfil}
-        />
-        }
-        
+            src={`/Fotos-Jogadores/${utilizador.foto}`}
+            alt="FotoPerfil"
+            className={styles.fotoPerfil}
+          />
+        ) : (
+          <img
+            src={`/Fotos-Perfil/${utilizador.foto}`}
+            alt="FotoPerfil"
+            className={styles.fotoPerfil}
+          />
+        )}
+
         <span className={styles.nome}>{utilizador.nome}</span>
         {(utilizador.tipo === "Gestor" || utilizador.tipo === "Utilizador") && (
           <span className={styles.email}>{utilizador.email}</span>
@@ -89,7 +89,15 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
             utilizador.tipo === "Treinador") && (
             <>
               <span className={styles.sexo}>{utilizador.sexo}</span>
-              <span className={!utilizador.modalidade ? styles.modalidade : undefined}>{utilizador.modalidade ? utilizador.modalidade.nome : "(Por Associar)"}</span>
+              <span
+                className={
+                  !utilizador.modalidade ? styles.modalidade : undefined
+                }
+              >
+                {utilizador.modalidade
+                  ? utilizador.modalidade.nome
+                  : "(Por Associar)"}
+              </span>
               <span className={styles.tipo}>{utilizador.tipo}</span>
             </>
           )}
@@ -113,20 +121,15 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
                 Inativo
               </span>
             ))}
-          <BotaoEditar onClick={() => botaoUtilizador("Editar")}/>
+            
+          <BotaoInfoEditar onClick={() => botaoUtilizador("Editar")} />
 
-          <div
-            onClick={botaoRemover}
-            className={`${styles.icon} ${styles.iconRemover}`}
-          >
-            <FaTrash title="Eliminar" />
-          </div>
-          <div
+          <BotaoInfoEditar
+            titulo="Info"
             onClick={() => botaoUtilizador("Detalhes")}
-            className={`${styles.icon} ${styles.iconInfo}`}
-          >
-            <FaInfoCircle title="Detalhes" />
-          </div>
+          />
+
+          <BotaoRemover onClick={botaoRemover} />
         </div>
       )}
 

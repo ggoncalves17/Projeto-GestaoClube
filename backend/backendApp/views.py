@@ -56,7 +56,7 @@ def estatisticas_view(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def listaUtilizadores_view(request):
+def listaUtilizadores(request):
 
     id_clube = request.user.clube.id
 
@@ -69,7 +69,7 @@ def listaUtilizadores_view(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def listaStaff_view(request):
+def listaStaff(request):
 
     id_clube = request.user.clube.id
 
@@ -81,7 +81,7 @@ def listaStaff_view(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def listaJogadores(request):
+def listaElementos(request):
 
     id_clube = request.user.clube.id
 

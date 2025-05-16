@@ -8,9 +8,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login/', views.login_view, name='login'),
-    path('api/listaUtilizadores/', views.listaUtilizadores_view, name='listaUtilizadores'),
-    path('api/listaStaff/', views.listaStaff_view, name='listaUtilizadores'),
-    path('api/listaJogadores/', views.listaJogadores, name='listaJogadores'),
     path('api/verificaAutenticacao/', views.verificaAutenticacao_view, name='verificaAutenticacao'),
     path('api/estatisticas/', views.estatisticas_view, name='estatisticas'),
     path('api/logout/', views.logout_view, name='logout'),
@@ -24,6 +21,18 @@ urlpatterns = [
     path('api/altera-password/<int:id>/', views.altera_password, name='/edita-password'),
     path('api/altera-estado-utilizador/<int:id>/', views.altera_estado, name='altera-estado'),
     path('api/remove-utilizador/<int:id>/', views.remove_utilizador, name='remove_utilizador'),
+
+    # UTILIZADORES | ELEMENTOS ------------------------------------------------------------------------------------
+    path('api/utilizadores/', views.listaUtilizadores, name='listaUtilizadores'),
+    path('api/staff/', views.listaStaff, name='listaStaff'),
+    path('api/elementos/', views.listaElementos, name='listaElementos'),
+
+    # ELEMENTOS --> Inscrições ------------------------------------------------------------------------------------
+    path('api/elementos/<int:id>/inscricoes/', views.listaInscricoesJogador, name='listaInscricoesJogador'),
+    path('api/elementos/<int:id>/inscricoes/adicionar/', views.adicionaInscricaoElemento, name='adicionaInscricaoElemento'),
+    path('api/inscricoes/<int:id>/remover/', views.remove_inscricao, name='remove_inscricao'),
+    path('api/inscricoes/<int:id>/editar/', views.edita_inscricao, name='edita_inscricao'),
+    path('api/inscricoes/<int:id>/documentos/upload/', views.upload_documentos, name='upload_documentos'),
 
     # MODALIDADES ------------------------------------------------------------------------------------
     path('api/listaModalidades/<int:id>/', views.listaModalidades, name='listaModalidades'),
@@ -54,7 +63,6 @@ urlpatterns = [
     path('api/equipas/<int:id>/jogos/adicionar/', views.adicionaJogosEquipa, name='adicionaJogosEquipa'),
     path('api/jogos/<int:id>/editar/', views.edita_jogo, name='edita_jogo'),
     path('api/jogos/<int:id>/remover/', views.remove_jogo, name='remove_jogo'),
-
     path('api/jogos/', views.listaJogosClube, name='listaJogosClube'),
 
     # EQUIPAS --> COMPETIÇÕES ------------------------------------------------------------------------------------
@@ -62,12 +70,5 @@ urlpatterns = [
     path('api/equipas/<int:id>/competicoes/adicionar/', views.adicionaCompeticoesEquipa, name='adicionaCompeticoesEquipa'),
     path('api/competicoes/<int:id>/editar/', views.editaCompeticao, name='editaCompeticao'),
     path('api/competicoes/<int:id>/remover/', views.remove_competicao, name='remove_competicao'),
-
-    # ELEMENTOS (JOGADORES / TREINADORES) ------------------------------------------------------------------------------------
-    path('api/elementos/<int:id>/inscricoes/', views.listaInscricoesJogador, name='listaInscricoesJogador'),
-    path('api/elementos/<int:id>/inscricoes/adicionar/', views.adicionaInscricaoElemento, name='adicionaInscricaoElemento'),
-    path('api/inscricoes/<int:id>/remover/', views.remove_inscricao, name='remove_inscricao'),
-    path('api/inscricoes/<int:id>/editar/', views.edita_inscricao, name='edita_inscricao'),
-    path('api/inscricoes/<int:id>/documentos/upload/', views.upload_documentos, name='upload_documentos'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
