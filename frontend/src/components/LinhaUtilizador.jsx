@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { FaPen, FaTrash, FaInfoCircle } from "react-icons/fa";
+import { useState, useContext } from "react";
 import styles from "./LinhaUtilizador.module.css";
 import PopUpRemover from "./PopUpRemover";
 import { UtilizadorContext } from "../context/UtilizadorContext";
@@ -95,7 +94,7 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
                 }
               >
                 {utilizador.modalidade
-                  ? utilizador.modalidade.nome
+                  ? utilizador.modalidade
                   : "(Por Associar)"}
               </span>
               <span className={styles.tipo}>{utilizador.tipo}</span>

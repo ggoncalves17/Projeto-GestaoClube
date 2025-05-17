@@ -10,6 +10,7 @@ import FormularioStaff from "../../../components/Utilizadores/FormularioStaff";
 import BotaoAdicionar from "../../../components/BotaoAdicionar";
 import Spinner from "../../../components/Spinner";
 import { listaUtilizadoresGerais } from "../../../api/Utilizadores/api";
+import { ordenaUtilizadores } from "../../../utils/ordenacaoUtilizadores";
 
 const UtilizadoresGerais = () => {
   const [filtroNome, setfiltroNome] = useState("");
@@ -21,6 +22,7 @@ const UtilizadoresGerais = () => {
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [utilizadoresPagina, setUtilizadoresPagina] = useState(6);
   const [loading, setLoading] = useState(true);
+  const [ordenacao, setOrdenacao] = useState();
 
   useEffect(() => {
     switch (filtroEstado) {
@@ -46,9 +48,11 @@ const UtilizadoresGerais = () => {
       (estado === -1 ? true : utilizador.estado === estado)
   );
 
+  const utilizadoresOrdenados = ordenaUtilizadores(utilizadoresFiltrados, ordenacao)
+
   const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina;
   const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina;
-  const utilizadoresAtuais = utilizadoresFiltrados.slice(
+  const utilizadoresAtuais = utilizadoresOrdenados.slice(
     indicePrimeiroUtilizador,
     indiceUltimoUtilizador
   );
@@ -85,6 +89,9 @@ const UtilizadoresGerais = () => {
                 utilizadoresFiltrados={utilizadoresAtuais}
                 setModo={setModoUtilizadores}
                 setUtilizador={setUtilizador}
+                tipo="Utilizador"
+                ordenacao={ordenacao}
+                setOrdenacao={setOrdenacao}
               />
             </div>
             <Paginacao

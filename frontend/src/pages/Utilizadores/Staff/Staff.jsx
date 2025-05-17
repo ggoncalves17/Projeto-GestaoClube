@@ -9,6 +9,7 @@ import FormularioStaff from "../../../components/Utilizadores/FormularioStaff";
 import BotaoAdicionar from "../../../components/BotaoAdicionar";
 import Spinner from "../../../components/Spinner";
 import { listaStaff } from "../../../api/Utilizadores/api";
+import { ordenaUtilizadores } from "../../../utils/ordenacaoUtilizadores";
 
 const Staff = () => {
   const [filtroNome, setfiltroNome] = useState("");
@@ -18,21 +19,24 @@ const Staff = () => {
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [utilizadoresPagina, setUtilizadoresPagina] = useState(6);
   const [loading, setLoading] = useState(true);
+  const [ordenacao, setOrdenacao] = useState();
 
   useEffect(() => {
     if (modo === "Adicionar") {
       setUtilizador(-1);
     }
-    listaStaff(setStaff, setLoading)
+    listaStaff(setStaff, setLoading);
   }, [modo]);
 
   const staffFiltrado = staff.filter((utilizador) =>
     utilizador.nome.toLowerCase().includes(filtroNome.toLowerCase())
   );
 
+  const utilizadoresOrdenados = ordenaUtilizadores(staffFiltrado, ordenacao)
+
   const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina;
   const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina;
-  const utilizadoresAtuais = staffFiltrado.slice(
+  const utilizadoresAtuais = utilizadoresOrdenados.slice(
     indicePrimeiroUtilizador,
     indiceUltimoUtilizador
   );
@@ -65,6 +69,9 @@ const Staff = () => {
                 utilizadoresFiltrados={utilizadoresAtuais}
                 setModo={setModo}
                 setUtilizador={setUtilizador}
+                tipo="Staff"
+                ordenacao={ordenacao}
+                setOrdenacao={setOrdenacao}
               />
             </div>
             <Paginacao

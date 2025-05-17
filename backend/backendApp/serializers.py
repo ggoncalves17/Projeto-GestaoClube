@@ -58,6 +58,17 @@ class ElementoClubeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Elemento_Clube
         fields = ('id', 'nome', 'sexo', 'data_nascimento', 'nacionalidade', 'cartao_cidadao', 'data_validade_cc', 'tipo', 'posicao', 'foto', 'peso', 'altura', 'estado', 'modalidade', 'clube', 'equipas')
+        
+class UtilizadorInfoSerializer(serializers.ModelSerializer):
+
+    modalidade = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Elemento_Clube
+        fields = ('id', 'nome', 'sexo', 'data_nascimento', 'nacionalidade', 'cartao_cidadao', 'data_validade_cc', 'tipo', 'posicao', 'foto', 'peso', 'altura', 'estado', 'modalidade')
+
+    def get_modalidade(self, obj):
+        return obj.modalidade.nome
 
 class InscricaoGeralSerializer(serializers.ModelSerializer):
 

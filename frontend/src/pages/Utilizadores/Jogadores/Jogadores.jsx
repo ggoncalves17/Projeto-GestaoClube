@@ -15,12 +15,14 @@ import { listaModalidades } from "../../../api/Modalidades/api";
 import BotaoAdicionar from "../../../components/BotaoAdicionar";
 import Spinner from "../../../components/Spinner";
 import { listaElementos } from "../../../api/Utilizadores/api";
+import { ordenaUtilizadores } from "../../../utils/ordenacaoUtilizadores";
 
 const Jogadores = () => {
   const [filtroNome, setFiltroNome] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroDesporto, setFiltroDesporto] = useState([]);
+  const [ordenacao, setOrdenacao] = useState();
   const tipos = ["Ambos", "Jogador", "Treinador"];
   const [desportos, setDesportos] = useState([]);
   const [jogadores, setJogadores] = useState([]);
@@ -57,14 +59,13 @@ const Jogadores = () => {
     }
   }, [filtroEstado]);
 
-  // TODO: OTIMIZAR A LÓGICA DE ATUALIZAR OS JOGADORES EM TERMOS DE ESTADO. O MELHOR SERIA PASSAR O SETJOGADORES PARA AS LINHAS E ATUALIZAR LÁ O ESTADO
-  // SEM TER DE VOLTAR A FAZER PEDIDOS À API APÓS MUDAR O ESTADO VISTO QUE É A FORMA QUE TENHO LÁ AGORA NO POPUPESTADO
+  // ALTERAR ESTA PARTE PARA NÃO SE TER DE ALTERAR COM O MODO (PASSAR DEPOIS NO EDITAR O SETJOGADORES E ALTERAR LÁ)
   useEffect(() => {
     if (modo === "Adicionar") {
       setIdUtilizador(-1);
-    }   
-    listaElementos(setJogadores, setLoading)    
-  }, []);
+    }
+    listaElementos(setJogadores, setLoading);
+  }, [modo]);
 
   // Função para ir buscar as modalidades ao carregar o componente
   useEffect(() => {
@@ -80,14 +81,16 @@ const Jogadores = () => {
         : utilizador.tipo === filtroTipo) &&
       (filtroDesporto.length > 0
         ? filtroDesporto.includes(
-            utilizador.modalidade ? utilizador.modalidade.nome : ""
+            utilizador.modalidade ? utilizador.modalidade : ""
           )
         : true)
   );
 
+  const utilizadoresOrdenados = ordenaUtilizadores(jogadoresFiltrados, ordenacao)
+
   const indiceUltimoUtilizador = paginaAtual * utilizadoresPagina;
   const indicePrimeiroUtilizador = indiceUltimoUtilizador - utilizadoresPagina;
-  const utilizadoresAtuais = jogadoresFiltrados.slice(
+  const utilizadoresAtuais = utilizadoresOrdenados.slice(
     indicePrimeiroUtilizador,
     indiceUltimoUtilizador
   );
@@ -131,6 +134,9 @@ const Jogadores = () => {
                 utilizadoresFiltrados={utilizadoresAtuais}
                 setModo={setModo}
                 setUtilizador={setIdUtilizador}
+                tipo="Elemento"
+                ordenacao={ordenacao}
+                setOrdenacao={setOrdenacao}
               />
             </div>
             <Paginacao

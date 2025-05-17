@@ -87,7 +87,7 @@ def listaElementos(request):
 
     utilizadores = Elemento_Clube.objects.filter(estado__in=[0, 1], clube=id_clube).order_by('nome')
 
-    serializer = ElementoClubeSerializer(utilizadores, many=True)
+    serializer = UtilizadorInfoSerializer(utilizadores, many=True)
 
     return Response(serializer.data)
 
