@@ -8,6 +8,9 @@ from .serializers import *
 from django.contrib.auth.hashers import make_password, check_password
 import os
 from django.core.files.storage import FileSystemStorage
+from datetime import datetime, timedelta
+from django.utils import timezone
+from calendar import monthrange
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -44,13 +47,25 @@ def estatisticas_view(request):
 
     id_clube = request.user.clube.id
 
+    dataAtual = timezone.now().date()
+
+    primeiroDiaMes = dataAtual.replace(day=1)
+    ultimoDiaMes = dataAtual.replace(day=monthrange(dataAtual.year, dataAtual.month)[1])
+
+    jogos = Jogo.objects.filter(
+        data__range=[dataAtual, ultimoDiaMes],
+        equipa__clube=id_clube,
+    )
+    
+    jogosSerializer = JogoDashboardSerializer(jogos, many=True)
+
     estatisticas = {
         "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1, clube=id_clube).count(),
         "Jogadores": Elemento_Clube.objects.filter(tipo="Jogador", estado=1, clube=id_clube).count(),
         "Modalidades": Modalidade.objects.filter(clube=id_clube).count(),
         "Socios": 0,
         "Eventos": 0,
-        "Jogos": 0,
+        "Jogos": jogosSerializer.data,
     }
     return Response(estatisticas)
 

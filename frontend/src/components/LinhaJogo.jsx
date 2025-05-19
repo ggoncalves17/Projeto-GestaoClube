@@ -84,7 +84,7 @@ const LinhaJogo = ({ setModo, jogo, setModalRemover, setJogoEscolhido }) => {
         </p>
 
         <p>{new Date(jogo.data).toLocaleDateString()}</p>
-        <p>{jogo.hora.split(":").slice(0, 2).join(":")}</p>
+        <p>{jogo.hora.slice(0, 5)}</p>
       </div>
       <div className={styles.painelBotoes}>
         <BotaoInfoEditar onClick={handleEdita} />

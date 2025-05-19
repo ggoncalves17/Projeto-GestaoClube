@@ -4,10 +4,10 @@ import OpcaoOrdenacao from "./OpcaoOrdenacao";
 
 const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
 
-  const alteraOrdem = (x) => {
+  const alteraOrdem = (campo) => {
     setOrdenacao((prev) => ({
-      campo : x,
-      ordem : prev?.campo == x ? (prev.ordem == "ASC" ? "DESC" : "ASC") : "ASC",
+      campo : campo,
+      ordem : prev?.campo == campo ? (prev.ordem == "ASC" ? "DESC" : "ASC") : "ASC",
     }))
   }
   

@@ -10,6 +10,10 @@ const estatisticasLoader = async () => {
     const res = await axios.get("http://localhost:8000/api/estatisticas/", {
       withCredentials: true,
     });
+
+    console.log("Resposta Backend: ", res.data);
+    
+
     return res.data; 
   } 
   catch (err) {

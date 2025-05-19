@@ -1,4 +1,4 @@
-// Função para ordenar a lista de Elementos (Jogadores / Treinadores, Staff ou Utilizadores) pelo campo selecionado
+// Função para ordenar a Lista de Utilizadores (Jogadores / Treinadores, Staff ou Utilizadores) pelo campo selecionado
 export const ordenaUtilizadores = (listaFiltrados, ordenacao) => {
   let utilizadoresOrdenados = [...listaFiltrados];
 

@@ -133,6 +133,17 @@ class JogoInfoSerializer(serializers.ModelSerializer):
     
     def get_epoca(self, obj):
         return obj.equipa.epoca.nome 
+    
+class JogoDashboardSerializer(serializers.ModelSerializer):
+
+    modalidade = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Jogo
+        fields = ('id', 'data', 'hora', 'adversario', 'modalidade')
+
+    def get_modalidade(self, obj):
+        return obj.equipa.modalidade.nome
 
 class CompeticaoSerializer(serializers.ModelSerializer):
 
