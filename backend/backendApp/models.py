@@ -15,7 +15,6 @@ class UtilizadorManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password, **extra_fields)
 
-
 class Clube(models.Model):
     nome = models.CharField(max_length=512)
     sigla = models.CharField(max_length=512)
@@ -95,13 +94,45 @@ class Jogo(models.Model):
 class Inscricao(models.Model):
     exames_medico = models.FileField(upload_to='documentos/exames/', null=True, blank=True)
     cartao_cidadao = models.FileField(upload_to='documentos/cartoes/', null=True, blank=True)
-    # data_exame_medico = models.DateField(null=True, blank=True)
     data_inscricao = models.DateField(null=True, blank=True)
-    # documentacao = models.BooleanField(null=True, blank=True)
     estado = models.IntegerField(null=True, blank=True)
-    # competicao = models.ForeignKey(Competicao, on_delete=models.CASCADE)
     epoca = models.ForeignKey(Epoca, on_delete=models.CASCADE)
     elemento_clube = models.ForeignKey(Elemento_Clube, on_delete=models.CASCADE)
+
+class Categoria(models.Model):
+    nome = models.CharField(max_length=512)
+    quota_mensal = models.FloatField()
+    quota_anual = models.FloatField()
+    inscricao = models.FloatField()
+    estado = models.IntegerField()
+
+class Socio(models.Model):
+    n_socio = models.IntegerField()
+    data_adesao = models.DateField()
+    estado = models.IntegerField()
+    utilizador = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
+class Historico_Categoria(models.Model):
+    h_quota_mensal = models.FloatField()
+    h_quota_anual = models.FloatField()
+    h_inscricao = models.FloatField()
+    data_inicial = models.DateField()
+    data_final = models.DateField(null=True, blank=True)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
+class Quota(models.Model):
+    tipo_quota = models.CharField(max_length=512)
+    mes = models.CharField(null=True, blank=True)
+    ano = models.IntegerField()
+    prazo_pagamento = models.DateField()
+    valor = models.FloatField()
+    data_pagamento = models.DateField(null=True, blank=True)
+    metodo_pagamento = models.CharField(null=True, blank=True)
+    estado = models.IntegerField()
+    socio = models.ForeignKey(Socio, on_delete=models.CASCADE)
+    h_categoria = models.ForeignKey(Historico_Categoria, on_delete=models.CASCADE)
+
 
 
  
