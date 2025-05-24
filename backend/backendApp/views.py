@@ -1183,3 +1183,27 @@ def upload_documentos(request, id):
         
     except Exception as e:
         return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaSocios(request):
+
+    id_clube = request.user.clube.id
+
+    socios = Socio.objects.filter(utilizador__clube=id_clube).order_by('utilizador__nome')
+
+    serializer = SocioSerializer(socios, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaCategorias(request):
+
+    id_clube = request.user.clube.id
+
+    categorias = Categoria.objects.filter(clube=id_clube).order_by('nome')
+
+    serializer = CategoriaSerializer(categorias, many=True)
+
+    return Response(serializer.data)

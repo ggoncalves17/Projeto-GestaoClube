@@ -32,7 +32,7 @@ const DadosJogador = () => {
       ? infoJogador.cartao_cidadao
       : "-",
     "Validade CC": infoJogador.data_validade_cc
-      ? infoJogador.data_validade_cc
+      ? new Date(infoJogador.data_validade_cc).toLocaleDateString()
       : "-",
     // Referência -> https://stackoverflow.com/questions/46554765/format-javascript-input-numbers-as-float-with-two-decimal-places-and-enforce-on
     Peso: infoJogador.peso ? infoJogador.peso.toFixed(1) + " Kg" : "-",

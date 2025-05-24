@@ -1,5 +1,4 @@
 import styles from "../css/LinhaOrdenacao.module.css";
-import { FaSort } from "react-icons/fa";
 import OpcaoOrdenacao from "./OpcaoOrdenacao";
 
 const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
@@ -15,13 +14,13 @@ const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
     <div className={styles.contentor}>
       <div
         className={`${styles.informacoesUtilizador} ${
-          tipo != "Utilizador" && tipo != "Staff" && styles.linhaOrdenaElemento
+          tipo == "Elemento" ? styles.linhaOrdenaElemento : tipo == "Sócio" ? styles.linhaOrdenaSocio : styles.linhaOrdenaCategoria
         }`}
       >
 
         <OpcaoOrdenacao nome="Nome" ordenacao={ordenacao} onClick={() => alteraOrdem("nome")}/>
 
-        {tipo != "Elemento" && (
+        {(tipo != "Elemento" && tipo != "Sócio" && tipo != "Categoria") && (
           <OpcaoOrdenacao nome="Email" ordenacao={ordenacao} onClick={() => alteraOrdem("email")}/>
         )}
 
@@ -36,6 +35,25 @@ const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
             <OpcaoOrdenacao nome="Função" ordenacao={ordenacao} onClick={() => alteraOrdem("tipo")}/>
           </>
         )}
+
+        {tipo == "Sócio" && (
+          <>
+            <OpcaoOrdenacao nome="Categoria" ordenacao={ordenacao} onClick={() => alteraOrdem("categoria")}/>
+            <OpcaoOrdenacao nome="Data de Adesão" ordenacao={ordenacao} onClick={() => alteraOrdem("data_adesao")}/>
+            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
+            <OpcaoOrdenacao nome="Estado das Quotas" ordenacao={ordenacao} onClick={() => alteraOrdem("estado_quotas")}/>
+          </>
+        )}
+
+        {tipo == "Categoria" && (
+          <>
+            <OpcaoOrdenacao nome="Quota Mensal" ordenacao={ordenacao} onClick={() => alteraOrdem("quota_mensal")}/>
+            <OpcaoOrdenacao nome="Quota Anual" ordenacao={ordenacao} onClick={() => alteraOrdem("quota_anual")}/>
+            <OpcaoOrdenacao nome="Inscrição" ordenacao={ordenacao} onClick={() => alteraOrdem("inscricao")}/>
+            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
+          </>
+        )}  
+        
       </div>
     </div>
   );

@@ -105,6 +105,7 @@ class Categoria(models.Model):
     quota_anual = models.FloatField()
     inscricao = models.FloatField()
     estado = models.IntegerField()
+    clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
 
 class Socio(models.Model):
     n_socio = models.IntegerField()

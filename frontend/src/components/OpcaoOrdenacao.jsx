@@ -6,7 +6,8 @@ import styles from "../css/LinhaOrdenacao.module.css";
 const OpcaoOrdenacao = ({ nome, ordenacao, onClick }) => {
   let nomeCampo;
 
-  // Para verificar qual o Icon vai ser colocado na parte do ASC ou DESC, visto que se passou logo o nome real do campo a ordenar
+  // Para verificar qual o Icon vai ser colocado na parte do ASC ou DESC, visto que se passou logo o nome real do campo a ordenar (que está na BD)
+  // e depois para comparar (de forma a meter o icon certo e o icon alterar) traduz-se o campo real para o nome do campo de ordenação
   const campos = {
     nome: "Nome",
     email: "Email",
@@ -14,6 +15,13 @@ const OpcaoOrdenacao = ({ nome, ordenacao, onClick }) => {
     sexo: "Género",
     modalidade: "Modalidade",
     tipo: "Função",
+    categoria: "Categoria",
+    data_adesao: "Data de Adesão",
+    estado: "Estado",
+    estado_quotas: "Estado das Quotas",
+    quota_mensal: "Quota Mensal",
+    quota_anual: "Quota Anual",
+    inscricao: "Inscrição",
   };
 
   return (

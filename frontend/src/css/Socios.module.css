@@ -1,0 +1,72 @@
+.estrutura {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto;
+}
+
+.painel {
+  height: 100%;
+  padding: 20px 40px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo {
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin: 0;
+  padding: 10px 0px;
+}
+
+.cards {
+  display: grid;
+  grid-gap: 40px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  margin-top: 10px;
+}
+
+.painelFiltrosBotao {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.painelSuperiorFiltros {
+  display: flex;
+  gap: 20px;
+}
+
+.painelInferior {
+    margin-top: 20px;
+}
+
+.painelBotoes {
+  display: flex;
+  gap: 20px;
+}
+
+.botaoQuotas{
+  background-color: #333333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 19px;
+  height: 100%;
+  width: fit-content;
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: 'Arial';
+}
+
+.botaoQuotas:hover {
+  background-color: #000000;
+}

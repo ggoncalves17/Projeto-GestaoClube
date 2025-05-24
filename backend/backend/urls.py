@@ -71,4 +71,10 @@ urlpatterns = [
     path('api/competicoes/<int:id>/editar/', views.editaCompeticao, name='editaCompeticao'),
     path('api/competicoes/<int:id>/remover/', views.remove_competicao, name='remove_competicao'),
 
+    # SÓCIOS ------------------------------------------------------------------------------------
+    path('api/socios/', views.listaSocios, name='listaSocios'),
+    
+    # SÓCIOS --> CATEGORIAS ------------------------------------------------------------------------------------
+    path('api/categorias/', views.listaCategorias, name='listaCategorias'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

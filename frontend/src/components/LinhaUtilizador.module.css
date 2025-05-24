@@ -25,103 +25,129 @@
 }
 
 .informacoesUtilizador {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
 }
 
 .acoes {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .icon {
-    cursor: pointer;
-    padding: 12px;
-    border-radius: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .iconEditar {
-    background-color: #7BC7FF;
+  background-color: #7bc7ff;
 }
 
 .iconEditar:hover {
-    background-color: #25a4ff;
+  background-color: #25a4ff;
 }
 
 .iconRemover {
-    background-color: #FF8C8C; 
+  background-color: #ff8c8c;
 }
 
 .iconRemover:hover {
-    background-color: #fd5858; 
+  background-color: #fd5858;
 }
 
 .iconInfo {
-    background-color: #DCDCDC;
+  background-color: #dcdcdc;
 }
 
 .iconInfo:hover {
-    background-color: #bababa;
+  background-color: #bababa;
 }
 
 .fotoPerfil {
-    border-radius: 100%;
-    width: 40px;
-    height: 40px;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
 }
 
-span{
-    width: 150px;
-    overflow-x: hidden;
+span {
+  width: 150px;
+  overflow-x: hidden;
 }
 
 .estado {
-    padding: 5px;
-    border-radius: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .estadoAtivo {
-    background-color: #D3FEE6;
-    color: #1B7845;
-    border: 1px solid #1B7845;
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
 }
 
 .estadoAtivo:hover {
-    background-color: #a7e8c4;  
+  background-color: #a7e8c4;
 }
 
 .estadoInativo {
-    background-color: #FF8C8C;
-    color: #981a1a;
-    border: 1px solid #981a1a;
+  background-color: #ff8c8c;
+  color: #981a1a;
+  border: 1px solid #981a1a;
 }
 
 .estadoInativo:hover {
-    background-color: #eb6c6c;
+  background-color: #eb6c6c;
 }
 
 .email {
-    width: 250px;
-    overflow-x: hidden;
+  width: 250px;
+  overflow-x: hidden;
 }
 
 .modalidade {
-    padding: 5px 0px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #FFF8E1;
-    color: #db9b07;
-    border: 1px solid #db9b07;
+  padding: 5px 0px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff8e1;
+  color: #db9b07;
+  border: 1px solid #db9b07;
+}
+
+.Ativo {
+  color: green;
+}
+
+.Inativo {
+  color: red;
+}
+
+.btnAtualiza {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 5px;
+  background-color: white;
+}
+
+.btnAtualiza:hover {
+    background-color: #f2f2f2;
 }

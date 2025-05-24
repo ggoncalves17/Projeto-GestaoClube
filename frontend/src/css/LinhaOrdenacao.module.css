@@ -41,6 +41,14 @@
   grid-template-columns: 240px 170px 170px 150px;
 }
 
+.linhaOrdenaSocio {
+  grid-template-columns: 240px 170px 170px 170px 250px;
+}
+
+.linhaOrdenaCategoria {
+  grid-template-columns: 170px 170px 170px 170px 250px;
+}
+
 .iconSemOrdenacao {
   color: #7c7c7c;
 }

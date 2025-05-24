@@ -34,6 +34,11 @@ import DadosJogador from "./pages/Utilizadores/Jogadores/DadosJogador";
 import EquipasJogador from "./pages/Utilizadores/Jogadores/EquipasJogador";
 import CalendarioEventos from "./pages/Calendario/CalendarioEventos";
 import InscricoesJogador from "./pages/Utilizadores/Jogadores/InscricoesJogador";
+import LayoutQuotas from "./pages/Socios/LayoutQuotas";
+import Socios from "./pages/Socios/socios";
+import Quotas from "./pages/Socios/Quotas/Quotas";
+import Categorias from "./pages/Socios/Quotas/Categorias";
+import HistoricoCategorias from "./pages/Socios/Quotas/HistoricoCategorias";
 
 function App() {
   const router = createBrowserRouter([
@@ -118,8 +123,27 @@ function App() {
           <MainLayout />
         </ProtectedRoute>
       ),
+      children: [{ index: true, element: <CalendarioEventos /> }],
+    },
+    {
+      path: "/socios",
+      element: (
+        <ProtectedRoute>
+          <MainLayout />
+        </ProtectedRoute>
+      ),
       children: [
-        { index: true, element: <CalendarioEventos /> },
+        { index: true, element: <Socios /> },
+        {
+          path: "quotas",
+          element: <LayoutQuotas />,
+          children: [
+            { index: true, element: <Navigate to="geral" /> },
+            { path: "geral", element: <Quotas /> },
+            { path: "categorias", element: <Categorias /> },
+            { path: "categorias/historico", element: <HistoricoCategorias /> },
+          ],
+        },
       ],
     },
 

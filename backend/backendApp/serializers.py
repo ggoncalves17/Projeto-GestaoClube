@@ -168,3 +168,25 @@ class InscricaoSerializer(serializers.ModelSerializer):
 
     def get_epoca(self, obj):
         return obj.epoca.nome   
+
+class SocioSerializer(serializers.ModelSerializer):
+
+    utilizador = UtilizadorSerializer()
+    categoria = serializers.SerializerMethodField()
+    quotas_atrasadas = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Socio
+        fields = ('id', 'n_socio','data_adesao','estado', 'utilizador', 'categoria','quotas_atrasadas')
+
+    def get_categoria(self, obj):
+        return obj.categoria.nome
+    
+    def get_quotas_atrasadas(self, obj):
+        return obj.quota_set.filter(estado=2).exists()
+
+class CategoriaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Categoria
+        fields = ('id', 'nome','quota_mensal','quota_anual', 'inscricao', 'estado', 'clube')
