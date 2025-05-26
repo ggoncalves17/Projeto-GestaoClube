@@ -14,13 +14,13 @@ const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
     <div className={styles.contentor}>
       <div
         className={`${styles.informacoesUtilizador} ${
-          tipo == "Elemento" ? styles.linhaOrdenaElemento : tipo == "Sócio" ? styles.linhaOrdenaSocio : styles.linhaOrdenaCategoria
+          tipo == "Elemento" ? styles.linhaOrdenaElemento : tipo == "Sócio" ? styles.linhaOrdenaSocio : tipo == "Categoria" ? styles.linhaOrdenaCategoria : styles.linhaOrdenaHistoricoCategoria
         }`}
       >
 
         <OpcaoOrdenacao nome="Nome" ordenacao={ordenacao} onClick={() => alteraOrdem("nome")}/>
 
-        {(tipo != "Elemento" && tipo != "Sócio" && tipo != "Categoria") && (
+        {(tipo != "Elemento" && tipo != "Sócio" && tipo != "Categoria" && tipo != "Historico") && (
           <OpcaoOrdenacao nome="Email" ordenacao={ordenacao} onClick={() => alteraOrdem("email")}/>
         )}
 
@@ -45,14 +45,24 @@ const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
           </>
         )}
 
-        {tipo == "Categoria" && (
+        {(tipo == "Categoria" || tipo == "Historico") && (
           <>
             <OpcaoOrdenacao nome="Quota Mensal" ordenacao={ordenacao} onClick={() => alteraOrdem("quota_mensal")}/>
             <OpcaoOrdenacao nome="Quota Anual" ordenacao={ordenacao} onClick={() => alteraOrdem("quota_anual")}/>
             <OpcaoOrdenacao nome="Inscrição" ordenacao={ordenacao} onClick={() => alteraOrdem("inscricao")}/>
-            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
           </>
-        )}  
+        )} 
+        
+        {tipo == "Categoria" && (
+            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
+        )}
+
+        {tipo == "Historico" && (
+          <>
+            <OpcaoOrdenacao nome="Data Inicial" ordenacao={ordenacao} onClick={() => alteraOrdem("data_inicial")}/>
+            <OpcaoOrdenacao nome="Data Final" ordenacao={ordenacao} onClick={() => alteraOrdem("data_final")}/>
+          </>
+        )} 
         
       </div>
     </div>

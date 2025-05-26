@@ -23,7 +23,7 @@ export const listaDisponivelSocios = (
     });
 };
 
-// FUNÇÃO PARA LISTAR TODOS AS CATEGORIAS ------------------------------------------------------
+// FUNÇÃO PARA LISTAR TODAS AS CATEGORIAS ------------------------------------------------------
 export const listaCategorias = (
   setCategorias,
   setLoading
@@ -41,3 +41,103 @@ export const listaCategorias = (
       console.log("Mensagem do erro:", err.response.data.mensagem);
     });
 };
+
+// FUNÇÃO PARA ADICIONAR CATEGORIA ------------------------------------------------------
+export const adicionaCategoria = (categoria, setCategorias, setModo, setErro) => {
+
+  axios
+  .post(
+    `${url}/categorias/adicionar/`,
+    {
+      categoria : categoria,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+        "Content-Type": "application/json",
+      },
+    }
+  )
+  .then((res) => {
+    console.log("Resposta do Backend: ", res.data);
+    
+    setCategorias((prev) => [...prev, res.data.categoria]);
+    setModo(null);
+    
+    toast.success("Categoria Adicionada com Sucesso!");
+
+  })
+  .catch((err) => {
+    console.log("Código do erro:", err.response.status);
+    console.log("Mensagem do erro:", err.response.data.mensagem);
+
+    if (err.response.status == 404) {
+      setErro(err.response.data.mensagem);
+    }
+  })
+}
+
+// FUNÇÃO PARA LISTAR O HISTÓRICO DE TODAS AS CATEGORIAS ------------------------------------------------------
+export const listaHistoricoCategorias = (
+  setCategorias,
+  setLoading
+) => {
+  axios
+    .get(`${url}/categorias/historico/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      setCategorias(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};
+
+
+// FUNÇÃO PARA EDITAR CATEGORIA ------------------------------------------------------
+export const editaCategoria = (categoria, setCategorias, setModo, setErro) => {
+
+  const id_categoria = categoria.id
+
+  axios
+  .put(
+    `${url}/categorias/editar/`,
+    {
+      categoria : categoria,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+        "Content-Type": "application/json",
+      },
+    }
+  )
+  .then((res) => {
+    console.log("Resposta do Backend: ", res.data);
+    
+    setCategorias((prev) =>
+      prev.map((categoria) =>
+        categoria.id == id_categoria
+          ? res.data.categoria
+          : categoria
+      )
+    );
+    setModo(null);
+    
+    toast.success("Categoria Atualizada com Sucesso!");
+
+  })
+  .catch((err) => {
+    console.log("Código do erro:", err.response.status);
+    console.log("Mensagem do erro:", err.response.data.mensagem);
+
+    if (err.response.status == 404) {
+      setErro(err.response.data.mensagem);
+    }
+  })
+}

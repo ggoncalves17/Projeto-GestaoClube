@@ -35,3 +35,10 @@
 .painelInferior {
   margin-top: 20px;
 }
+
+.grupo {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  column-gap: 20px;
+}

@@ -3,13 +3,16 @@ import LinhaSocio from "./LinhaCategoria";
 import styles from "../../../components/ListaUtilizadores.module.css";
 import LinhaCategoria from "./LinhaCategoria";
 
-const ListaCategorias = ({ categorias, ordenacao, setOrdenacao, setModo }) => {
+const ListaCategorias = ({ categorias, setNovaCategoria, ordenacao, setOrdenacao, setModo, tipo="Categoria", historico = false }) => {
+  
+  historico && (tipo = "Historico")
+  
   return (
     <>
       {categorias.length > 0 ? (
         <>
           <LinhaOrdenacao
-            tipo={"Categoria"}
+            tipo={tipo}
             ordenacao={ordenacao}
             setOrdenacao={setOrdenacao}
           />
@@ -18,7 +21,9 @@ const ListaCategorias = ({ categorias, ordenacao, setOrdenacao, setModo }) => {
             <LinhaCategoria
               key={categoria.id}
               categoria={categoria}
+              setNovaCategoria={setNovaCategoria}
               setModo={setModo}
+              historico={historico}
             />
           ))}
         </>

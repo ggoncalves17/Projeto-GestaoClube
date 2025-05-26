@@ -1207,3 +1207,112 @@ def listaCategorias(request):
     serializer = CategoriaSerializer(categorias, many=True)
 
     return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adicionaCategoria(request):
+
+    id_clube = request.user.clube.id
+
+    dados = request.data.get('categoria')
+
+    nome = dados.get('nome')
+    inscricao = dados.get('inscricao')
+    quota_mensal = dados.get('quota_mensal')
+    quota_anual = dados.get('quota_anual')
+
+    if Categoria.objects.filter(nome__iexact=nome, clube=id_clube).exists():
+        return Response({"mensagem": "Já existe uma categoria com o mesmo nome colocado."}, status=404)
+    else:
+        categoria = Categoria(
+            nome = nome,
+            inscricao=inscricao,
+            quota_mensal=quota_mensal,
+            quota_anual=quota_anual,
+            clube_id = id_clube,
+            estado = 1,
+        )
+
+        try:
+            categoria.save() 
+
+            historico = Historico_Categoria(
+                h_quota_mensal = quota_mensal,
+                h_quota_anual = quota_anual,
+                h_inscricao = inscricao,
+                data_inicial = timezone.now().date(),
+                categoria_id = categoria.id,
+            )
+
+            historico.save() 
+
+            serializer = CategoriaSerializer(categoria)
+
+            return Response({"mensagem": "Categoria inserida com sucesso!", "categoria": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaHistoricoCategorias(request):
+
+    id_clube = request.user.clube.id
+
+    categorias = Historico_Categoria.objects.filter(categoria__clube=id_clube)
+
+    serializer = HistoricoCategoriaSerializer(categorias, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def editaCategoria(request):
+
+    id_clube = request.user.clube.id
+
+    dados = request.data.get('categoria')
+
+    print("DADOS CATEGORIA: ", dados)
+
+    id_categoria = dados.get('id')
+    nome = dados.get('nome')
+    inscricao = dados.get('inscricao')
+    quota_mensal = dados.get('quota_mensal')
+    quota_anual = dados.get('quota_anual')
+
+    categoria = get_object_or_404(Categoria, id=id_categoria)
+
+    if Categoria.objects.filter(nome__iexact=nome, clube=id_clube).exclude(id=id_categoria).exists():
+        return Response({"mensagem": "Já existe uma categoria com o mesmo nome."}, status=404)
+    else:
+        try:
+            ultimo_registo = Historico_Categoria.objects.filter(categoria=id_categoria, data_final__isnull=True).order_by('-data_inicial').first()
+
+            if ultimo_registo:
+                ultimo_registo.data_final = timezone.now().date()
+                ultimo_registo.save()
+
+            if(categoria.quota_mensal != quota_mensal or categoria.quota_anual != quota_anual or categoria.inscricao != inscricao):
+                historico = Historico_Categoria(
+                    h_quota_mensal = quota_mensal,
+                    h_quota_anual = quota_anual,
+                    h_inscricao = inscricao,
+                    data_inicial = timezone.now().date(),
+                    categoria_id = id_categoria,
+                )
+                historico.save() 
+
+            categoria.nome = nome
+            categoria.quota_mensal = quota_mensal
+            categoria.quota_anual = quota_anual
+            categoria.inscricao = inscricao
+
+            categoria.save()
+
+            serializer = CategoriaSerializer(categoria)
+
+            return Response({"mensagem": "Categoria atualizada com sucesso!", "categoria": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

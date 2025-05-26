@@ -190,3 +190,11 @@ class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = ('id', 'nome','quota_mensal','quota_anual', 'inscricao', 'estado', 'clube')
+
+class HistoricoCategoriaSerializer(serializers.ModelSerializer):
+
+    categoria = CategoriaSerializer()
+
+    class Meta:
+        model = Historico_Categoria
+        fields = ('id','h_quota_mensal','h_quota_anual', 'h_inscricao', 'data_inicial', 'data_final', 'categoria')

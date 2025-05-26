@@ -76,5 +76,9 @@ urlpatterns = [
     
     # SÓCIOS --> CATEGORIAS ------------------------------------------------------------------------------------
     path('api/categorias/', views.listaCategorias, name='listaCategorias'),
+    path('api/categorias/adicionar/', views.adicionaCategoria, name='adicionaCategoria'),
+    path('api/categorias/editar/', views.editaCategoria, name='editaCategoria'),
+    path('api/categorias/historico/', views.listaHistoricoCategorias, name='listaHistoricoCategorias'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

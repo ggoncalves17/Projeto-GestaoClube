@@ -14,7 +14,7 @@
 .modal {
     background-color: rgba(255, 255, 255);
     padding: 25px;
-    border-radius: 15px;
+    border-radius: 5px;
     text-align: center;
     border: none;
     position: fixed;
