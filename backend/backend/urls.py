@@ -79,6 +79,7 @@ urlpatterns = [
     path('api/categorias/adicionar/', views.adicionaCategoria, name='adicionaCategoria'),
     path('api/categorias/editar/', views.editaCategoria, name='editaCategoria'),
     path('api/categorias/historico/', views.listaHistoricoCategorias, name='listaHistoricoCategorias'),
+    path('api/categorias/altera-estado/<int:id>/', views.alteraEstadoCategoria, name='alteraEstadoCategoria'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

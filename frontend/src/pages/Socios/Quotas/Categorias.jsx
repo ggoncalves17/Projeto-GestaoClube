@@ -3,7 +3,11 @@ import styles from "../../../css/Categorias.module.css";
 import { PainelBotoes } from "./PainelBotoes";
 import Spinner from "../../../components/Spinner";
 import ListaCategorias from "./ListaCategorias";
-import { listaCategorias, adicionaCategoria, editaCategoria } from "../../../api/Socios/api";
+import {
+  listaCategorias,
+  adicionaCategoria,
+  editaCategoria,
+} from "../../../api/Socios/api";
 import Modal from "../../../components/JanelaModal/Modal";
 import InputForm from "../../../components/InputForm";
 
@@ -48,10 +52,13 @@ const Categorias = () => {
       }
 
       adicionaCategoria(novaCategoria, setCategorias, setModo, setErro);
-    }
-    else {
+    } else {
       if (
-        categorias.some((categoria) => (categoria.nome == novaCategoria.nome && categoria.id != novaCategoria.id))
+        categorias.some(
+          (categoria) =>
+            categoria.nome == novaCategoria.nome &&
+            categoria.id != novaCategoria.id
+        )
       ) {
         setErro("Já existe uma categoria com o mesmo nome colocado.");
         return;
@@ -74,6 +81,7 @@ const Categorias = () => {
             ordenacao={ordenacao}
             setOrdenacao={setOrdenacao}
             setModo={setModo}
+            setCategorias={setCategorias}
           />
         )}
       </div>

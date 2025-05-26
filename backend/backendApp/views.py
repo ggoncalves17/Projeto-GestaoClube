@@ -1316,3 +1316,24 @@ def editaCategoria(request):
         
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def alteraEstadoCategoria(request, id):
+
+    categoria = get_object_or_404(Categoria, id=id)
+    
+    estado = categoria.estado
+
+    if(estado == 1):
+        novoEstado = 0
+    else:
+        novoEstado = 1  
+
+    categoria.estado = novoEstado
+
+    try:
+        categoria.save()
+        return Response({"mensagem": "Estado alterado com sucesso!"}, status=200)
+    except Exception as e:
+        return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

@@ -18,7 +18,7 @@ const LinhaSocio = ({ socio }) => {
         <span className={styles.nome}>{socio.utilizador.nome}</span>
         <span className={styles.nome}>{socio.categoria}</span>
         <span className={styles.nome}>{new Date(socio.data_adesao).toLocaleDateString()}</span>
-        <span className={`${styles.nome} ${styles[estadoSocio]}`}>
+        <span className={`${styles.nome} ${estadoSocio == "Ativo" ? styles.Ativo: styles.Inativo}`}>
           {estadoSocio}
         </span>
         <span

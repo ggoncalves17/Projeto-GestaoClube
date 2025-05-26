@@ -35,6 +35,7 @@
 .acoes {
   display: flex;
   gap: 20px;
+  align-items: center;
 }
 
 .icon {
@@ -89,25 +90,26 @@ span {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  height: fit-content;
 }
 
-.estadoAtivo {
+.estadoAtivo, .btnAtivo {
   background-color: #d3fee6;
   color: #1b7845;
   border: 1px solid #1b7845;
 }
 
-.estadoAtivo:hover {
+.estadoAtivo:hover, .btnAtivo:hover {
   background-color: #a7e8c4;
 }
 
-.estadoInativo {
+.estadoInativo, .btnInativo {
   background-color: #ff8c8c;
   color: #981a1a;
   border: 1px solid #981a1a;
 }
 
-.estadoInativo:hover {
+.estadoInativo:hover, .btnInativo:hover {
   background-color: #eb6c6c;
 }
 

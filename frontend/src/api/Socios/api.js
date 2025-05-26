@@ -97,7 +97,6 @@ export const listaHistoricoCategorias = (
     });
 };
 
-
 // FUNÇÃO PARA EDITAR CATEGORIA ------------------------------------------------------
 export const editaCategoria = (categoria, setCategorias, setModo, setErro) => {
 
@@ -139,5 +138,42 @@ export const editaCategoria = (categoria, setCategorias, setModo, setErro) => {
     if (err.response.status == 404) {
       setErro(err.response.data.mensagem);
     }
+  })
+}
+
+// FUNÇÃO PARA ALTERAR ESTADO CATEGORIA ------------------------------------------------------
+export const alteraEstadoCategoria = (id_categoria, setCategorias, setModalEstadoAberta) => {
+
+  axios
+  .put(
+    `${url}/categorias/altera-estado/${id_categoria}/`,
+    {
+    },
+    {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+        "Content-Type": "application/json",
+      },
+    }
+  )
+  .then((res) => {
+    console.log("Resposta do Backend: ", res.data);
+    
+    setCategorias((prev) =>
+      prev.map((categoria) =>
+        categoria.id == id_categoria
+          ? {...categoria, estado: categoria.estado == 1 ? 0 : 1}
+          : categoria
+      )
+    );
+    setModalEstadoAberta(false)
+
+    toast.success("Estado da Categoria Alterado com Sucesso!");
+
+  })
+  .catch((err) => {
+    console.log("Código do erro:", err.response.status);
+    console.log("Mensagem do erro:", err.response.data.mensagem);
   })
 }

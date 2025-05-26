@@ -3,7 +3,7 @@ import LinhaSocio from "./LinhaCategoria";
 import styles from "../../../components/ListaUtilizadores.module.css";
 import LinhaCategoria from "./LinhaCategoria";
 
-const ListaCategorias = ({ categorias, setNovaCategoria, ordenacao, setOrdenacao, setModo, tipo="Categoria", historico = false }) => {
+const ListaCategorias = ({ categorias, setNovaCategoria, ordenacao, setOrdenacao, setModo, tipo="Categoria", historico = false, setCategorias }) => {
   
   historico && (tipo = "Historico")
   
@@ -24,6 +24,7 @@ const ListaCategorias = ({ categorias, setNovaCategoria, ordenacao, setOrdenacao
               setNovaCategoria={setNovaCategoria}
               setModo={setModo}
               historico={historico}
+              setCategorias={setCategorias}
             />
           ))}
         </>
