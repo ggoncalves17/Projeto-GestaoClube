@@ -25,11 +25,12 @@ const Socios = () => {
   const [ordenacao, setOrdenacao] = useState();
   const [modo, setModo] = useState(null);
   const [categorias, setCategorias] = useState([]);
-  const [erro, setErro] = useState("")
+  const [erro, setErro] = useState("");
 
   const [novoSocio, setNovoSocio] = useState({
     id: "",
     categoria: "",
+    quota: "",
   });
 
   useEffect(() => {
@@ -43,9 +44,10 @@ const Socios = () => {
       setNovoSocio({
         id: "",
         categoria: "",
+        quota: "",
       });
     }
-    setErro("")
+    setErro("");
   }, [modo]);
 
   const estadoMap = {
@@ -79,16 +81,16 @@ const Socios = () => {
     .map((categoria) => categoria.nome);
 
   const handleSubmeteNovoSocio = (event) => {
-    event.preventDefault()
-      
-    if(socios.some((socio) => socio.utilizador.id == novoSocio.id)) {
-      setErro("Utilizador selecionado já está inserido como sócio.")
-      return
+    event.preventDefault();
+
+    if (socios.some((socio) => socio.utilizador.id == novoSocio.id)) {
+      setErro("Utilizador selecionado já está inserido como sócio.");
+      return;
     }
 
-    adicionaNovoSocio(novoSocio, setSocios, setModo, setErro)
-  }
-    
+    adicionaNovoSocio(novoSocio, setSocios, setModo, setErro);
+  };
+
   return (
     <div className={styles.estrutura}>
       <div className={styles.painel}>
@@ -98,7 +100,7 @@ const Socios = () => {
           <CardDadosSocios
             tituloCard="Sócios com Quotas em Atraso"
             valor={nSociosQuotasAtrasadas}
-            atraso={true} 
+            atraso={true}
           />
         </div>
         <div className={styles.painelFiltrosBotao}>
@@ -150,13 +152,10 @@ const Socios = () => {
             botao={modo == "Adicionar" ? "Adicionar" : "Guardar"}
             onSubmit={handleSubmeteNovoSocio}
           >
-
             {erro && <p className={styles.erro}>{erro}</p>}
 
             <InputAutocomplete
-              onSelecionar={(id) =>
-                setNovoSocio({ ...novoSocio, id: id })
-              }
+              onSelecionar={(id) => setNovoSocio({ ...novoSocio, id: id })}
             />
             <SelectForm
               label="Categoria"
@@ -165,6 +164,14 @@ const Socios = () => {
                 setNovoSocio({ ...novoSocio, categoria: e.target.value })
               }
               opcoes={categoriasDisponiveis}
+            />
+            <SelectForm
+              label="Quota"
+              valor={novoSocio.quota}
+              onChange={(e) =>
+                setNovoSocio({ ...novoSocio, quota: e.target.value })
+              }
+              opcoes={["Mensal", "Anual"]}
             />
           </Modal>
         )}

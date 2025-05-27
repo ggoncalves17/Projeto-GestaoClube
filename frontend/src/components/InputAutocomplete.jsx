@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { listaUtilizadoresDisponiveis } from "../api/Socios/api";
+import { red } from "@mui/material/colors";
 
 export default function InputAutocomplete({ onSelecionar }) {
   const [inputValue, setInputValue] = useState("");
@@ -10,7 +11,7 @@ export default function InputAutocomplete({ onSelecionar }) {
 
   return (
     <Autocomplete
-      sx={{ marginTop: "15px"}}
+      sx={{ marginTop: "15px", bgcolor: 'white', color: 300}}
       options={opcoes}
       loading={loading}
       getOptionLabel={(opcao) => opcao.nome}
@@ -27,6 +28,7 @@ export default function InputAutocomplete({ onSelecionar }) {
       }}
       renderInput={(params) => (
         <TextField
+          sx={{ color: '300'}}
           {...params}
           label="Sócio"
           placeholder="Pesquise o utilizador..."

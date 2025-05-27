@@ -1273,8 +1273,6 @@ def editaCategoria(request):
 
     dados = request.data.get('categoria')
 
-    print("DADOS CATEGORIA: ", dados)
-
     id_categoria = dados.get('id')
     nome = dados.get('nome')
     inscricao = dados.get('inscricao')
@@ -1362,6 +1360,7 @@ def adicionaSocio(request):
 
     id_utilizador = dados.get('id')
     categoria = dados.get('categoria')
+    tipo_quota = dados.get('quota')
     
     if Socio.objects.filter(utilizador=id_utilizador).exists():
         return Response({"mensagem": "Utilizador selecionado já está inserido como sócio."}, status=404)
@@ -1369,18 +1368,64 @@ def adicionaSocio(request):
 
         ultimo_n_socio = Socio.objects.filter(utilizador__clube=id_clube).order_by('-n_socio').first()
 
-        id_categoria = get_object_or_404(Categoria, nome=categoria, clube=id_clube).id
-
-        socio = Socio(
-            n_socio = ultimo_n_socio.n_socio+1,
-            data_adesao = timezone.now().date(),
-            estado=1,
-            categoria_id=id_categoria,
-            utilizador_id = id_utilizador,
-        )
+        categoria = get_object_or_404(Categoria, nome=categoria, clube=id_clube)
 
         try:
+            socio = Socio(
+                n_socio = ultimo_n_socio.n_socio+1,
+                data_adesao = timezone.now().date(),
+                estado=1,
+                categoria_id=categoria.id,
+                utilizador_id = id_utilizador,
+            )
+            
             socio.save() 
+
+            MESES_PT = [
+                "", 
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            ]
+
+            mesStr = MESES_PT[datetime.now().month]
+
+            if tipo_quota is "Anual":
+                mes = None
+                valor = categoria.quota_anual
+            else:
+                mes = mesStr
+                valor = categoria.quota_mensal
+
+            dataAtual = timezone.now().date()
+            ultimoDiaMes = dataAtual.replace(day=monthrange(dataAtual.year, dataAtual.month)[1])
+
+            h_categoria = Historico_Categoria.objects.filter(categoria=categoria.id).order_by('-id').first()
+
+            inscricao = Quota(
+                tipo_quota = "Inscrição",
+                mes = mes,
+                ano = datetime.now().year,
+                prazo_pagamento=ultimoDiaMes,
+                valor=categoria.inscricao,
+                estado=1,
+                h_categoria_id=h_categoria.id,
+                socio=socio,
+            )
+
+            inscricao.save()
+
+            quota = Quota(
+                tipo_quota = tipo_quota,
+                mes = mes,
+                ano = datetime.now().year,
+                prazo_pagamento=ultimoDiaMes,
+                valor=valor,
+                estado=1,
+                h_categoria_id=h_categoria.id,
+                socio=socio,
+            )
+
+            quota.save()
 
             serializer = SocioSerializer(socio)
 
