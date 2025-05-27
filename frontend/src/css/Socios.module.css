@@ -70,3 +70,10 @@
 .botaoQuotas:hover {
   background-color: #000000;
 }
+
+.erro {
+  color: red;
+  font-size: 0.9rem;
+  margin: 5px 0;
+  text-align: left;
+}

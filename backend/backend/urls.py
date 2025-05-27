@@ -26,6 +26,8 @@ urlpatterns = [
     path('api/utilizadores/', views.listaUtilizadores, name='listaUtilizadores'),
     path('api/staff/', views.listaStaff, name='listaStaff'),
     path('api/elementos/', views.listaElementos, name='listaElementos'),
+    path('api/utilizadores/pesquisa/', views.listaUtilizadoresDisponiveis, name='listaUtilizadoresDisponiveis'),
+
 
     # ELEMENTOS --> Inscrições ------------------------------------------------------------------------------------
     path('api/elementos/<int:id>/inscricoes/', views.listaInscricoesJogador, name='listaInscricoesJogador'),
@@ -73,6 +75,7 @@ urlpatterns = [
 
     # SÓCIOS ------------------------------------------------------------------------------------
     path('api/socios/', views.listaSocios, name='listaSocios'),
+    path('api/socios/adicionar/', views.adicionaSocio, name='adicionaSocio'),
     
     # SÓCIOS --> CATEGORIAS ------------------------------------------------------------------------------------
     path('api/categorias/', views.listaCategorias, name='listaCategorias'),

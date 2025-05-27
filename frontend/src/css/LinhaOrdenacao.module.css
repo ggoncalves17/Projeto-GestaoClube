@@ -37,6 +37,10 @@
   gap: 10px;
 }
 
+.linhaOrdena {
+  grid-template-columns: 240px 270px 170px;
+}
+
 .linhaOrdenaElemento {
   grid-template-columns: 240px 170px 170px 150px;
 }

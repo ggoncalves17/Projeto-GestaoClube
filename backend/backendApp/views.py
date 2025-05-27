@@ -1337,3 +1337,54 @@ def alteraEstadoCategoria(request, id):
         return Response({"mensagem": "Estado alterado com sucesso!"}, status=200)
     except Exception as e:
         return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaUtilizadoresDisponiveis(request):
+
+    termoPesquisa = request.GET.get('pesquisa', '')
+
+    id_clube = request.user.clube.id
+
+    utilizadores = Utilizador.objects.filter(nome__icontains=termoPesquisa, tipo="Utilizador", estado=1, clube=id_clube).order_by('nome')
+
+    serializer = UtilizadorGeralSerializer(utilizadores, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def adicionaSocio(request):
+
+    id_clube = request.user.clube.id
+
+    dados = request.data.get('socio')
+
+    id_utilizador = dados.get('id')
+    categoria = dados.get('categoria')
+    
+    if Socio.objects.filter(utilizador=id_utilizador).exists():
+        return Response({"mensagem": "Utilizador selecionado já está inserido como sócio."}, status=404)
+    else:
+
+        ultimo_n_socio = Socio.objects.filter(utilizador__clube=id_clube).order_by('-n_socio').first()
+
+        id_categoria = get_object_or_404(Categoria, nome=categoria, clube=id_clube).id
+
+        socio = Socio(
+            n_socio = ultimo_n_socio.n_socio+1,
+            data_adesao = timezone.now().date(),
+            estado=1,
+            categoria_id=id_categoria,
+            utilizador_id = id_utilizador,
+        )
+
+        try:
+            socio.save() 
+
+            serializer = SocioSerializer(socio)
+
+            return Response({"mensagem": "Sócio inserido com sucesso!", "socio": serializer.data}, status=200)
+        
+        except Exception as e:
+            return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

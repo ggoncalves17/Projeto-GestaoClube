@@ -13,7 +13,7 @@ const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
   return (
     <div className={styles.contentor}>
       <div
-        className={`${styles.informacoesUtilizador} ${
+        className={`${styles.informacoesUtilizador} ${(tipo == "Staff" || tipo == "Utilizador") ? styles.linhaOrdena :
           tipo == "Elemento" ? styles.linhaOrdenaElemento : tipo == "Sócio" ? styles.linhaOrdenaSocio : tipo == "Categoria" ? styles.linhaOrdenaCategoria : styles.linhaOrdenaHistoricoCategoria
         }`}
       >

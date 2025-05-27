@@ -6,8 +6,15 @@ import BotaoAdicionar from "../../components/BotaoAdicionar";
 import Dropdown from "../../components/Dropdown";
 import Spinner from "../../components/Spinner";
 import ListaSocios from "./ListaSocios";
-import { listaDisponivelSocios } from "../../api/Socios/api";
+import {
+  listaDisponivelSocios,
+  listaCategoriasDisponiveis,
+  adicionaNovoSocio,
+} from "../../api/Socios/api";
 import { Link } from "react-router-dom";
+import Modal from "../../components/JanelaModal/Modal";
+import SelectForm from "../../components/SelectForm";
+import InputAutocomplete from "../../components/InputAutocomplete";
 
 const Socios = () => {
   const [socios, setSocios] = useState([]);
@@ -16,10 +23,30 @@ const Socios = () => {
   const [filtroEstadoQuotas, setFiltroEstadoQuotas] = useState("");
   const [loading, setLoading] = useState(true);
   const [ordenacao, setOrdenacao] = useState();
+  const [modo, setModo] = useState(null);
+  const [categorias, setCategorias] = useState([]);
+  const [erro, setErro] = useState("")
+
+  const [novoSocio, setNovoSocio] = useState({
+    id: "",
+    categoria: "",
+  });
 
   useEffect(() => {
     listaDisponivelSocios(setSocios, setLoading);
+
+    listaCategoriasDisponiveis(setCategorias);
   }, []);
+
+  useEffect(() => {
+    if (modo == "Adicionar") {
+      setNovoSocio({
+        id: "",
+        categoria: "",
+      });
+    }
+    setErro("")
+  }, [modo]);
 
   const estadoMap = {
     Ativo: 1,
@@ -47,6 +74,21 @@ const Socios = () => {
     (socio) => socio.quotas_atrasadas == true
   ).length;
 
+  const categoriasDisponiveis = categorias
+    .filter((categoria) => categoria.estado == 1)
+    .map((categoria) => categoria.nome);
+
+  const handleSubmeteNovoSocio = (event) => {
+    event.preventDefault()
+      
+    if(socios.some((socio) => socio.utilizador.id == novoSocio.id)) {
+      setErro("Utilizador selecionado já está inserido como sócio.")
+      return
+    }
+
+    adicionaNovoSocio(novoSocio, setSocios, setModo, setErro)
+  }
+    
   return (
     <div className={styles.estrutura}>
       <div className={styles.painel}>
@@ -56,7 +98,7 @@ const Socios = () => {
           <CardDadosSocios
             tituloCard="Sócios com Quotas em Atraso"
             valor={nSociosQuotasAtrasadas}
-            atraso={true}
+            atraso={true} 
           />
         </div>
         <div className={styles.painelFiltrosBotao}>
@@ -100,6 +142,32 @@ const Socios = () => {
             />
           )}
         </div>
+
+        {modo && (
+          <Modal
+            setModal={setModo}
+            titulo={`${modo} Sócio`}
+            botao={modo == "Adicionar" ? "Adicionar" : "Guardar"}
+            onSubmit={handleSubmeteNovoSocio}
+          >
+
+            {erro && <p className={styles.erro}>{erro}</p>}
+
+            <InputAutocomplete
+              onSelecionar={(id) =>
+                setNovoSocio({ ...novoSocio, id: id })
+              }
+            />
+            <SelectForm
+              label="Categoria"
+              valor={novoSocio.categoria}
+              onChange={(e) =>
+                setNovoSocio({ ...novoSocio, categoria: e.target.value })
+              }
+              opcoes={categoriasDisponiveis}
+            />
+          </Modal>
+        )}
       </div>
     </div>
   );
