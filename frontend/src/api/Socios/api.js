@@ -239,3 +239,63 @@ export const adicionaNovoSocio = (
       }
     });
 };
+
+// FUNÇÃO PARA LISTAR TODAS AS QUOTAS ------------------------------------------------------
+export const listaQuotas = (setQuotas, setLoading) => {
+  axios
+    .get(`${url}/quotas/`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+      setQuotas(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+    });
+};
+
+// FUNÇÃO PARA REGISTAR PAGAMENTO QUOTA ------------------------------------------------------
+export const registaPagamentoQuota = (
+  id_quota,
+  pagamento,
+  setQuotas,
+  setModo,
+) => {
+  axios
+    .put(
+      `${url}/quotas/regista/${id_quota}/`,
+      {
+        pagamento: pagamento,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((res) => {
+      console.log("Resposta do Backend: ", res.data);
+
+      setQuotas((prev) =>
+        prev.map((quota) =>
+          quota.id == id_quota ? res.data.quota : quota
+        )
+      );
+
+      setModo(null)
+
+      toast.success("Pagamento Registado com Sucesso.");
+    })
+    .catch((err) => {
+      console.log("Código do erro:", err.response.status);
+      console.log("Mensagem do erro:", err.response.data.mensagem);
+
+      if (err.response.status == 404) {
+        setErro(err.response.data.mensagem);
+      }
+    });
+};

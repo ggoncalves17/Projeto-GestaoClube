@@ -57,6 +57,10 @@
   grid-template-columns: 170px 170px 170px 170px 170px 170px 170px; 
 }
 
+.linhaOrdenaQuota{
+  grid-template-columns: 170px 170px 250px 170px 170px 170px
+}
+
 .iconSemOrdenacao {
   color: #7c7c7c;
 }

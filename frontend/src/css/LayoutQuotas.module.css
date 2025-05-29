@@ -1,0 +1,48 @@
+.estrutura {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto;
+}
+
+.painel {
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.painelSuperiorDetalhes {
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.painelSuperiorDetalhes hr {
+  margin: 0;
+}
+
+.painelInferiorDetalhes hr {
+  margin: 2px 0px;
+  padding: 0px;
+}
+
+.painelOpcoes {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.conteudo {
+  margin-top: 20px;
+}
+
+.cards {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}

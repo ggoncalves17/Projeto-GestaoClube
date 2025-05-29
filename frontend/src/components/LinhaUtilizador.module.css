@@ -93,23 +93,27 @@ span {
   height: fit-content;
 }
 
-.estadoAtivo, .btnAtivo {
+.estadoAtivo,
+.btnAtivo {
   background-color: #d3fee6;
   color: #1b7845;
   border: 1px solid #1b7845;
 }
 
-.estadoAtivo:hover, .btnAtivo:hover {
+.estadoAtivo:hover,
+.btnAtivo:hover {
   background-color: #a7e8c4;
 }
 
-.estadoInativo, .btnInativo {
+.estadoInativo,
+.btnInativo {
   background-color: #ff8c8c;
   color: #981a1a;
   border: 1px solid #981a1a;
 }
 
-.estadoInativo:hover, .btnInativo:hover {
+.estadoInativo:hover,
+.btnInativo:hover {
   background-color: #eb6c6c;
 }
 
@@ -137,13 +141,17 @@ span {
   color: red;
 }
 
-.btnAtualiza {
+.Pendente {
+  color: #db9b07;
+}
+
+.btnRegista {
   border: 1px solid rgba(0, 0, 0, 0.5);
   color: black;
   border-radius: 5px;
   cursor: pointer;
   font-size: 15px;
-  padding: 15px;
+  padding: 10px;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -151,6 +159,23 @@ span {
   background-color: white;
 }
 
-.btnAtualiza:hover {
-    background-color: #f2f2f2;
+.btnRegista:hover {
+  background-color: #f2f2f2;
+}
+.btnRegista:disabled {
+  cursor: default;
+  background-color: rgb(195, 195, 195);
+  border: 1px solid rgb(195, 195, 195);
+  color: #8d8d8d;
+}
+
+.linhaQuota {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 170px 170px 250px 170px 170px 170px;
+  gap: 10px;
+}
+
+.linhaQuota > span {
+  word-wrap: break-word;
 }

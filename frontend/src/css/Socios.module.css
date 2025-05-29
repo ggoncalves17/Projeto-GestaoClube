@@ -11,7 +11,6 @@
 .painel {
   height: 100%;
   padding: 20px 40px;
-
   display: flex;
   flex-direction: column;
 }

@@ -14,13 +14,13 @@ const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
     <div className={styles.contentor}>
       <div
         className={`${styles.informacoesUtilizador} ${(tipo == "Staff" || tipo == "Utilizador") ? styles.linhaOrdena :
-          tipo == "Elemento" ? styles.linhaOrdenaElemento : tipo == "Sócio" ? styles.linhaOrdenaSocio : tipo == "Categoria" ? styles.linhaOrdenaCategoria : styles.linhaOrdenaHistoricoCategoria
+          tipo == "Elemento" ? styles.linhaOrdenaElemento : tipo == "Sócio" ? styles.linhaOrdenaSocio : tipo == "Categoria" ? styles.linhaOrdenaCategoria : tipo == "Quotas" ? styles.linhaOrdenaQuota :styles.linhaOrdenaHistoricoCategoria
         }`}
       >
 
         <OpcaoOrdenacao nome="Nome" ordenacao={ordenacao} onClick={() => alteraOrdem("nome")}/>
 
-        {(tipo != "Elemento" && tipo != "Sócio" && tipo != "Categoria" && tipo != "Historico") && (
+        {(tipo != "Elemento" && tipo != "Sócio" && tipo != "Categoria" && tipo != "Historico" && tipo != "Quotas") && (
           <OpcaoOrdenacao nome="Email" ordenacao={ordenacao} onClick={() => alteraOrdem("email")}/>
         )}
 
@@ -61,6 +61,16 @@ const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
           <>
             <OpcaoOrdenacao nome="Data Inicial" ordenacao={ordenacao} onClick={() => alteraOrdem("data_inicial")}/>
             <OpcaoOrdenacao nome="Data Final" ordenacao={ordenacao} onClick={() => alteraOrdem("data_final")}/>
+          </>
+        )} 
+        
+        {tipo == "Quotas" && (
+          <>
+            <OpcaoOrdenacao nome="Tipo" ordenacao={ordenacao} onClick={() => alteraOrdem("tipo_quota")}/>
+            <OpcaoOrdenacao nome="Prazo Pagamento" ordenacao={ordenacao} onClick={() => alteraOrdem("prazo_pagamento")}/>
+            <OpcaoOrdenacao nome="Valor" ordenacao={ordenacao} onClick={() => alteraOrdem("valor")}/>
+            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
+            <OpcaoOrdenacao nome="Data Pagamento" ordenacao={ordenacao} onClick={() => alteraOrdem("data_pagamento")}/>
           </>
         )} 
         

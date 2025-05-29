@@ -204,3 +204,24 @@ class UtilizadorGeralSerializer(serializers.ModelSerializer):
     class Meta:
         model = Utilizador
         fields = ('id', 'nome')
+
+class QuotaSerializer(serializers.ModelSerializer):
+
+    nome_utilizador = serializers.SerializerMethodField()
+    id_utilizador = serializers.SerializerMethodField()
+    n_socio = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Quota
+        fields = ('id', 'tipo_quota','mes','ano', 'prazo_pagamento', 'valor', 'data_pagamento', 'estado', 'nome_utilizador', 'id_utilizador', 'n_socio')
+    
+    def get_nome_utilizador(self, obj):
+        return obj.socio.utilizador.nome
+    
+    def get_id_utilizador(self, obj):
+        return obj.socio.utilizador.id
+
+    def get_n_socio(self, obj):
+        return obj.socio.n_socio
+
+    

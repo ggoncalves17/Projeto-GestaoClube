@@ -63,7 +63,7 @@ def estatisticas_view(request):
         "Staff": Utilizador.objects.filter(tipo="Gestor", estado=1, clube=id_clube).count(),
         "Jogadores": Elemento_Clube.objects.filter(tipo="Jogador", estado=1, clube=id_clube).count(),
         "Modalidades": Modalidade.objects.filter(clube=id_clube).count(),
-        "Socios": 0,
+        "Socios": Socio.objects.filter(utilizador__clube=id_clube, estado=1).count(),
         "Eventos": 0,
         "Jogos": jogosSerializer.data,
     }
@@ -1389,7 +1389,7 @@ def adicionaSocio(request):
 
             mesStr = MESES_PT[datetime.now().month]
 
-            if tipo_quota is "Anual":
+            if tipo_quota == "Anual":
                 mes = None
                 valor = categoria.quota_anual
             else:
@@ -1433,3 +1433,34 @@ def adicionaSocio(request):
         
         except Exception as e:
             return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listaQuotas(request):
+
+    id_clube = request.user.clube.id
+
+    quotas = Quota.objects.filter(socio__utilizador__clube=id_clube).order_by('prazo_pagamento', 'socio__utilizador__nome')
+
+    serializer = QuotaSerializer(quotas, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def registaPagamentoQuotas(request, id):
+
+    quota = get_object_or_404(Quota, id=id) 
+
+    quota.estado = 1
+    quota.metodo_pagamento = request.data.get('pagamento')
+    quota.data_pagamento = timezone.now().date()
+
+    try:
+        quota.save()
+
+        serializer = QuotaSerializer(quota)
+
+        return Response({"mensagem": "Pagamento Registado com Sucesso.", "quota" : serializer.data}, status=200)
+    except Exception as e:
+        return Response({"mensagem": f"Ocorreu um erro: {str(e)}"}, status=500)

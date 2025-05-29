@@ -22,6 +22,11 @@
   color: #333;
 }
 
+.caixaFiltro option:first-child {
+  color: #ffffff;
+  background-color: #C8C8C8;
+}
+
 .dropdown {
   position: relative;
 }

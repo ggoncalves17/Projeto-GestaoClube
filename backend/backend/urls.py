@@ -84,5 +84,8 @@ urlpatterns = [
     path('api/categorias/historico/', views.listaHistoricoCategorias, name='listaHistoricoCategorias'),
     path('api/categorias/altera-estado/<int:id>/', views.alteraEstadoCategoria, name='alteraEstadoCategoria'),
 
-
+    # SÓCIOS --> CATEGORIAS ------------------------------------------------------------------------------------
+    path('api/quotas/', views.listaQuotas, name='listaQuotas'),
+    path('api/quotas/regista/<int:id>/', views.registaPagamentoQuotas, name='registaPagamentoQuotas'),
+ 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

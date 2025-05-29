@@ -42,3 +42,9 @@
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   column-gap: 20px;
 }
+
+.infoQuota {
+  text-align: left;
+  font-size: 15px;
+  color: #6b7280;
+}
