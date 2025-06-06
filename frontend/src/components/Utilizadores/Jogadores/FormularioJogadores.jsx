@@ -122,8 +122,8 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
           },
         })
         .then((res) => {
-          console.log("Resposta do Backend: ", res.data);
-          setStaff((prev) => [...prev, res.data.utilizador]);
+          console.log("Resposta do Backend 54: ", res.data);
+          // setStaff((prev) => [...prev, res.data.utilizador]);
           setModo(null);
         })
         .catch((err) => {

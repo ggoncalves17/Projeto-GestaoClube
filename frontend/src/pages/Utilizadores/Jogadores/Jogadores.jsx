@@ -59,7 +59,6 @@ const Jogadores = () => {
     }
   }, [filtroEstado]);
 
-  // ALTERAR ESTA PARTE PARA NÃO SE TER DE ALTERAR COM O MODO (PASSAR DEPOIS NO EDITAR O SETJOGADORES E ALTERAR LÁ)
   useEffect(() => {
     if (modo === "Adicionar") {
       setIdUtilizador(-1);

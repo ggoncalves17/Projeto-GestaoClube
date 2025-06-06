@@ -300,6 +300,7 @@ const Perfil = () => {
           <div>
             {camposPassword.map((campo, index) => (
               <InputForm
+                key={index}
                 tipo="password"
                 label={campo}
                 valor={dadosPassword[campo]}

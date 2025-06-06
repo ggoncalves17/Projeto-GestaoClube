@@ -90,7 +90,6 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
         })
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
-          console.log("Utilizador (Geral ou Gestor) Adicionado");
           setStaff((prev) => [...prev, res.data.utilizador]);
           setModo(null);
         })

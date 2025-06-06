@@ -8,7 +8,7 @@ import PopUpEstado from "./PopUpEstado";
 import BotaoInfoEditar from "./BotaoInfoEditar";
 import BotaoRemover from "./BotaoRemover";
 
-const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
+const LinhaUtilizador = ({ utilizador, setModo, setUtilizador }) => {
   const [modalAberta, setModalAberta] = useState(false);
   const [modalEstadoAberta, setModalEstadoAberta] = useState(false);
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
@@ -151,4 +151,4 @@ const UtilizadorLinha = ({ utilizador, setModo, setUtilizador }) => {
   );
 };
 
-export default UtilizadorLinha;
+export default LinhaUtilizador;
