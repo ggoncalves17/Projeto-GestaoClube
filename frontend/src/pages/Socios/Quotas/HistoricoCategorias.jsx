@@ -4,15 +4,19 @@ import { PainelBotoes } from "./PainelBotoes";
 import Spinner from "../../../components/Spinner";
 import ListaCategorias from "./ListaCategorias";
 import { listaHistoricoCategorias } from "../../../api/Socios/api";
+import { ordenaUtilizadores } from "../../../utils/ordenacaoUtilizadores";
 
 const HistoricoCategorias = () => {
 
   const [loading,setLoading] = useState(true)
-  const [categorias, setCategorias] = useState()
-  
+  const [categorias, setCategorias] = useState([])
+  const [ordenacao, setOrdenacao] = useState();
+
   useEffect(() => {
     listaHistoricoCategorias(setCategorias, setLoading);
-  }, []);
+  }, [])
+  
+  const categoriasOrdenadas = ordenaUtilizadores(categorias, ordenacao);
 
   return (
     <div>
@@ -22,9 +26,9 @@ const HistoricoCategorias = () => {
           <Spinner />
         ) : (
           <ListaCategorias
-            categorias={categorias}
-            ordenacao={null}
-            setOrdenacao={null}
+            categorias={categoriasOrdenadas}
+            ordenacao={ordenacao}
+            setOrdenacao={setOrdenacao}
             setModo={null}
             historico = {true}
           />

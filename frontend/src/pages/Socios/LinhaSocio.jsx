@@ -31,9 +31,9 @@ const LinhaSocio = ({ socio }) => {
       </div>
 
       <div className={styles.acoes}>
-        <BotaoInfoEditar onClick={null} />
+        {/* <BotaoInfoEditar onClick={null} /> */}
 
-        <BotaoRemover onClick={null} />
+        {/* <BotaoRemover onClick={null} /> */}
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import { useOutletContext } from "react-router-dom";
 import Modal from "../../../components/JanelaModal/Modal";
 import SelectForm from "../../../components/SelectForm";
 import { registaPagamentoQuota } from "../../../api/Socios/api";
+import { ordenaUtilizadores } from "../../../utils/ordenacaoUtilizadores";
 
 const Quotas = () => {
   const { setDados } = useOutletContext();
@@ -17,6 +18,8 @@ const Quotas = () => {
   const [filtroEstado, setFiltroEstado] = useState("Todos");
   const [filtroTipo, setFiltroTipo] = useState("Todos");
   const [filtroMes, setFiltroMes] = useState("Todos");
+  const [filtroAno, setFiltroAno] = useState("Todos");
+  const [ordenacao, setOrdenacao] = useState();
   const [modo, setModo] = useState(null);
   const [quotas, setQuotas] = useState([]);
   const [quotaEscolhida, setQuotaEscolhida] = useState({ pagamento: "" });
@@ -67,8 +70,11 @@ const Quotas = () => {
         : quota.tipo_quota == filtroTipo) &&
       (filtroMes == "" || filtroMes == "Todos"
         ? true
-        : quota.mes == filtroMes)
+        : quota.mes == filtroMes) &&
+      (filtroAno == "" || filtroAno == "Todos" ? true : quota.ano == filtroAno)
   );
+
+  const quotasOrdenadas = ordenaUtilizadores(quotasFiltradas, ordenacao);
 
   const filtros = {
     nome: filtroNome,
@@ -79,20 +85,32 @@ const Quotas = () => {
     setTipo: setFiltroTipo,
     mes: filtroMes,
     setMes: setFiltroMes,
+    ano: filtroAno,
+    setAno: setFiltroAno,
   };
+
+  const anosQuotasExistentes = [
+    "Todos",
+    ...new Set(
+      quotas
+        .map((quota) => quota.ano)
+        .sort()
+        .reverse()
+    ),
+  ];
 
   return (
     <div>
-      <PainelBotoesQuotas filtros={filtros} />
+      <PainelBotoesQuotas filtros={filtros} anos={anosQuotasExistentes}/>
       <div className={styles.painelInferior}>
         {loading ? (
           <Spinner />
         ) : (
           <ListaQuotas
-            quotas={quotasFiltradas}
+            quotas={quotasOrdenadas}
             setQuotas={setQuotas}
-            ordenacao={null}
-            setOrdenacao={null}
+            ordenacao={ordenacao}
+            setOrdenacao={setOrdenacao}
             setModo={setModo}
             setQuotaEscolhida={setQuotaEscolhida}
           />

@@ -3,7 +3,7 @@ import styles from "../../../css/Categorias.module.css";
 import SearchBar from "../../../components/SearchBar";
 import Dropdown from "../../../components/Dropdown";
 
-const PainelBotoesQuotas = ({ filtros }) => {
+const PainelBotoesQuotas = ({ filtros, anos }) => {
   const meses = {
     Todos: "Todos",
     Janeiro: 1,
@@ -20,12 +20,6 @@ const PainelBotoesQuotas = ({ filtros }) => {
     Dezembro: 12,
   };
 
-  // const [mesStr, setMesStr] = useState(filtros.mes)
-
-  // useEffect(()=>{
-  //   filtros.setMes(meses[mesStr])
-  // },[mesStr])
-
   return (
     <div className={styles.painelBotoes}>
       <div className={styles.links}>
@@ -37,9 +31,9 @@ const PainelBotoesQuotas = ({ filtros }) => {
           campo="Mês"
         />
         <Dropdown
-          tipo={null}
-          setTipo={null}
-          dados={["Todos", "Ativo", "Inativo"]}
+          tipo={filtros.ano}
+          setTipo={filtros.setAno}
+          dados={anos}
           campo="Ano"
         />
         <Dropdown

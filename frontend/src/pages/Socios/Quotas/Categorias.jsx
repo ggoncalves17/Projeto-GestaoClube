@@ -10,9 +10,10 @@ import {
 } from "../../../api/Socios/api";
 import Modal from "../../../components/JanelaModal/Modal";
 import InputForm from "../../../components/InputForm";
+import { ordenaUtilizadores } from "../../../utils/ordenacaoUtilizadores";
 
 const Categorias = () => {
-  const [categorias, setCategorias] = useState();
+  const [categorias, setCategorias] = useState([]);
   const [ordenacao, setOrdenacao] = useState();
   const [loading, setLoading] = useState(true);
   const [modo, setModo] = useState(null);
@@ -67,6 +68,8 @@ const Categorias = () => {
       editaCategoria(novaCategoria, setCategorias, setModo, setErro);
     }
   };
+  
+  const categoriasOrdenadas = ordenaUtilizadores(categorias, ordenacao);
 
   return (
     <div>
@@ -76,7 +79,7 @@ const Categorias = () => {
           <Spinner />
         ) : (
           <ListaCategorias
-            categorias={categorias}
+            categorias={categoriasOrdenadas}
             setNovaCategoria={setNovaCategoria}
             ordenacao={ordenacao}
             setOrdenacao={setOrdenacao}

@@ -359,10 +359,7 @@ def edita_jogador(request, id):
     else:
         id_modalidade = None
 
-    if foto is None:
-        nome_foto = "foto-default.png"
-    else:
-        # pasta = "C:\\Users\\guigo\\Desktop\\Projeto\\Projeto-Site\\frontend\\public\\Fotos-Jogadores"
+    if foto is not None:
         pasta = "..\\frontend\public\Fotos-Jogadores"
 
         if not os.path.exists(pasta):
@@ -382,6 +379,8 @@ def edita_jogador(request, id):
         fs = FileSystemStorage(location=pasta)
         fs.save(nome_foto, foto)
 
+        utilizador.foto = nome_foto
+
     utilizador.tipo = tipo
     utilizador.sexo = sexo
     utilizador.nome = nome
@@ -391,7 +390,6 @@ def edita_jogador(request, id):
     utilizador.cc_validade = cc_validade
     utilizador.peso = peso
     utilizador.altura = altura
-    utilizador.foto = nome_foto
     utilizador.clube_id = id_clube
     utilizador.modalidade_id = id_modalidade
     utilizador.save()

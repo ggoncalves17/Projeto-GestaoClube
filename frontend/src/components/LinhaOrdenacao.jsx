@@ -2,78 +2,87 @@ import styles from "../css/LinhaOrdenacao.module.css";
 import OpcaoOrdenacao from "./OpcaoOrdenacao";
 
 const LinhaOrdenacao = ({ tipo, ordenacao, setOrdenacao }) => {
+  const tipoClasses = {
+    Staff: styles.linhaOrdena,
+    Utilizador: styles.linhaOrdena,
+    Elemento: styles.linhaOrdenaElemento,
+    Sócio: styles.linhaOrdenaSocio,
+    Categoria: styles.linhaOrdenaCategoria,
+    Quotas: styles.linhaOrdenaQuota,
+    Historico: styles.linhaOrdenaHistoricoCategoria,
+  };
+
+  const opcoesOrdenacaoPorTipo = {
+    Staff: [
+      { nome: "Nome", campo: "nome" },
+      { nome: "Email", campo: "email" },
+      { nome: "Função", campo: "funcao" },
+    ],
+    Utilizador: [
+      { nome: "Nome", campo: "nome" },
+      { nome: "Email", campo: "email" },
+    ],
+    Elemento: [
+      { nome: "Nome", campo: "nome" },
+      { nome: "Género", campo: "sexo" },
+      { nome: "Modalidade", campo: "modalidade" },
+      { nome: "Função", campo: "tipo" },
+    ],
+    Sócio: [
+      { nome: "Nome", campo: "utilizador.nome" },
+      { nome: "Categoria", campo: "categoria" },
+      { nome: "Data de Adesão", campo: "data_adesao" },
+      { nome: "Estado", campo: "estado" },
+      { nome: "Estado das Quotas", campo: "quotas_atrasadas" },
+    ],
+    Categoria: [
+      { nome: "Nome", campo: "nome" },
+      { nome: "Quota Mensal", campo: "quota_mensal" },
+      { nome: "Quota Anual", campo: "quota_anual" },
+      { nome: "Inscrição", campo: "inscricao" },
+      { nome: "Estado", campo: "estado" },
+    ],
+    Quotas: [
+      { nome: "Nome", campo: "utilizador.nome" },
+      { nome: "Tipo", campo: "tipo_quota" },
+      { nome: "Prazo Pagamento", campo: "prazo_pagamento" },
+      { nome: "Valor", campo: "valor" },
+      { nome: "Estado", campo: "estado" },
+      { nome: "Data Pagamento", campo: "data_pagamento" },
+    ],
+    Historico: [
+      { nome: "Nome", campo: "categoria.nome" },
+      { nome: "Quota Mensal", campo: "h_quota_mensal" },
+      { nome: "Quota Anual", campo: "h_quota_anual" },
+      { nome: "Inscrição", campo: "h_inscricao" },
+      { nome: "Data Inicial", campo: "data_inicial" },
+      { nome: "Data Final", campo: "data_final" },
+    ],
+  };
 
   const alteraOrdem = (campo) => {
     setOrdenacao((prev) => ({
-      campo : campo,
-      ordem : prev?.campo == campo ? (prev.ordem == "ASC" ? "DESC" : "ASC") : "ASC",
-    }))
-  }
-  
+      campo: campo,
+      ordem:
+        prev?.campo == campo ? (prev.ordem == "ASC" ? "DESC" : "ASC") : "ASC",
+    }));
+  };
+
+  const estilo = tipoClasses[tipo] || styles.linhaOrdenaHistoricoCategoria;
+
+  const opcoesAtuais = opcoesOrdenacaoPorTipo[tipo] || [];
+
   return (
     <div className={styles.contentor}>
-      <div
-        className={`${styles.informacoesUtilizador} ${(tipo == "Staff" || tipo == "Utilizador") ? styles.linhaOrdena :
-          tipo == "Elemento" ? styles.linhaOrdenaElemento : tipo == "Sócio" ? styles.linhaOrdenaSocio : tipo == "Categoria" ? styles.linhaOrdenaCategoria : tipo == "Quotas" ? styles.linhaOrdenaQuota :styles.linhaOrdenaHistoricoCategoria
-        }`}
-      >
-
-        <OpcaoOrdenacao nome="Nome" ordenacao={ordenacao} onClick={() => alteraOrdem("nome")}/>
-
-        {(tipo != "Elemento" && tipo != "Sócio" && tipo != "Categoria" && tipo != "Historico" && tipo != "Quotas") && (
-          <OpcaoOrdenacao nome="Email" ordenacao={ordenacao} onClick={() => alteraOrdem("email")}/>
-        )}
-
-        {tipo == "Staff" && (
-          <OpcaoOrdenacao nome="Função" ordenacao={ordenacao} onClick={() => alteraOrdem("funcao")}/>
-        )}
-
-        {tipo == "Elemento" && (
-          <>
-            <OpcaoOrdenacao nome="Género" ordenacao={ordenacao} onClick={() => alteraOrdem("sexo")}/>
-            <OpcaoOrdenacao nome="Modalidade" ordenacao={ordenacao} onClick={() => alteraOrdem("modalidade")}/>
-            <OpcaoOrdenacao nome="Função" ordenacao={ordenacao} onClick={() => alteraOrdem("tipo")}/>
-          </>
-        )}
-
-        {tipo == "Sócio" && (
-          <>
-            <OpcaoOrdenacao nome="Categoria" ordenacao={ordenacao} onClick={() => alteraOrdem("categoria")}/>
-            <OpcaoOrdenacao nome="Data de Adesão" ordenacao={ordenacao} onClick={() => alteraOrdem("data_adesao")}/>
-            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
-            <OpcaoOrdenacao nome="Estado das Quotas" ordenacao={ordenacao} onClick={() => alteraOrdem("estado_quotas")}/>
-          </>
-        )}
-
-        {(tipo == "Categoria" || tipo == "Historico") && (
-          <>
-            <OpcaoOrdenacao nome="Quota Mensal" ordenacao={ordenacao} onClick={() => alteraOrdem("quota_mensal")}/>
-            <OpcaoOrdenacao nome="Quota Anual" ordenacao={ordenacao} onClick={() => alteraOrdem("quota_anual")}/>
-            <OpcaoOrdenacao nome="Inscrição" ordenacao={ordenacao} onClick={() => alteraOrdem("inscricao")}/>
-          </>
-        )} 
-        
-        {tipo == "Categoria" && (
-            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
-        )}
-
-        {tipo == "Historico" && (
-          <>
-            <OpcaoOrdenacao nome="Data Inicial" ordenacao={ordenacao} onClick={() => alteraOrdem("data_inicial")}/>
-            <OpcaoOrdenacao nome="Data Final" ordenacao={ordenacao} onClick={() => alteraOrdem("data_final")}/>
-          </>
-        )} 
-        
-        {tipo == "Quotas" && (
-          <>
-            <OpcaoOrdenacao nome="Tipo" ordenacao={ordenacao} onClick={() => alteraOrdem("tipo_quota")}/>
-            <OpcaoOrdenacao nome="Prazo Pagamento" ordenacao={ordenacao} onClick={() => alteraOrdem("prazo_pagamento")}/>
-            <OpcaoOrdenacao nome="Valor" ordenacao={ordenacao} onClick={() => alteraOrdem("valor")}/>
-            <OpcaoOrdenacao nome="Estado" ordenacao={ordenacao} onClick={() => alteraOrdem("estado")}/>
-            <OpcaoOrdenacao nome="Data Pagamento" ordenacao={ordenacao} onClick={() => alteraOrdem("data_pagamento")}/>
-          </>
-        )} 
-        
+      <div className={`${styles.informacoesUtilizador} ${estilo}`}>
+        {opcoesAtuais.map((opcao) => (
+          <OpcaoOrdenacao
+            key={opcao.campo}
+            nome={opcao.nome}
+            ordenacao={ordenacao}
+            onClick={() => alteraOrdem(opcao.campo)}
+          />
+        ))}
       </div>
     </div>
   );

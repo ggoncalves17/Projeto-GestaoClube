@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import Modal from "../../components/JanelaModal/Modal";
 import SelectForm from "../../components/SelectForm";
 import InputAutocomplete from "../../components/InputAutocomplete";
+import { ordenaUtilizadores } from "../../utils/ordenacaoUtilizadores";
 
 const Socios = () => {
   const [socios, setSocios] = useState([]);
@@ -70,6 +71,8 @@ const Socios = () => {
         ? true
         : socio.quotas_atrasadas == quotaEstadoMap[filtroEstadoQuotas])
   );
+
+  const sociosOrdenados = ordenaUtilizadores(sociosFiltrados, ordenacao);
 
   const nSociosAtivos = socios.filter((socio) => socio.estado == 1).length;
   const nSociosQuotasAtrasadas = socios.filter(
@@ -138,7 +141,7 @@ const Socios = () => {
             <Spinner loading={loading} />
           ) : (
             <ListaSocios
-              sociosFiltrados={sociosFiltrados}
+              sociosFiltrados={sociosOrdenados}
               ordenacao={ordenacao}
               setOrdenacao={setOrdenacao}
             />

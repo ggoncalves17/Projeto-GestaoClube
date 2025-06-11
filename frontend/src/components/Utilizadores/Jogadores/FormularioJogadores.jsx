@@ -11,7 +11,6 @@ import { UtilizadorContext } from "../../../context/UtilizadorContext";
 import { listaModalidades } from "../../../api/Modalidades/api";
 
 const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
-
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
 
   const [dadosFormulario, setDadosFormulario] = useState({
@@ -108,7 +107,9 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
     dados.append("cc_validade", dadosFormulario.cc_validade);
     dados.append("peso", dadosFormulario.peso);
     dados.append("altura", dadosFormulario.altura);
-    dados.append("foto", FotoPerfil);
+    if (FotoPerfil) {
+      dados.append("foto", FotoPerfil);
+    }
     dados.append("desporto", dadosFormulario.desporto);
     dados.append("id_clube", utilizadorInfo.id_clube);
 
