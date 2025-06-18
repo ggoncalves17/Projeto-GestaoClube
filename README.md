@@ -4,7 +4,7 @@
 
 A primeira coisa a ser feita é o clone do repositório, utilizando, num local à escolha, o comando:
 
-`git clone https://github.com/ggoncalves17/Projeto-GestaoClube.git` 
+`git clone https://ggoncalves17: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@github.com/ggoncalves17/Projeto-GestaoClube.git` 
 
 # *Backend*
 
