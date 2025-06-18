@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const CardElemento = ({ id, foto, nome, posicao, inscricao }) => {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate()  
 
   return (
     <div className={styles.card} onClick={() => navigate(`/utilizadores/jogadores/${id}`)}>
@@ -23,8 +23,8 @@ const CardElemento = ({ id, foto, nome, posicao, inscricao }) => {
           <div className={styles.modalidade}>
             {posicao == null ? <p>Não Definida</p> : <p>{posicao}</p>}
           </div >
-          <div className={`${styles.inscricao} ${inscricao.estado == 2 ? styles.inscrito : styles.naoInscrito}`}>
-            <p>{inscricao.estado == 2 ? "Inscrito" : "Não Inscrito"}</p>
+          <div className={`${styles.inscricao} ${inscricao?.estado == 2 ? styles.inscrito : styles.naoInscrito}`}>
+            <p>{inscricao?.estado == 2 ? "Inscrito" : "Não Inscrito"}</p>
           </div>
         </div>
       </div>
