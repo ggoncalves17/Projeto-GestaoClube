@@ -1,0 +1,100 @@
+.linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-left: 10px solid transparent;
+}
+
+.linha:first-child {
+  border-top: 1px solid #e5e7eb;
+}
+
+.linha:hover {
+  background-color: #f9fafb;
+}
+
+.vitoria {
+  border-left: 10px solid green;
+}
+
+.empate {
+  border-left: 10px solid rgb(246, 229, 46);
+}
+
+.derrota {
+  border-left: 10px solid red;
+}
+
+.painelInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.painelInfo p {
+  margin: 0;
+  padding: 0;
+}
+
+.infoGeral {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 320px;
+  gap: 15px;
+}
+
+.infoResultado {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.painelBotoes {
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.competicao {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+  background-color: #ededed;
+  border: 1px solid #666666;
+  color: #666666;
+}
+
+.resultado {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.barraVertical {
+  border-left: 2px solid #8a8a8a;
+  align-self: stretch;
+}
+
+.localizacao {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.localCasa {
+  background-color: #1971C2;
+  border: 1px solid #1971C2;
+  color: white;
+}
+
+.localFora {
+  background-color: black;
+  border: 1px solid black;
+  color: white;
+}

@@ -1,0 +1,181 @@
+.contentor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  background-color: white;
+  height: 50px;
+}
+
+.contentor:first-child {
+  border-top: 1px solid #e5e7eb;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.contentor:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.contentor:hover {
+  background-color: #f9fafb;
+}
+
+.informacoesUtilizador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.acoes {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.icon {
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconEditar {
+  background-color: #7bc7ff;
+}
+
+.iconEditar:hover {
+  background-color: #25a4ff;
+}
+
+.iconRemover {
+  background-color: #ff8c8c;
+}
+
+.iconRemover:hover {
+  background-color: #fd5858;
+}
+
+.iconInfo {
+  background-color: #dcdcdc;
+}
+
+.iconInfo:hover {
+  background-color: #bababa;
+}
+
+.fotoPerfil {
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+}
+
+span {
+  width: 150px;
+  overflow-x: hidden;
+}
+
+.estado {
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: fit-content;
+}
+
+.estadoAtivo,
+.btnAtivo {
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+}
+
+.estadoAtivo:hover,
+.btnAtivo:hover {
+  background-color: #a7e8c4;
+}
+
+.estadoInativo,
+.btnInativo {
+  background-color: #ff8c8c;
+  color: #981a1a;
+  border: 1px solid #981a1a;
+}
+
+.estadoInativo:hover,
+.btnInativo:hover {
+  background-color: #eb6c6c;
+}
+
+.email {
+  width: 250px;
+  overflow-x: hidden;
+}
+
+.modalidade {
+  padding: 5px 0px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff8e1;
+  color: #db9b07;
+  border: 1px solid #db9b07;
+}
+
+.Ativo {
+  color: green;
+}
+
+.Inativo {
+  color: red;
+}
+
+.Pendente {
+  color: #db9b07;
+}
+
+.btnRegista {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 5px;
+  background-color: white;
+}
+
+.btnRegista:hover {
+  background-color: #f2f2f2;
+}
+.btnRegista:disabled {
+  cursor: default;
+  background-color: rgb(195, 195, 195);
+  border: 1px solid rgb(195, 195, 195);
+  color: #8d8d8d;
+}
+
+.linhaQuota {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 170px 170px 250px 170px 170px 170px;
+  gap: 10px;
+}
+
+.linhaQuota > span {
+  word-wrap: break-word;
+}

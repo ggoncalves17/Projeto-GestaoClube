@@ -1,0 +1,49 @@
+.linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+}
+
+.linha:first-child {
+  border-top: 1px solid #e5e7eb;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.linha:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.linha:hover {
+  background-color: #f9fafb;
+}
+
+.painelInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.nome {
+  font-size: 18px;
+}
+
+.painelIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+  color: #9b9b9b;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}

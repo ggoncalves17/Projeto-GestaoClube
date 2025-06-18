@@ -1,0 +1,19 @@
+.contentor {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    font-size: 17px;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.radio {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}

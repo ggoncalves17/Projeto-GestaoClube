@@ -1,0 +1,16 @@
+#estrutura {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+#conteudo {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* #conteudo > :last-child {
+    overflow: auto;
+} */

@@ -1,0 +1,73 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #aaaaaa;
+  box-shadow: 0px 0px 3px #aaaaaa;
+  cursor: pointer;
+}
+
+.card:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.card p {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+.card h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.infoAdicional {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fotoPerfil {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+}
+
+.nomeJogador {
+  word-wrap: break-word;
+}
+
+.modalidade {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+  background-color: #ededed;
+  border: 1px solid #666666;
+  color: #666666;
+}
+
+.infoJogador {
+    flex: 1;
+    min-width: 0;
+}
+
+.inscricao {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.inscrito {
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+}
+
+.naoInscrito {
+  background-color: #FF8C8C;
+  color: #981a1a;
+  border: 1px solid #981a1a;
+}

@@ -1,0 +1,25 @@
+.painel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.botao {
+    display: flex;
+    background-color: transparent;
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    position: absolute;
+    left: -20px;   
+    border-radius: 100%;
+    color: black;
+}
+
+.titulo {
+    font-size: 22px;
+    font-weight: bold;
+}
+

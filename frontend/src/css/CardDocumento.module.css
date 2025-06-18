@@ -1,0 +1,67 @@
+.linhaDocumento {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.linhaDocumento > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: visible;
+}
+
+.divIconDocumento {
+  background-color: #dbeafe;
+  padding: 10px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divInfoDocumento p {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.iconDocumento {
+  width: 20px;
+  height: 20px;
+}
+
+.iconFicheiro {
+  color: #2989e9;
+}
+
+.btnDownload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 17px;
+  font-weight: 300;
+  border: 1px solid #e5e7eb;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px 15px;
+  height: fit-content;
+}
+
+.btnDownload:hover {
+  background-color: hsla(210, 100%, 78%, 0.2);
+  border: 1px solid hsla(210, 100%, 78%, 0.2);
+}
+
+.btnDownload p {
+  margin: 0;
+  padding: 0;
+}
+

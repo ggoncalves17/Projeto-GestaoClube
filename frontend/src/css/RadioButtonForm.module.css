@@ -1,0 +1,33 @@
+.campo {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-top: 15px;
+  gap: 5px;
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+.erro {
+  color: red;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.grupoRadio {
+  display: flex;
+  gap: 10px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.radio {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}

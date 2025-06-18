@@ -1,0 +1,177 @@
+.estrutura {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto;
+}
+
+.painel {
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.painelSuperior,
+.painelInferior {
+  padding: 20px;
+}
+
+.painelSuperior {
+  display: flex;
+  justify-content: space-between;
+}
+
+.painelInferior {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.painelSuperiorFiltros {
+  display: flex;
+  gap: 20px;
+}
+
+.titulo {
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin: 0;
+  padding: 10px 20px 10px;
+}
+
+.botaoAdicionar {
+  background-color: #2989e9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  height: 100%;
+  width: fit-content;
+  padding: 0px 25px;
+}
+
+.botaoAdicionar:hover {
+  background-color: #0f71d3;
+}
+
+/* ---------------------- DETALHES MODALIDADES ---------------------- */
+
+.tituloModalidade {
+  margin-top: 10px;
+}
+
+.painelSuperiorDetalhes {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.painelSuperiorDetalhes hr {
+  margin: 0;
+}
+
+.voltarAtras {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 5px;
+}
+
+.voltarAtras:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.voltarAtras p {
+  padding: 0;
+  margin: 5px;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+  padding: 35px 10px;
+  gap: 40px;
+  background-color: rgba(244, 243, 243, 0.498);
+  border-radius: 10px;
+}
+
+.painelInferiorDetalhes hr {
+  margin: 2px 0px;
+  padding: 0px;
+}
+
+.painelOpcoes {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.conteudo {
+  margin-top: 20px;
+}
+
+.painelBotoes {
+  display: flex;
+  gap: 20px;
+}
+
+/* ---------------------- DETALHES EQUIPA ---------------------- */
+
+.painelInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.painelInfo p {
+  padding: 0;
+  margin: 0;
+}
+
+.modalidade {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 15px;
+  background-color: #ededed;
+  border: 1px solid #666666;
+  color: #666666;
+}
+
+.categoria {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 15px;
+}
+
+.masculino {
+  background-color: #a6d2f3;
+  border: 1px solid #1b3c78;
+  color: #1b3c78;
+}
+
+.feminino {
+  background-color: #f9d9f2;
+  color: #c740aa;
+  border: 1px solid #c740aa;
+}
+
+.epoca {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 15px;
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+}

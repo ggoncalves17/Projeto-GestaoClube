@@ -1,0 +1,42 @@
+.linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.linha:hover {
+  background-color: #f9fafb;
+}
+
+.painelInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.titulo {
+  font-size: 20px;
+}
+
+.icon {
+  color: #facc15;
+  width: 30px;
+  height: 30px;
+}
+
+.jogos {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.painelBotoes {
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

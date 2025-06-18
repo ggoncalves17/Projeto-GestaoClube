@@ -1,0 +1,129 @@
+.menu {
+  background-color: #f8f8f8;
+  color: rgb(0, 0, 0);
+  padding: 5px;
+  transition: width 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #e0e0e0; 
+}
+
+.menuOpcoes {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.sair {
+  margin-bottom: 10px;
+  color: red;
+}
+
+.contraido {
+  width: 100px;
+}
+
+.expandido {
+  width: 240px;
+}
+
+.botaoAbreFecha {
+  background: #2170BD;
+  border: none;
+  border-radius: 100%;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+}
+
+.menuOpcoes ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuLista {
+  overflow-y: auto;
+}
+
+.menuOpcoes li {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  cursor: pointer;
+  padding: 10px 30px 10px;
+  border-radius: 10px;
+}
+
+.menuOpcoes li:first-child{
+  margin-top: 10px;
+}
+
+.menuOpcoes li:hover {
+  background-color: #E0E0E0;
+  border-radius: 10px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.iconBotao {
+  width:20px;
+  height: 20px;
+}
+
+.contraido .icon {
+  margin-right: 0;
+}
+
+.opcaoAtiva {
+  background-color: #E0E0E0;
+  box-shadow: inset 4px 0 0 #2170BD;
+}
+
+.iconSubOpcoes {
+  width: 30px;
+  height: 30px;
+  transition: transform ease-in-out 0.1s;
+}
+
+.iconSubOpcoesFechado {
+  transform: rotate(0deg);
+}
+
+.iconSubOpcoesAberto {
+  transform: rotate(180deg);
+}
+
+.subOpcoesFechado {
+  position: absolute;
+  background-color: #f8f8f8;
+  top: 175px;
+  left: 115px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 10;
+}
+
+.subOpcoesFechado li:first-child {
+  margin-top: 0px;
+}
+
+.divSubMenu li {
+  margin-top: 5px;
+}
+
+
+
+
+

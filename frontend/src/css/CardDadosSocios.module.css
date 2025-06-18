@@ -1,0 +1,26 @@
+.card {
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+  box-shadow: 3px 3px 10px #aaaaaa;
+}
+
+.titulo {
+  margin: 0;
+  margin-bottom: 30px;
+  font-size: 23px;
+}
+
+.valor {
+  font-size: 35px;
+}
+
+.valorAtraso {
+  color: #f02323;
+}
+
+.valorPago {
+  color: green;
+}

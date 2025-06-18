@@ -1,0 +1,51 @@
+.tela {
+    position: absolute;
+    position: fixed;
+    /* top: 0; */
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.estrutura {
+    position: absolute;
+    right: 0;
+    background-color: #ffffff;
+    padding: 30px 40px;
+    width: 40%;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.botaoFechar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    padding: 5px;
+}
+
+.botaoFechar:hover {
+    background-color: #d6d6d6;
+    cursor: pointer;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+.painel hr {
+    border: 1px solid black;
+}

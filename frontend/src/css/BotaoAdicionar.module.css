@@ -1,0 +1,19 @@
+.botaoAdicionar {
+  background-color: #2989e9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 19px;
+  height: 100%;
+  width: fit-content;
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+}
+
+
+.botaoAdicionar:hover {
+  background-color: #0f71d3;
+}
+

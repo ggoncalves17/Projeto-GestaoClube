@@ -1,0 +1,113 @@
+.janelaModal {
+    background-color: rgb(0, 0, 0, 0.5);
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal {
+    background-color: rgba(255, 255, 255);
+    padding: 25px;
+    border-radius: 5px;
+    text-align: center;
+    border: none;
+    position: fixed;
+    width: 25%;
+}
+
+.modalTransferList {
+    width: fit-content;
+}
+
+.painelSuperior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+
+.painelSuperior h3 {
+    margin: 0;
+}
+
+.modal hr {
+   height: 2px;
+   background-color: rgba(0, 0, 0, 0.6);
+   border: none;
+   border-radius: 10px;
+}
+
+.botaoFechar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    padding: 5px;
+}
+
+.botaoFechar:hover {
+    background-color: #d6d6d6;
+    cursor: pointer;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+.botoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: right;
+    gap: 20px;
+    padding: 5px 5px 0px 5;
+    margin-top: 25px;
+}
+
+.botao {
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 50px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.btnCancelar {
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background: white;
+}
+
+.btnCancelar:hover {
+    background-color: rgba(0, 0, 0, 0.05); 
+}
+
+.btnSubmeter {
+    background-color: #2989e9;
+    color: white;
+    border: none;
+}
+
+.btnSubmeter:hover {
+    background-color: #0f71d3;
+}
+
+.form input {
+    margin-bottom: 0;
+}
+
+.form button {
+    margin-bottom: 0;
+    height: auto;
+}
+
+.conteudo p{
+    text-align: left;
+}

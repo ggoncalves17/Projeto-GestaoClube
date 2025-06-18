@@ -1,0 +1,105 @@
+.caixaFiltro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.caixaFiltro select {
+  height: 100%;
+  padding: 0px 20px;
+  border-radius: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.caixaFiltro select:focus {
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+.caixaFiltro option {
+  color: #333;
+}
+
+.caixaFiltro option:first-child {
+  color: #ffffff;
+  background-color: #C8C8C8;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownTexto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 17px;
+  gap: 10px;
+  user-select: none;
+}
+
+.dropdownTexto p {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdownConteudo {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 150px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 5px 0px;
+}
+
+.opcao:hover {
+  background-color: #dddddd;
+}
+
+.opcao:last-child {
+  margin-bottom: 0;
+}
+
+.opcao input {
+  margin-right: 10px;
+}
+
+.caixaFiltroJogador {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  gap: 3px;
+}
+
+.caixaFiltroJogador select {
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 15px 10px;
+  user-select: none;
+  margin-bottom: 15px;
+}
+
+.caixaFiltroJogador select:focus {
+  outline: none;
+}

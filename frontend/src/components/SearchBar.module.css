@@ -1,0 +1,21 @@
+.searchBar {
+    display: flex;
+    align-items: center;
+    width: 350px;
+    border: 1px solid #808080;
+    border-radius: 10px; 
+    padding-left: 15px;
+    overflow: hidden;
+}
+
+.searchBar input {
+    border: none;
+    font-size: 18px;
+    color: #232323;
+    flex-grow: 1; 
+    padding: 12px; 
+}
+
+.iconBotao {
+    color: #808080;
+}

@@ -1,0 +1,70 @@
+.contentor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  background-color: #f3f4f6;
+  padding: 10px;
+}
+
+.contentor span {
+  width: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+}
+
+.contentor:first-child {
+  border-top: 1px solid #e5e7eb;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.contentor:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.informacoesUtilizador {
+  display: grid;
+  grid-template-columns: 240px 270px 100px;
+  align-items: center;
+  gap: 10px;
+}
+
+.linhaOrdena {
+  grid-template-columns: 240px 270px 170px;
+}
+
+.linhaOrdenaElemento {
+  grid-template-columns: 240px 170px 170px 150px;
+}
+
+.linhaOrdenaSocio {
+  grid-template-columns: 240px 170px 170px 170px 250px;
+}
+
+.linhaOrdenaCategoria {
+  grid-template-columns: 170px 170px 170px 170px 250px;
+}
+
+.linhaOrdenaHistoricoCategoria {
+  grid-template-columns: 170px 170px 170px 170px 170px 170px 170px; 
+}
+
+.linhaOrdenaQuota{
+  grid-template-columns: 170px 170px 250px 170px 170px 170px
+}
+
+.iconSemOrdenacao {
+  color: #7c7c7c;
+}
+
+.iconOrdenacao {
+  color: #0F71D3;
+}

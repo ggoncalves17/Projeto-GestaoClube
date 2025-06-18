@@ -1,0 +1,203 @@
+.painelFoto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modo {
+  background-color: #a6d2f3;
+  width: 150px;
+  text-align: center;
+  padding: 5px 0px;
+  border-radius: 25px;
+  border: 1px solid #1b3c78;
+  color: #1b3c78;
+  margin-bottom: 10px;
+}
+
+.modoEditar {
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+}
+
+.modoDetalhes {
+  background-color: #a6d2f3;
+  width: 150px;
+  text-align: center;
+  padding: 5px 0px;
+  border-radius: 25px;
+  border: 1px solid #1b3c78;
+  color: #1b3c78;
+  margin-bottom: 10px;
+}
+
+.modoDetalhes p {
+  padding: 0;
+  margin: 0;
+}
+
+.nomeUtilizador {
+  font-size: 25px;
+}
+
+.modo p {
+  padding: 0;
+  margin: 0;
+}
+
+.foto {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fotoPerfil {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.uploadIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  position: absolute;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out, opacity 0.3s ease-out;
+  border-radius: 50%;
+}
+
+.uploadIcon:hover {
+  background-color: rgb(217, 217, 217);
+  opacity: 50%;
+}
+
+.painelInfo {
+  text-align: center;
+  border: 1px solid gray;
+  padding: 10px 30px 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.painelForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  gap: 3px;
+}
+
+.campo:first-child {
+  margin-top: 15px;
+}
+
+.painelForm input {
+  padding: 15px;
+  font-size: 17px;
+}
+
+.painelForm button {
+  width: 350px;
+  border: none;
+  border-radius: 15px;
+  background-color: #2989e9;
+}
+
+.painelForm button:hover {
+  background-color: #0f71d3;
+}
+
+.erro {
+  color: red;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.formLinhasAgrupadas {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  column-gap: 20px;
+}
+
+.formLinhasAgrupadas .campo {
+  margin-top: 0px;
+}
+
+.painelAssociarDesporto {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.painelDesportosExistentes {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+}
+
+.caixaDesporto {
+  padding: 10px;
+  border: 2px solid #DDDDDD;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  flex: none;
+  max-width: 100px;
+}
+
+.desportoSelecionado {
+  background-color: #eff8fc;
+  border: 2px solid #2170BD;
+}
+
+.desportoExistente {
+  word-wrap: break-word;
+}
+
+.fotoDesporto {
+  padding: 10px;
+  width: 35px;
+  height: 35px;
+}
+
+.botoesFinais {
+  display: flex;
+  flex-wrap:wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.formulario .botaoVoltar {
+  background-color: white;
+  color:black;
+  border: 1px solid black;
+}
+
+.formulario .botaoVoltar:hover {
+  background-color: rgb(232, 232, 232) ;
+}
+
+
+

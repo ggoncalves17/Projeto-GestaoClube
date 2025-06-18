@@ -1,0 +1,158 @@
+.linha {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.painelInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 0px;
+}
+
+.infoGeral {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.infoGeral p {
+  margin: 0;
+}
+
+.grelha {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.epoca {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.epoca > * {
+  margin: 0;
+}
+
+.dataInscricao {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.estado {
+  width: fit-content;
+  text-align: center;
+  padding: 3px 15px;
+  border-radius: 25px;
+}
+
+.estado p {
+  margin: 0;
+  padding: 0;
+}
+
+.estadoAprovado {
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+}
+
+.estadoPendente {
+  background-color: #fff8e1;
+  color: #db9b07;
+  border: 1px solid #db9b07;
+}
+
+.estadoRejeitado {
+  background-color: #ff8c8c;
+  color: #981a1a;
+  border: 1px solid #981a1a;
+}
+
+.estadoNaoEnviado {
+  background-color: #fff6d7;
+  color: #d97706;
+  border: 1px solid #d97706;
+}
+
+.painelBotoes {
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.iconAprovado {
+  color: green;
+}
+
+.iconAlerta {
+  color: #db9b07;
+}
+
+.iconRejeitado {
+  color: red;
+}
+
+.iconNaoEnviado {
+  color: #d97706;
+}
+
+.painelDocumentos {
+  margin-top: 10px;
+}
+
+.tituloDocumentos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btnUpload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 5px;
+  font-size: 17px;
+  font-weight: 300;
+  padding: 10px 15px;
+  border: 1px solid #e5e7eb;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btnUpload:hover {
+  background-color: #f9fafb;
+}
+
+.iconUpload {
+  width: 25px;
+  height: 25px;
+}
+
+.textoUpload {
+  margin: 0;
+  padding: 0;
+}
+
+.documentos {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}

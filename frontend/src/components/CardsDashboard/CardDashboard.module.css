@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+  padding: 50px;
+  font-weight: bold;
+  box-shadow: 3px 3px 10px #aaaaaa;
+}
+
+.cardModalidade {
+  padding: 20px;
+  position: relative;
+}
+
+.cardModalidade p {
+  font-weight: lighter;
+}
+
+.cardModalidade h2 {
+  margin-top: 30px;
+}
+
+.nomeModalidade {
+  word-wrap: break-word;
+}
+
+.titulo {
+  margin: 0;
+  margin-bottom: 30px;
+  font-size: 23px;
+}
+
+.valor {
+  font-size: 35px;
+}
+
+.botoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btnDetalhes {
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 15px;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.btnDetalhes:hover {
+    background-color: rgba(0, 0, 0, 0.05); 
+}
+
+.btnRemover {
+  cursor: pointer;
+  padding: 13px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FF8C8C; 
+  border: none;
+}
+
+.btnRemover:hover {
+  background-color: #fd5858; 
+}
+
+.btnRemover:disabled {
+  cursor: default;
+  background-color: rgb(195, 195, 195); 
+}
+
+.iconRemover {
+  width: 15px;
+  height: 15px;
+}
+
+.estado {
+  width: fit-content;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  padding: 5px 15px;
+  position: absolute;
+  top: 5%;
+  right: 0;
+}
+
+.estadoAtivo {
+  background-color: #d3fee6;
+  color: #1b7845;
+  border: 1px solid #1b7845;
+  border-right: none;
+}
+
+.estadoInativo {
+  background-color: #FF8C8C;
+  color: #981a1a;
+  border: 1px solid #981a1a;
+  border-right: none;
+}
+
+.estado p {
+  padding: 0;
+  margin: 0;
+}
+
+.iconEditar {
+  width: 30px;
+  height: 30px;
+}
+
+.btnEditar {
+  cursor: pointer;
+  background-color: #EAEAEA;
+  border: 2px solid #747474;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  /* opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease; */
+}
+
+.btnEditar:hover {
+  background-color: rgb(210, 210, 210);
+}
+
+/* .cardModalidade:hover .btnEditar {
+  opacity: 1;
+  pointer-events: auto;
+} */
+
+/* ---------------------- CARD EQUIPAS ---------------------- */
+
+.infoEquipa h2 {
+  margin-top: 20px;
+}
+
+.caixaCategoria {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoria {
+  width: fit-content;
+  border-radius: 25px;
+  padding: 5px 15px;
+}
+
+.categoria p {
+  padding: 0;
+  margin: 0;
+}
+
+.masculino {
+  background-color: #a6d2f3;
+  border: 1px solid #1b3c78;
+  color: #1b3c78;
+}
+
+.feminino {
+  background-color: #F9D9F2;
+  color: #c740aa;
+  border: 1px solid #c740aa;
+}
+
