@@ -37,6 +37,7 @@ const equipaLoader = async ({ params }) => {
 const DetalhesEquipaLayout = () => {
   const { id: id_modalidade } = useParams();
   const infoEquipa = useLoaderData();
+  const [elementosEquipa, setElementosEquipa] = useState(infoEquipa.elemento_clube_set);
 
   const opcoesLink = [
     { conteudo: "Plantel", caminho: "plantel" },
@@ -44,8 +45,8 @@ const DetalhesEquipaLayout = () => {
     { conteudo: "Competições", caminho: "competicoes" },
   ];
 
-  const estadosJogos = ["Todos", "Por Acontecer", "Finalizados"]
-  const [filtroEstado, setFiltroEstado] = useState("")
+  const estadosJogos = ["Todos", "Por Acontecer", "Finalizados"];
+  const [filtroEstado, setFiltroEstado] = useState("");
 
   const localizacao = useLocation();
   const [modo, setModo] = useState(null);
@@ -114,6 +115,8 @@ const DetalhesEquipaLayout = () => {
                 modo,
                 setModo,
                 filtroEstado,
+                elementosEquipa,
+                setElementosEquipa
               }}
             />
           </div>

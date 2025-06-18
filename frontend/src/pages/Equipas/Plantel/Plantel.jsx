@@ -7,12 +7,7 @@ import SelectAllTransferList from "../../../components/SelectAllTransferList";
 import { associaElementoEquipa, listaElementosDisponiveis } from "../../../api/Equipas/api";
 
 const Plantel = () => {
-  const { infoEquipa, modo, setModo } = useOutletContext();
-  const [elementosEquipa, setElementosEquipa] = useState(
-    infoEquipa.elemento_clube_set
-  );
-
-  // console.log("ELEMENTOS EQUIPA: ", elementosEquipa);
+  const { infoEquipa, modo, setModo, elementosEquipa, setElementosEquipa } = useOutletContext();
 
   const elementosFiltrados = [
     {
@@ -91,7 +86,6 @@ const Plantel = () => {
           botao={"Guardar"}
           onSubmit={handleGuardaElementos}
         >
-          {/* TODO: NO TRANSFERLIST BLOQUEAR A PARTE DE GUARDAR SE OS ELEMENTOS A ASSOCIAR FOREM IGUAIS AO QUE ESTÃO INICIALMENTE e COLOCAR FUNCAO ELEMENTO*/}
           <SelectAllTransferList
             elementosDisponiveis={elementosDisponiveis}
             elementosAssociados={elementosAssociados}

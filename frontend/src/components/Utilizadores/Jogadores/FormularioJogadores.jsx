@@ -299,8 +299,6 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
               </div>
             )}
 
-            {/* TODO: PARTE DO REQUIRED NÃO APARECER É DISTO */}
-
             {faseAdicionar == 1 ? (
               <button onClick={() => setFaseAdicionar(2)}>Avançar</button>
             ) : (
