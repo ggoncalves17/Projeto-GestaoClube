@@ -4,7 +4,7 @@
 
 A primeira coisa a ser feita é o clone do repositório, utilizando, num local à escolha, o comando:
 
-`git clone https://ggoncalves17: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@github.com/ggoncalves17/Projeto-GestaoClube.git` 
+`git clone https://github.com/ggoncalves17/Projeto-GestaoClube.git` 
 
 # *Backend*
 
@@ -22,17 +22,17 @@ Por fim, para darmos o run da API em si, faz-se no local da pasta 'backend':
 
 # *Frontend*
 
-Para dar run ao frontend/aplicação é necessário primeiramente no local da pasta 'frontend' é necessário instalar algumas dependências/pacotes:
+Para dar run ao frontend/aplicação é necessário primeiramente, no local da pasta 'frontend', instalar algumas dependências/pacotes com o comando:
 
 `npm install`
 
-E depois para dar o run propriamente dito à aplicação coloca-se:
+Depois para dar o run propriamente dito à aplicação coloca-se:
 
 `npm run dev`
 
-Após isto, deverá aparece o URL `http://localhost:5173/` no qual será o link da aplicação. 
+Após isto, deverá aparece o URL `http://localhost:5173/` no qual será o link que se pretende para usar aplicação. 
 
-Já na aplicação (através do localhost no caso) e para efeitos de teste, é possível utilizar a conta com as seguintes credenciais no acesso à aplicação (Login Gestor):
+Já na aplicação (através do localhost no caso) e para efeitos de teste, é possível utilizar a conta com as seguintes credenciais no acesso à aplicação:
 
 `Email`: teste@gmail.com
 `Password`: teste
