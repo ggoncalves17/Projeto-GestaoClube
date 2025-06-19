@@ -36,3 +36,5 @@ Já na aplicação (através do localhost no caso) e para efeitos de teste, é p
 
 `Email`: teste@gmail.com
 `Password`: teste
+
+Nota: Na aplicação, no caso da utilização de portáteis, poderá ser necessário colocar o Zoom a 80% ou 90% para não existir qualquer desformatação, visto que o foco não foi a responsividade.
