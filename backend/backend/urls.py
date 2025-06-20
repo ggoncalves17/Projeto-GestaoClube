@@ -4,7 +4,6 @@ from backendApp import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-#TODO: ALTERAR FORMATO DOS ENDPOINTS -> SEGUIR NORMAS REST
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login/', views.login_view, name='login'),

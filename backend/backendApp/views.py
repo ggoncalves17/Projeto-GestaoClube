@@ -956,7 +956,6 @@ def adicionaJogosEquipa(request, id):
 
     id_competicao = get_object_or_404(Competicao, nome=competicao).id
 
-    #TODO: FAZER ESTA VERIFICAÇÃO TAMBÉM NO FRONTEND
     if Jogo.objects.filter(adversario=adversario, localizacao=localizacao, competicao=id_competicao, equipa=id).exists():
         return Response({"mensagem": "Já existe um jogo com os mesmos atributos (Adversário, Local e Competição)"}, status=404)
     else:

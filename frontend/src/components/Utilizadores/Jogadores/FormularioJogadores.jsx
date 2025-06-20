@@ -9,6 +9,7 @@ import { validaFormularioJogadores } from "../validaFormulario";
 import Dropdown from "../../Dropdown";
 import { UtilizadorContext } from "../../../context/UtilizadorContext";
 import { listaModalidades } from "../../../api/Modalidades/api";
+import { toast } from "react-toastify";
 
 const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
   const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
@@ -125,6 +126,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
         .then((res) => {
           console.log("Resposta do Backend 54: ", res.data);
           // setStaff((prev) => [...prev, res.data.utilizador]);
+          toast.success("Elemento Adicionado com Sucesso!");
           setModo(null);
         })
         .catch((err) => {
@@ -142,6 +144,7 @@ const FormularioJogadores = ({ modo, tipo, setStaff, setModo, utilizador }) => {
         })
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
+          toast.success("Elemento Editado com Sucesso!");
           setModo(null);
         })
         .catch((err) => {

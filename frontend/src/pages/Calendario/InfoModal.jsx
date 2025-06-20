@@ -3,8 +3,6 @@ import styles from "../../components/JanelaModal/Modal.module.css"
 import { IoMdClose } from "react-icons/io";
 
 const InfoModal = ({ evento, setJogoSelecionado }) => {
-
-    console.log("EVENTO SELECIONADO: ", evento);
     
   return (
     <div onClick={() => setJogoSelecionado(false)} className={styles.janelaModal}>

@@ -91,7 +91,6 @@ const InscricoesJogador = () => {
         setErro
       );
     } else if (modo == "Editar") {
-      console.log("NOVA INSCRICAO: ", novaInscricao);
 
       editaInscricaoEpoca(novaInscricao, setInscricoes, setModo, setErro);
     }

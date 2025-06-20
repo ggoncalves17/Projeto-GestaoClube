@@ -11,6 +11,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Modal from "../../components/JanelaModal/Modal";
 import InputForm from "../../components/InputForm";
+import { toast } from "react-toastify";
 
 const Perfil = () => {
   const { utilizador: infoUtilizador, setUtilizador } =
@@ -116,6 +117,7 @@ const Perfil = () => {
       )
       .then((res) => {
         console.log("Resposta do Backend: ", res.data);
+        toast.success("Perfil Atualizado com Sucesso!");
         setUtilizador({
           ...infoUtilizador,
           nome: res.data.utilizador.nome,
@@ -160,6 +162,7 @@ const Perfil = () => {
       )
       .then((res) => {
         console.log("Resposta do Backend: ", res.data);
+        toast.success("Password Alterada com Sucesso!");
         setPasswordModal(false);
       })
       .catch((err) => {

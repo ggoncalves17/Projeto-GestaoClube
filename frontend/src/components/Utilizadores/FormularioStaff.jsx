@@ -7,12 +7,9 @@ import { usePreviewFotoPerfil } from "../../hooks/usePreviewFotoPerfil";
 import { camposFormulario } from "./camposFormulario";
 import { validaFormulario } from "./validaFormulario";
 import { UtilizadorContext } from "../../context/UtilizadorContext";
+import { toast } from "react-toastify";
 
 const FormularioStaff = ({ modo, tipo, setStaff, setModo, utilizador }) => {
-
-console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
-
-
   // Referência -> https://react.dev/reference/react/useState#examples-objects
   const [dadosFormulario, setDadosFormulario] = useState({
     tipo: tipo,
@@ -24,7 +21,7 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
     foto: "",
   });
 
-  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext)
+  const { utilizador: utilizadorInfo } = useContext(UtilizadorContext);
 
   const {
     fotoPerfil: FotoPerfil,
@@ -77,7 +74,7 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
     dados.append("funcao", dadosFormulario.funcao);
     dados.append("foto", FotoPerfil);
     dados.append("tipo", dadosFormulario.tipo);
-    dados.append("id_clube", utilizadorInfo.id_clube)
+    dados.append("id_clube", utilizadorInfo.id_clube);
 
     if (modo === "Adicionar") {
       axios
@@ -91,15 +88,17 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
           setStaff((prev) => [...prev, res.data.utilizador]);
+          toast.success("Utilizador Adicionado com Sucesso!");
           setModo(null);
         })
         .catch((err) => {
           console.log("Código do erro:", err.response.status);
-          if(err.response.status == 404) {
+          if (err.response.status == 404) {
             setErrosCampos({
-            ...errosCampos,
-              email: "Já existe um email igual ao inserido. Por favor tente outro!",
-            })
+              ...errosCampos,
+              email:
+                "Já existe um email igual ao inserido. Por favor tente outro!",
+            });
           }
           console.log("Mensagem do erro:", err.response.data.mensagem);
         });
@@ -119,6 +118,7 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
         .then((res) => {
           console.log("Resposta do Backend: ", res.data);
           console.log("Gestor Adicionado");
+          toast.success("Utilizador Editado com Sucesso!");
           setModo(null);
         })
         .catch((err) => {
@@ -186,8 +186,11 @@ console.log("MODO DO PAINEL: ", modo, " E TIPO DE UTILIZADOR: ", tipo);
                 }
                 erro={errosCampos[campo.id]}
                 required={!(campo.id === "funcao" && tipo === "Utilizador")}
-                disabled={modo === "Detalhes" || (modo === "Editar" && campo.id === "email")}
-                hidden={(campo.id === "funcao" && tipo === "Utilizador")}
+                disabled={
+                  modo === "Detalhes" ||
+                  (modo === "Editar" && campo.id === "email")
+                }
+                hidden={campo.id === "funcao" && tipo === "Utilizador"}
               />
             ))}
 

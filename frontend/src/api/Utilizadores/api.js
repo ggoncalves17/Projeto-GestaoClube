@@ -108,8 +108,6 @@ export const adicionaInscricaoEpoca = (
     .then((res) => {
       console.log("Resposta do Backend: ", res.data);
 
-      console.log("DATA INSCRICAO: ", res.data.inscricao);
-
       setInscricoes((prev) =>
         [...prev, res.data.inscricao].sort((a, b) =>
           b.epoca.localeCompare(a.epoca)
@@ -222,8 +220,6 @@ export const uploadDocumentosInscricao = (
 ) => {
   const formData = new FormData();
 
-  console.log("DOCUMENTOS A SEREM ENVIADOS: ", documentos);
-
   if (documentos.cartao_cidadao) {
     formData.append("cartao_cidadao", documentos.cartao_cidadao);
   }
@@ -258,8 +254,6 @@ export const uploadDocumentosInscricao = (
       toast.success(`Documentos Inseridos com Sucesso!`);
     })
     .catch((err) => {
-      console.log("DOCUMENTOS ERROS: ", err);
-
       console.log("Código do erro:", err.response.status);
       console.log("Mensagem do erro:", err.response.data.mensagem);
 
